@@ -31,6 +31,7 @@ jobs:
           cp index.html _site/index.html
           cp CNAME _site/CNAME
           cp .nojekyll _site/.nojekyll
+          cp -R NetDoctor _site/NetDoctor
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
