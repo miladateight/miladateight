@@ -110,6 +110,10 @@ This profile will gradually include:
 - Internal tools and Unity projects
 - Practical technical documentation and guides
 
+## Project pages
+
+- [NetDoctor](https://ateight.xyz/NetDoctor/) - Windows network diagnostics and safe repair tool.
+
 ## Contact
 
 For collaboration, technical projects or more information, visit **[ateight.xyz](https://ateight.xyz)**.
