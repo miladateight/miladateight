@@ -9,7 +9,262 @@
     <link rel="apple-touch-icon" href="../at8-logo.png" />
     <title>Hybrid Web & Mail Infrastructure | AT8</title>
     <style>
-      :root{color-scheme:dark;--bg:#05070f;--panel:rgba(10,18,29,.76);--strong:rgba(11,22,35,.92);--line:rgba(148,221,255,.18);--line2:rgba(56,189,248,.42);--text:#f8fafc;--soft:rgba(226,232,240,.84);--muted:rgba(203,213,225,.66);--cyan:#38bdf8;--green:#34d399;--gold:#f5c400;--shadow:0 28px 88px rgba(0,0,0,.38);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-width:320px;min-height:100vh;overflow-x:hidden;background:radial-gradient(circle at 12% 8%,rgba(52,211,153,.14),transparent 28%),radial-gradient(circle at 88% 10%,rgba(56,189,248,.13),transparent 30%),radial-gradient(circle at 72% 76%,rgba(245,196,0,.08),transparent 28%),linear-gradient(140deg,#05070f 0%,#071018 45%,#05070f 100%);color:var(--text)}a{color:inherit;text-decoration:none}button{border:0;font:inherit}h1,h2,h3,p{margin-top:0}.page{position:relative;isolation:isolate}.grid-field{position:fixed;inset:0;z-index:-2;pointer-events:none;background:linear-gradient(90deg,rgba(148,221,255,.052) 1px,transparent 1px),linear-gradient(rgba(148,221,255,.04) 1px,transparent 1px),linear-gradient(180deg,transparent 0,rgba(5,7,15,.96) 88%);background-size:78px 78px,78px 78px,auto;animation:gridDrift 24s ease-in-out infinite alternate}.topbar{position:fixed;top:16px;left:clamp(14px,3vw,34px);right:clamp(14px,3vw,34px);z-index:30;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;padding:10px 12px;border:1px solid rgba(148,221,255,.18);border-radius:999px;background:rgba(4,10,18,.78);box-shadow:0 22px 72px rgba(0,0,0,.36),0 0 48px rgba(52,211,153,.08);backdrop-filter:blur(20px);direction:ltr}.brand,.nav,.lang,.actions,.eyebrow,.signals,.metric,.flow-row,.doc-link{display:flex;align-items:center}.brand{gap:10px;font-weight:900}.brand-mark{display:grid;place-items:center;width:46px;height:46px;padding:4px;border-radius:50%;background:radial-gradient(circle at 38% 24%,rgba(255,255,255,.96),rgba(255,255,255,.76) 58%,rgba(245,196,0,.18)),rgba(255,255,255,.9);box-shadow:0 0 34px rgba(245,196,0,.24),0 0 42px rgba(239,68,68,.1);overflow:hidden}.brand-mark img{width:100%;height:100%;object-fit:contain}.brand-text{display:grid;line-height:1.05}.brand-text small{color:var(--gold);font-family:"Cascadia Code",Consolas,monospace;font-size:.72rem}.nav{justify-content:center;gap:6px}.nav a,.lang button{min-height:36px;border-radius:999px;color:var(--soft);transition:color .18s ease,background .18s ease}.nav a{padding:0 13px}.nav a:hover,.lang button:hover,.lang button.active{color:#fff;background:rgba(56,189,248,.12)}.lang{gap:4px;padding:4px;border:1px solid rgba(148,221,255,.16);border-radius:999px;background:rgba(15,23,42,.7)}.lang button{padding:0 11px;background:transparent;cursor:pointer}.lang button.active{box-shadow:inset 0 0 0 1px rgba(56,189,248,.34)}.hero{display:grid;grid-template-columns:minmax(0,.92fr) minmax(440px,.88fr);align-items:center;gap:clamp(34px,5vw,82px);min-height:100svh;padding:132px clamp(20px,5vw,82px) 72px;overflow-x:clip}.eyebrow{gap:9px;margin-bottom:18px;color:var(--green);font-family:"Cascadia Code",Consolas,monospace;font-size:.82rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.eyebrow:before{width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 20px rgba(52,211,153,.7);content:""}h1{max-width:900px;margin-bottom:24px;font-size:clamp(2.45rem,6vw,6.35rem);line-height:.96;letter-spacing:0;overflow-wrap:break-word}.hero-lead{max-width:810px;color:var(--soft);font-size:clamp(1.05rem,1.35vw,1.24rem);line-height:1.82}.actions{flex-wrap:wrap;gap:12px;margin-top:28px}.button{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:50px;padding:0 18px;border:1px solid rgba(148,221,255,.22);border-radius:999px;color:var(--text);background:rgba(15,23,42,.66);overflow:hidden;transition:transform .18s ease,border-color .18s ease}.button:hover,.doc-link:hover{transform:translateY(-2px);border-color:var(--line2)}.button.primary{border-color:rgba(52,211,153,.44);color:#03110d;background:linear-gradient(135deg,#ecfeff,var(--green) 56%,var(--cyan));box-shadow:0 24px 72px rgba(52,211,153,.18);font-weight:900}.signals{flex-wrap:wrap;gap:10px;margin-top:24px}.signals span{display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border:1px solid rgba(245,196,0,.22);border-radius:999px;color:rgba(255,247,204,.94);background:rgba(245,196,0,.07);font-size:.9rem}.hero-stage{position:relative;min-height:clamp(560px,60vw,740px);perspective:1300px}.mail-stage{position:absolute;inset:9% 3% 5%;display:grid;place-items:center;border:1px solid rgba(148,221,255,.16);border-radius:8px;background:radial-gradient(circle at 50% 44%,rgba(52,211,153,.14),transparent 32%),linear-gradient(90deg,rgba(148,221,255,.045) 1px,transparent 1px),linear-gradient(rgba(148,221,255,.035) 1px,transparent 1px),rgba(4,10,18,.76);background-size:auto,56px 56px,56px 56px,auto;box-shadow:var(--shadow),inset 0 0 72px rgba(56,189,248,.055);overflow:hidden}.mail-orbit{position:absolute;inset:12%;border:1px solid rgba(52,211,153,.22);border-radius:50%;animation:orbitSpin 18s linear infinite}.mail-orbit:nth-child(2){inset:22%;border-color:rgba(245,196,0,.22);animation-duration:13s;animation-direction:reverse}.mail-core{position:relative;z-index:4;display:grid;gap:16px;width:min(430px,82%);min-height:330px;padding:24px;border:1px solid rgba(148,221,255,.26);border-radius:8px;background:linear-gradient(145deg,rgba(56,189,248,.16),rgba(255,255,255,.035) 44%,rgba(52,211,153,.1)),var(--strong);box-shadow:0 34px 100px rgba(0,0,0,.38),inset 0 0 0 1px rgba(255,255,255,.045);animation:mailCoreFloat 7.5s ease-in-out infinite}.mail-core-top{display:flex;align-items:center;justify-content:space-between;gap:14px;color:var(--muted);font-family:"Cascadia Code",Consolas,monospace;font-size:.78rem}.mail-icon{display:grid;place-items:center;min-height:150px;border:1px solid rgba(52,211,153,.18);border-radius:8px;background:linear-gradient(180deg,rgba(15,23,42,.7),rgba(5,12,21,.88)),rgba(15,23,42,.62);overflow:hidden}.mail-envelope{position:relative;width:min(210px,64%);aspect-ratio:1.55;border:3px solid rgba(236,254,255,.92);border-radius:10px;background:linear-gradient(145deg,rgba(236,254,255,.14),rgba(52,211,153,.18));box-shadow:0 0 42px rgba(52,211,153,.16)}.mail-envelope:before,.mail-envelope:after{position:absolute;inset:0;border-top:3px solid rgba(236,254,255,.9);content:""}.mail-envelope:before{transform:skewY(28deg);transform-origin:left top}.mail-envelope:after{transform:skewY(-28deg);transform-origin:right top}.mail-slot{display:grid;gap:7px;padding:13px;border:1px solid rgba(148,221,255,.14);border-radius:8px;background:rgba(2,6,23,.42)}.mail-slot strong{color:#dcfce7}.mail-slot span{color:var(--muted);font-family:"Cascadia Code",Consolas,monospace;font-size:.8rem;line-height:1.35;overflow-wrap:anywhere}.mail-chip{position:absolute;z-index:6;display:inline-flex;align-items:center;min-height:40px;padding:0 12px;border:1px solid rgba(148,221,255,.2);border-radius:999px;color:var(--soft);background:rgba(8,16,28,.84);box-shadow:0 18px 52px rgba(0,0,0,.26);backdrop-filter:blur(16px);font-size:.86rem;animation:mailChipFloat 6s ease-in-out infinite}.mail-chip-in{top:18%;left:2%}.mail-chip-out{right:3%;bottom:7%;animation-delay:-2.4s}.mail-chip-auth{right:8%;top:18%;color:#fff7cc;border-color:rgba(245,196,0,.26);animation-delay:-4s}.mail-message{position:absolute;z-index:8;width:46px;height:30px;border:1px solid rgba(255,255,255,.42);border-radius:7px;background:linear-gradient(145deg,#fff7cc,var(--gold));box-shadow:0 0 32px rgba(245,196,0,.42);animation:incomingMail 5.8s linear infinite}.mail-message:before,.mail-message:after{position:absolute;inset:7px 7px auto;height:13px;border-top:2px solid rgba(4,16,24,.56);content:""}.mail-message:before{transform:skewY(28deg)}.mail-message:after{transform:skewY(-28deg)}.mail-message-two{background:linear-gradient(145deg,#ecfeff,var(--cyan));box-shadow:0 0 32px rgba(56,189,248,.38);animation-name:outgoingMail;animation-delay:-1.8s}.mail-message-three{background:linear-gradient(145deg,#dcfce7,var(--green));box-shadow:0 0 32px rgba(52,211,153,.38);animation-delay:-3.6s}.section{position:relative;z-index:1;padding:84px clamp(20px,5vw,82px);background:linear-gradient(180deg,rgba(5,7,15,.96),rgba(5,7,15,.99)),radial-gradient(circle at 16% 10%,rgba(56,189,248,.065),transparent 26%)}.section-heading{max-width:930px;margin-bottom:32px}h2{margin-bottom:14px;font-size:clamp(2.15rem,4.8vw,5.1rem);line-height:1;letter-spacing:0}.section-heading p,.story-panel p,.flow-card p,.boundary-card p,.recovery-card p{color:var(--soft);font-size:1.04rem;line-height:1.82}.story-grid,.scope-grid,.path-grid,.boundary-grid,.docs-grid{display:grid;gap:14px}.story-grid{grid-template-columns:minmax(0,.84fr) minmax(300px,.38fr)}.scope-grid,.boundary-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.path-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.docs-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.story-panel,.scope-card,.flow-card,.boundary-card,.recovery-card,.doc-link{border:1px solid rgba(148,221,255,.18);border-radius:8px;background:linear-gradient(145deg,rgba(56,189,248,.1),rgba(255,255,255,.025) 45%,rgba(52,211,153,.075)),var(--panel);box-shadow:0 24px 76px rgba(0,0,0,.24)}.story-panel,.scope-card,.flow-card,.boundary-card,.recovery-card{padding:24px}.scope-card,.flow-card,.boundary-card,.recovery-card{min-height:230px}.story-panel strong,.scope-card span,.flow-card span,.boundary-card span,.recovery-card span{color:var(--gold);font-family:"Cascadia Code",Consolas,monospace;font-size:.8rem;font-weight:900}.story-panel h3,.scope-card h3,.flow-card h3,.boundary-card h3,.recovery-card h3{margin:14px 0 12px;font-size:1.38rem;line-height:1.18}.metric-list{display:grid;gap:10px}.metric{justify-content:space-between;gap:12px;padding:14px;border:1px solid rgba(148,221,255,.14);border-radius:8px;background:rgba(15,23,42,.46)}.metric small{color:var(--muted);text-align:right}.architecture-stage{display:grid;gap:14px;margin-top:18px}.system-map{position:relative;min-height:680px;border:1px solid rgba(148,221,255,.16);border-radius:8px;background:radial-gradient(circle at 52% 48%,rgba(52,211,153,.13),transparent 34%),linear-gradient(90deg,rgba(148,221,255,.042) 1px,transparent 1px),linear-gradient(rgba(148,221,255,.035) 1px,transparent 1px),rgba(4,10,18,.74);background-size:auto,54px 54px,54px 54px,auto;box-shadow:var(--shadow),inset 0 0 64px rgba(56,189,248,.055);overflow:hidden}.map-floor{position:absolute;inset:11%;border:1px solid rgba(52,211,153,.18);border-radius:50%;transform:translateZ(-30px)}.route-lines{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke-linecap:round}.route-lines path{stroke:rgba(56,189,248,.42);stroke-width:2.4;stroke-dasharray:8 16;animation:dashFlow 9s linear infinite}.route-lines path:nth-child(2n){stroke:rgba(52,211,153,.44);animation-duration:7s}.route-lines path:nth-child(3n){stroke:rgba(245,196,0,.42);animation-duration:11s}.node{position:absolute;z-index:5;display:grid;gap:7px;width:148px;min-height:76px;padding:12px;border:1px solid rgba(148,221,255,.24);border-radius:8px;background:linear-gradient(145deg,rgba(56,189,248,.14),rgba(255,255,255,.035) 42%,rgba(52,211,153,.1)),rgba(6,17,28,.94);box-shadow:0 24px 62px rgba(0,0,0,.3),inset 0 0 0 1px rgba(255,255,255,.045);transform:translate(-50%,-50%);animation:nodeFloat 7.4s ease-in-out infinite}.node:before{display:grid;place-items:center;width:34px;height:34px;border-radius:8px;color:#041018;background:linear-gradient(145deg,#ecfeff,var(--green) 60%,var(--cyan));font-weight:900;content:attr(data-code)}.node strong{font-size:.85rem;line-height:1.16}.node small{color:var(--muted);font-family:"Cascadia Code",Consolas,monospace;font-size:.68rem;line-height:1.3}.node-public{left:18%;top:12%}.node-dns{left:45%;top:9%;animation-delay:-1s}.node-vps{left:32%;top:26%;animation-delay:-1.8s}.node-haproxy{left:38%;top:42%;animation-delay:-2.6s}.node-tunnel{left:52%;top:56%;animation-delay:-3.2s}.node-router{left:67%;top:50%;animation-delay:-4s}.node-proxy{left:76%;top:66%;animation-delay:-4.6s}.node-server{left:57%;top:76%;width:178px;border-color:rgba(245,196,0,.3);animation-delay:-5.2s}.node-internal{left:82%;top:31%;animation-delay:-6s}.service{position:absolute;z-index:4;display:inline-flex;align-items:center;justify-content:center;min-width:106px;min-height:38px;padding:0 10px;border:1px solid rgba(245,196,0,.24);border-radius:999px;color:rgba(255,247,204,.95);background:rgba(11,22,35,.9);box-shadow:0 16px 42px rgba(0,0,0,.26);font-size:.72rem;font-weight:800;transform:translate(-50%,-50%);animation:servicePulse 6s ease-in-out infinite}.service-web{left:19%;top:85%}.service-smtp{left:35%;top:90%;animation-delay:-1.2s}.service-imap{left:51%;top:92%;animation-delay:-2.4s}.service-webmail{left:68%;top:89%;animation-delay:-3.6s}.service-backup{left:85%;top:82%;animation-delay:-4.8s}.packet{position:absolute;z-index:9;display:grid;place-items:center;width:42px;height:28px;border:1px solid rgba(255,255,255,.42);border-radius:6px;background:linear-gradient(145deg,#fff7cc,var(--gold));box-shadow:0 0 30px rgba(245,196,0,.42);animation:mailPacket 8.5s linear infinite}.packet:before,.packet:after{position:absolute;inset:7px 6px auto;height:12px;border-top:2px solid rgba(4,16,24,.6);content:""}.packet:before{transform:skewY(28deg)}.packet:after{transform:skewY(-28deg)}.packet-two{background:linear-gradient(145deg,#ecfeff,var(--cyan));box-shadow:0 0 30px rgba(56,189,248,.4);animation-name:webPacket;animation-delay:-2.2s}.packet-three{background:linear-gradient(145deg,#dcfce7,var(--green));box-shadow:0 0 30px rgba(52,211,153,.38);animation-delay:-4.4s}.stage-caption{display:grid;gap:6px;width:min(680px,100%);padding:16px;border:1px solid rgba(148,221,255,.18);border-radius:8px;background:rgba(5,12,21,.82);box-shadow:0 20px 58px rgba(0,0,0,.3);backdrop-filter:blur(16px)}.stage-caption strong{color:#dcfce7}.stage-caption small{color:var(--muted);line-height:1.55}.flow-row{gap:14px;margin:18px 0;padding:15px;border:1px solid rgba(245,196,0,.18);border-radius:8px;background:rgba(245,196,0,.055);color:rgba(255,247,204,.96);font-family:"Cascadia Code",Consolas,monospace;line-height:1.55}.recovery-layout{display:grid;grid-template-columns:minmax(0,.54fr) minmax(0,.46fr);gap:14px}.doc-link{justify-content:space-between;gap:14px;min-height:82px;padding:16px;transition:transform .18s ease,border-color .18s ease}.doc-link span{color:var(--soft);font-weight:850}.doc-link small{color:var(--muted);font-family:"Cascadia Code",Consolas,monospace}.footer{display:flex;justify-content:space-between;gap:16px;padding:24px clamp(20px,5vw,82px) 42px;border-top:1px solid rgba(148,221,255,.14);color:var(--muted);background:rgba(5,7,15,.99)}.rtl .hero-copy,.rtl .section-heading,.rtl .story-panel,.rtl .scope-card,.rtl .flow-card,.rtl .boundary-card,.rtl .recovery-card{direction:rtl;text-align:right}.rtl .actions,.rtl .signals{justify-content:flex-start}.rtl .metric small{text-align:left}@keyframes gridDrift{from{background-position:0 0,0 0,center}to{background-position:34px 22px,-30px 24px,center}}@keyframes orbitSpin{from{rotate:0deg}to{rotate:360deg}}@keyframes mailCoreFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}@keyframes mailChipFloat{0%,100%{transform:translateY(0);opacity:.84}50%{transform:translateY(-8px);opacity:1}}@keyframes incomingMail{0%{left:-8%;top:30%;opacity:0;transform:translate(0,0) scale(.85)}14%{opacity:1}50%{left:50%;top:42%;transform:translate(-50%,-50%) scale(1)}74%{opacity:1}100%{left:108%;top:62%;opacity:0;transform:translate(-100%,-50%) scale(.9)}}@keyframes outgoingMail{0%{right:-8%;top:62%;opacity:0;transform:translate(0,0) scale(.85)}14%{opacity:1}48%{right:50%;top:46%;transform:translate(50%,-50%) scale(1)}74%{opacity:1}100%{right:108%;top:28%;opacity:0;transform:translate(100%,-50%) scale(.9)}}@keyframes nodeFloat{0%,100%{transform:translate(-50%,-50%)}50%{transform:translate(-50%,-58%)}}@keyframes servicePulse{0%,100%{opacity:.82;transform:translate(-50%,-50%)}50%{opacity:1;transform:translate(-50%,-62%)}}@keyframes dashFlow{from{stroke-dashoffset:0}to{stroke-dashoffset:-220}}@keyframes mailPacket{0%{left:18%;top:12%;transform:translate(-50%,-50%) rotateZ(0deg)}17%{left:32%;top:26%;transform:translate(-50%,-50%) rotateZ(10deg)}34%{left:38%;top:42%;transform:translate(-50%,-50%) rotateZ(-8deg)}51%{left:52%;top:56%;transform:translate(-50%,-50%) rotateZ(13deg)}68%{left:67%;top:50%;transform:translate(-50%,-50%) rotateZ(-10deg)}84%{left:57%;top:76%;transform:translate(-50%,-50%) rotateZ(6deg)}100%{left:35%;top:90%;transform:translate(-50%,-50%) rotateZ(0deg)}}@keyframes webPacket{0%{left:45%;top:9%;transform:translate(-50%,-50%)}22%{left:32%;top:26%;transform:translate(-50%,-50%)}44%{left:52%;top:56%;transform:translate(-50%,-50%)}66%{left:76%;top:66%;transform:translate(-50%,-50%)}100%{left:19%;top:85%;transform:translate(-50%,-50%)}}@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}@media (max-width:1180px){.hero,.story-grid,.recovery-layout{grid-template-columns:1fr}.hero-stage{min-height:660px}.scope-grid,.docs-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:820px){.topbar{position:absolute;grid-template-columns:1fr;align-items:stretch;border-radius:18px}.nav{display:none}.lang{justify-self:start}.hero{grid-template-columns:1fr;padding-top:198px;padding-inline:24px}.hero-copy,.hero-stage,.actions,.signals,.hero-lead{width:min(342px,calc(100vw - 48px));max-width:min(342px,calc(100vw - 48px));min-width:0}h1{width:min(342px,calc(100vw - 48px));max-width:min(342px,calc(100vw - 48px));font-size:clamp(1.9rem,9.2vw,2.5rem);line-height:1.06}.hero-stage{display:grid;gap:14px;min-height:auto}.mail-stage{position:relative;inset:auto;min-height:520px}.mail-core{width:min(312px,calc(100vw - 76px));min-height:318px;padding:18px}.mail-chip{display:none}.system-map{min-height:auto;display:grid;gap:10px;padding:14px;overflow:visible}.route-lines,.map-floor,.packet{display:none}.node,.service{position:static;width:auto;min-width:0;transform:none;animation:none}.path-grid,.scope-grid,.boundary-grid,.docs-grid{grid-template-columns:1fr}.actions .button{width:100%;max-width:min(342px,calc(100vw - 48px))}.footer{flex-direction:column}}
+      :root {
+        color-scheme: dark;
+        --bg: #05070f;
+        --bg2: #08121c;
+        --panel: rgba(9, 18, 30, 0.78);
+        --panel2: rgba(12, 25, 40, 0.92);
+        --line: rgba(148, 221, 255, 0.18);
+        --line2: rgba(56, 189, 248, 0.42);
+        --text: #f8fafc;
+        --soft: rgba(226, 232, 240, 0.86);
+        --muted: rgba(203, 213, 225, 0.66);
+        --cyan: #38bdf8;
+        --green: #34d399;
+        --gold: #f5c400;
+        --red: #ef4444;
+        --shadow: 0 28px 88px rgba(0, 0, 0, 0.38);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        min-width: 320px;
+        min-height: 100vh;
+        overflow-x: hidden;
+        color: var(--text);
+        background:
+          radial-gradient(circle at 12% 8%, rgba(52, 211, 153, 0.15), transparent 30%),
+          radial-gradient(circle at 88% 12%, rgba(56, 189, 248, 0.14), transparent 31%),
+          radial-gradient(circle at 72% 78%, rgba(245, 196, 0, 0.08), transparent 30%),
+          linear-gradient(140deg, #05070f 0%, #08121c 46%, #05070f 100%);
+      }
+      a { color: inherit; text-decoration: none; }
+      button { border: 0; font: inherit; }
+      h1, h2, h3, p { margin-top: 0; }
+      .page { position: relative; isolation: isolate; }
+      .grid-field {
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        pointer-events: none;
+        background:
+          linear-gradient(90deg, rgba(148, 221, 255, 0.052) 1px, transparent 1px),
+          linear-gradient(rgba(148, 221, 255, 0.04) 1px, transparent 1px),
+          linear-gradient(180deg, transparent 0, rgba(5, 7, 15, 0.96) 88%);
+        background-size: 78px 78px, 78px 78px, auto;
+        animation: gridDrift 24s ease-in-out infinite alternate;
+      }
+
+      .topbar {
+        position: fixed;
+        top: 16px;
+        left: clamp(14px, 3vw, 34px);
+        right: clamp(14px, 3vw, 34px);
+        z-index: 30;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 18px;
+        padding: 10px 12px;
+        border: 1px solid rgba(148, 221, 255, 0.18);
+        border-radius: 999px;
+        background: rgba(4, 10, 18, 0.78);
+        box-shadow: 0 22px 72px rgba(0, 0, 0, 0.36), 0 0 48px rgba(52, 211, 153, 0.08);
+        backdrop-filter: blur(20px);
+        direction: ltr;
+      }
+      .brand, .nav, .lang, .actions, .eyebrow, .signals, .metric, .flow-row, .doc-link { display: flex; align-items: center; }
+      .brand { gap: 12px; min-width: 0; font-weight: 900; }
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 58px;
+        height: 58px;
+        padding: 5px;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 38% 24%, rgba(255,255,255,0.98), rgba(255,255,255,0.78) 58%, rgba(245,196,0,0.2)),
+          rgba(255,255,255,0.92);
+        box-shadow: 0 0 34px rgba(245,196,0,0.28), 0 0 46px rgba(239,68,68,0.12);
+        overflow: hidden;
+      }
+      .brand-mark img { width: 100%; height: 100%; object-fit: contain; display: block; }
+      .brand-text { display: grid; gap: 1px; line-height: 1.04; }
+      .brand-text strong { font-size: 1.02rem; }
+      .brand-text small { color: var(--gold); font-family: "Cascadia Code", Consolas, monospace; font-size: 0.72rem; }
+      .nav { justify-content: center; gap: 6px; }
+      .nav a, .lang button {
+        min-height: 36px;
+        border-radius: 999px;
+        color: var(--soft);
+        transition: color 180ms ease, background 180ms ease;
+      }
+      .nav a { padding: 0 13px; }
+      .nav a:hover, .lang button:hover, .lang button.active { color: #fff; background: rgba(56,189,248,0.12); }
+      .lang { gap: 4px; padding: 4px; border: 1px solid rgba(148,221,255,0.16); border-radius: 999px; background: rgba(15,23,42,0.7); }
+      .lang button { padding: 0 11px; background: transparent; cursor: pointer; }
+      .lang button.active { box-shadow: inset 0 0 0 1px rgba(56,189,248,0.34); }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 0.92fr) minmax(440px, 0.88fr);
+        align-items: center;
+        gap: clamp(34px, 5vw, 82px);
+        min-height: 100svh;
+        padding: 138px clamp(20px, 5vw, 82px) 72px;
+        overflow-x: clip;
+      }
+      .eyebrow {
+        gap: 9px;
+        margin-bottom: 18px;
+        color: var(--green);
+        font-family: "Cascadia Code", Consolas, monospace;
+        font-size: 0.82rem;
+        font-weight: 900;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+      .eyebrow::before { width: 10px; height: 10px; border-radius: 50%; background: var(--green); box-shadow: 0 0 20px rgba(52,211,153,0.7); content: ""; }
+      h1 { max-width: 900px; margin-bottom: 24px; font-size: clamp(2.45rem, 6vw, 6.35rem); line-height: 0.96; letter-spacing: 0; overflow-wrap: break-word; }
+      .hero-lead { max-width: 810px; color: var(--soft); font-size: clamp(1.05rem, 1.35vw, 1.24rem); line-height: 1.82; }
+      .actions { flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        min-height: 50px;
+        padding: 0 18px;
+        border: 1px solid rgba(148,221,255,0.22);
+        border-radius: 999px;
+        color: var(--text);
+        background: rgba(15,23,42,0.66);
+        overflow: hidden;
+        transition: transform 180ms ease, border-color 180ms ease;
+      }
+      .button:hover, .doc-link:hover { transform: translateY(-2px); border-color: var(--line2); }
+      .button.primary { border-color: rgba(52,211,153,0.44); color: #03110d; background: linear-gradient(135deg, #ecfeff, var(--green) 56%, var(--cyan)); box-shadow: 0 24px 72px rgba(52,211,153,0.18); font-weight: 900; }
+      .signals { flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+      .signals span { display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; border: 1px solid rgba(245,196,0,0.22); border-radius: 999px; color: rgba(255,247,204,0.94); background: rgba(245,196,0,0.07); font-size: 0.9rem; }
+
+      .hero-stage { position: relative; min-height: clamp(560px, 60vw, 740px); perspective: 1300px; }
+      .mail-stage {
+        position: absolute;
+        inset: 8% 2% 5%;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(148,221,255,0.16);
+        border-radius: 8px;
+        background:
+          radial-gradient(circle at 50% 44%, rgba(52,211,153,0.15), transparent 33%),
+          linear-gradient(90deg, rgba(148,221,255,0.045) 1px, transparent 1px),
+          linear-gradient(rgba(148,221,255,0.035) 1px, transparent 1px),
+          rgba(4,10,18,0.76);
+        background-size: auto, 56px 56px, 56px 56px, auto;
+        box-shadow: var(--shadow), inset 0 0 72px rgba(56,189,248,0.055);
+        overflow: hidden;
+      }
+      .mail-orbit { position: absolute; inset: 12%; border: 1px solid rgba(52,211,153,0.22); border-radius: 50%; animation: orbitSpin 18s linear infinite; }
+      .mail-orbit:nth-child(2) { inset: 23%; border-color: rgba(245,196,0,0.24); animation-duration: 13s; animation-direction: reverse; }
+      .mail-lane { position: absolute; left: 8%; right: 8%; height: 1px; background: linear-gradient(90deg, transparent, rgba(56,189,248,0.45), transparent); }
+      .lane-one { top: 35%; } .lane-two { top: 50%; } .lane-three { top: 65%; }
+      .mail-core {
+        position: relative;
+        z-index: 4;
+        display: grid;
+        gap: 16px;
+        width: min(440px, 82%);
+        min-height: 344px;
+        padding: 24px;
+        border: 1px solid rgba(148,221,255,0.26);
+        border-radius: 8px;
+        background: linear-gradient(145deg, rgba(56,189,248,0.16), rgba(255,255,255,0.035) 44%, rgba(52,211,153,0.1)), var(--panel2);
+        box-shadow: 0 34px 100px rgba(0,0,0,0.38), inset 0 0 0 1px rgba(255,255,255,0.045);
+        animation: mailCoreFloat 7.5s ease-in-out infinite;
+      }
+      .mail-core-top { display: flex; align-items: center; justify-content: space-between; gap: 14px; color: var(--muted); font-family: "Cascadia Code", Consolas, monospace; font-size: 0.78rem; }
+      .mail-icon { display: grid; place-items: center; min-height: 150px; border: 1px solid rgba(52,211,153,0.18); border-radius: 8px; background: linear-gradient(180deg, rgba(15,23,42,0.7), rgba(5,12,21,0.88)), rgba(15,23,42,0.62); overflow: hidden; }
+      .mail-envelope { position: relative; width: min(210px, 64%); aspect-ratio: 1.55; border: 3px solid rgba(236,254,255,0.92); border-radius: 10px; background: linear-gradient(145deg, rgba(236,254,255,0.14), rgba(52,211,153,0.18)); box-shadow: 0 0 42px rgba(52,211,153,0.16); }
+      .mail-envelope::before, .mail-envelope::after { position: absolute; inset: 0; border-top: 3px solid rgba(236,254,255,0.9); content: ""; }
+      .mail-envelope::before { transform: skewY(28deg); transform-origin: left top; }
+      .mail-envelope::after { transform: skewY(-28deg); transform-origin: right top; }
+      .mail-slot { display: grid; gap: 7px; padding: 13px; border: 1px solid rgba(148,221,255,0.14); border-radius: 8px; background: rgba(2,6,23,0.42); }
+      .mail-slot strong { color: #dcfce7; }
+      .mail-slot span { color: var(--muted); font-family: "Cascadia Code", Consolas, monospace; font-size: 0.8rem; line-height: 1.35; overflow-wrap: anywhere; }
+      .mail-chip { position: absolute; z-index: 6; display: inline-flex; align-items: center; min-height: 40px; padding: 0 12px; border: 1px solid rgba(148,221,255,0.2); border-radius: 999px; color: var(--soft); background: rgba(8,16,28,0.84); box-shadow: 0 18px 52px rgba(0,0,0,0.26); backdrop-filter: blur(16px); font-size: 0.86rem; animation: mailChipFloat 6s ease-in-out infinite; }
+      .mail-chip-in { top: 18%; left: 2%; }
+      .mail-chip-out { right: 3%; bottom: 7%; animation-delay: -2.4s; }
+      .mail-chip-auth { right: 8%; top: 18%; color: #fff7cc; border-color: rgba(245,196,0,0.26); animation-delay: -4s; }
+      .mail-message { position: absolute; z-index: 8; width: 46px; height: 30px; border: 1px solid rgba(255,255,255,0.42); border-radius: 7px; background: linear-gradient(145deg, #fff7cc, var(--gold)); box-shadow: 0 0 32px rgba(245,196,0,0.42); animation: incomingMail 5.8s linear infinite; }
+      .mail-message::before, .mail-message::after { position: absolute; inset: 7px 7px auto; height: 13px; border-top: 2px solid rgba(4,16,24,0.56); content: ""; }
+      .mail-message::before { transform: skewY(28deg); }
+      .mail-message::after { transform: skewY(-28deg); }
+      .mail-message-two { background: linear-gradient(145deg, #ecfeff, var(--cyan)); box-shadow: 0 0 32px rgba(56,189,248,0.38); animation-name: outgoingMail; animation-delay: -1.8s; }
+      .mail-message-three { background: linear-gradient(145deg, #dcfce7, var(--green)); box-shadow: 0 0 32px rgba(52,211,153,0.38); animation-delay: -3.6s; }
+
+      .section { position: relative; z-index: 1; padding: 84px clamp(20px, 5vw, 82px); background: linear-gradient(180deg, rgba(5,7,15,0.96), rgba(5,7,15,0.99)), radial-gradient(circle at 16% 10%, rgba(56,189,248,0.065), transparent 26%); }
+      .section-heading { max-width: 940px; margin-bottom: 32px; }
+      h2 { margin-bottom: 14px; font-size: clamp(2.15rem, 4.8vw, 5.1rem); line-height: 1; letter-spacing: 0; }
+      .section-heading p, .story-panel p, .flow-card p, .boundary-card p, .recovery-card p { color: var(--soft); font-size: 1.04rem; line-height: 1.82; }
+      .story-grid, .scope-grid, .path-grid, .boundary-grid, .docs-grid { display: grid; gap: 14px; }
+      .story-grid { grid-template-columns: minmax(0, 0.84fr) minmax(300px, 0.38fr); }
+      .scope-grid, .boundary-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .path-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .docs-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .story-panel, .scope-card, .flow-card, .boundary-card, .recovery-card, .doc-link { border: 1px solid rgba(148,221,255,0.18); border-radius: 8px; background: linear-gradient(145deg, rgba(56,189,248,0.1), rgba(255,255,255,0.025) 45%, rgba(52,211,153,0.075)), var(--panel); box-shadow: 0 24px 76px rgba(0,0,0,0.24); }
+      .story-panel, .scope-card, .flow-card, .boundary-card, .recovery-card { padding: 24px; }
+      .scope-card, .flow-card, .boundary-card, .recovery-card { min-height: 230px; }
+      .story-panel strong, .scope-card span, .flow-card span, .boundary-card span, .recovery-card span { color: var(--gold); font-family: "Cascadia Code", Consolas, monospace; font-size: 0.8rem; font-weight: 900; }
+      .story-panel h3, .scope-card h3, .flow-card h3, .boundary-card h3, .recovery-card h3 { margin: 14px 0 12px; font-size: 1.38rem; line-height: 1.18; }
+      .metric-list { display: grid; gap: 10px; }
+      .metric { justify-content: space-between; gap: 12px; padding: 14px; border: 1px solid rgba(148,221,255,0.14); border-radius: 8px; background: rgba(15,23,42,0.46); }
+      .metric small { color: var(--muted); text-align: right; }
+
+      .architecture-stage { display: grid; gap: 14px; margin-top: 18px; }
+      .system-map { position: relative; min-height: 700px; border: 1px solid rgba(148,221,255,0.16); border-radius: 8px; background: radial-gradient(circle at 52% 48%, rgba(52,211,153,0.13), transparent 34%), linear-gradient(90deg, rgba(148,221,255,0.042) 1px, transparent 1px), linear-gradient(rgba(148,221,255,0.035) 1px, transparent 1px), rgba(4,10,18,0.74); background-size: auto, 54px 54px, 54px 54px, auto; box-shadow: var(--shadow), inset 0 0 64px rgba(56,189,248,0.055); overflow: hidden; }
+      .map-floor { position: absolute; inset: 11%; border: 1px solid rgba(52,211,153,0.18); border-radius: 50%; }
+      .route-lines { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke-linecap: round; }
+      .route-lines path { stroke: rgba(56,189,248,0.42); stroke-width: 2.4; stroke-dasharray: 8 16; animation: dashFlow 9s linear infinite; }
+      .route-lines path:nth-child(2n) { stroke: rgba(52,211,153,0.44); animation-duration: 7s; }
+      .route-lines path:nth-child(3n) { stroke: rgba(245,196,0,0.42); animation-duration: 11s; }
+      .node { position: absolute; z-index: 5; display: grid; gap: 7px; width: 156px; min-height: 78px; padding: 12px; border: 1px solid rgba(148,221,255,0.24); border-radius: 8px; background: linear-gradient(145deg, rgba(56,189,248,0.14), rgba(255,255,255,0.035) 42%, rgba(52,211,153,0.1)), rgba(6,17,28,0.94); box-shadow: 0 24px 62px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(255,255,255,0.045); transform: translate(-50%, -50%); animation: nodeFloat 7.4s ease-in-out infinite; }
+      .node::before { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 8px; color: #041018; background: linear-gradient(145deg, #ecfeff, var(--green) 60%, var(--cyan)); font-weight: 900; content: attr(data-code); }
+      .node strong { font-size: 0.86rem; line-height: 1.16; }
+      .node small { color: var(--muted); font-family: "Cascadia Code", Consolas, monospace; font-size: 0.68rem; line-height: 1.3; }
+      .node-public { left: 18%; top: 12%; } .node-dns { left: 45%; top: 9%; animation-delay: -1s; } .node-vps { left: 32%; top: 26%; animation-delay: -1.8s; } .node-haproxy { left: 38%; top: 42%; animation-delay: -2.6s; } .node-tunnel { left: 52%; top: 56%; animation-delay: -3.2s; } .node-router { left: 67%; top: 50%; animation-delay: -4s; } .node-proxy { left: 76%; top: 66%; animation-delay: -4.6s; } .node-server { left: 57%; top: 76%; width: 190px; border-color: rgba(245,196,0,0.3); animation-delay: -5.2s; } .node-internal { left: 82%; top: 31%; animation-delay: -6s; }
+      .service { position: absolute; z-index: 4; display: inline-flex; align-items: center; justify-content: center; min-width: 112px; min-height: 38px; padding: 0 10px; border: 1px solid rgba(245,196,0,0.24); border-radius: 999px; color: rgba(255,247,204,0.95); background: rgba(11,22,35,0.9); box-shadow: 0 16px 42px rgba(0,0,0,0.26); font-size: 0.72rem; font-weight: 800; transform: translate(-50%, -50%); animation: servicePulse 6s ease-in-out infinite; }
+      .service-web { left: 19%; top: 85%; } .service-smtp { left: 35%; top: 90%; animation-delay: -1.2s; } .service-imap { left: 51%; top: 92%; animation-delay: -2.4s; } .service-webmail { left: 68%; top: 89%; animation-delay: -3.6s; } .service-backup { left: 85%; top: 82%; animation-delay: -4.8s; }
+      .packet { position: absolute; z-index: 9; display: grid; place-items: center; width: 42px; height: 28px; border: 1px solid rgba(255,255,255,0.42); border-radius: 6px; background: linear-gradient(145deg, #fff7cc, var(--gold)); box-shadow: 0 0 30px rgba(245,196,0,0.42); animation: mailPacket 8.5s linear infinite; }
+      .packet::before, .packet::after { position: absolute; inset: 7px 6px auto; height: 12px; border-top: 2px solid rgba(4,16,24,0.6); content: ""; } .packet::before { transform: skewY(28deg); } .packet::after { transform: skewY(-28deg); }
+      .packet-two { background: linear-gradient(145deg, #ecfeff, var(--cyan)); box-shadow: 0 0 30px rgba(56,189,248,0.4); animation-name: webPacket; animation-delay: -2.2s; }
+      .packet-three { background: linear-gradient(145deg, #dcfce7, var(--green)); box-shadow: 0 0 30px rgba(52,211,153,0.38); animation-delay: -4.4s; }
+      .stage-caption { display: grid; gap: 6px; width: min(700px, 100%); padding: 16px; border: 1px solid rgba(148,221,255,0.18); border-radius: 8px; background: rgba(5,12,21,0.82); box-shadow: 0 20px 58px rgba(0,0,0,0.3); backdrop-filter: blur(16px); }
+      .stage-caption strong { color: #dcfce7; } .stage-caption small { color: var(--muted); line-height: 1.55; }
+      .flow-row { gap: 14px; margin: 18px 0; padding: 15px; border: 1px solid rgba(245,196,0,0.18); border-radius: 8px; background: rgba(245,196,0,0.055); color: rgba(255,247,204,0.96); font-family: "Cascadia Code", Consolas, monospace; line-height: 1.55; }
+      .recovery-layout { display: grid; grid-template-columns: minmax(0,0.54fr) minmax(0,0.46fr); gap: 14px; }
+      .doc-link { justify-content: space-between; gap: 14px; min-height: 82px; padding: 16px; transition: transform 180ms ease, border-color 180ms ease; }
+      .doc-link span { color: var(--soft); font-weight: 850; } .doc-link small { color: var(--muted); font-family: "Cascadia Code", Consolas, monospace; }
+      .footer { display: flex; justify-content: space-between; gap: 16px; padding: 24px clamp(20px,5vw,82px) 42px; border-top: 1px solid rgba(148,221,255,0.14); color: var(--muted); background: rgba(5,7,15,0.99); }
+      .rtl .hero-copy, .rtl .section-heading, .rtl .story-panel, .rtl .scope-card, .rtl .flow-card, .rtl .boundary-card, .rtl .recovery-card { direction: rtl; text-align: right; } .rtl .actions, .rtl .signals { justify-content: flex-start; } .rtl .metric small { text-align: left; }
+
+      @keyframes gridDrift { from { background-position: 0 0, 0 0, center; } to { background-position: 34px 22px, -30px 24px, center; } }
+      @keyframes orbitSpin { from { rotate: 0deg; } to { rotate: 360deg; } }
+      @keyframes mailCoreFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+      @keyframes mailChipFloat { 0%,100% { transform: translateY(0); opacity: 0.84; } 50% { transform: translateY(-8px); opacity: 1; } }
+      @keyframes incomingMail { 0% { left: -8%; top: 30%; opacity: 0; transform: translate(0,0) scale(0.85); } 14% { opacity: 1; } 50% { left: 50%; top: 42%; transform: translate(-50%,-50%) scale(1); } 74% { opacity: 1; } 100% { left: 108%; top: 62%; opacity: 0; transform: translate(-100%,-50%) scale(0.9); } }
+      @keyframes outgoingMail { 0% { right: -8%; top: 62%; opacity: 0; transform: translate(0,0) scale(0.85); } 14% { opacity: 1; } 48% { right: 50%; top: 46%; transform: translate(50%,-50%) scale(1); } 74% { opacity: 1; } 100% { right: 108%; top: 28%; opacity: 0; transform: translate(100%,-50%) scale(0.9); } }
+      @keyframes nodeFloat { 0%,100% { transform: translate(-50%,-50%); } 50% { transform: translate(-50%,-58%); } }
+      @keyframes servicePulse { 0%,100% { opacity: 0.82; transform: translate(-50%,-50%); } 50% { opacity: 1; transform: translate(-50%,-62%); } }
+      @keyframes dashFlow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -220; } }
+      @keyframes mailPacket { 0% { left: 18%; top: 12%; transform: translate(-50%,-50%) rotateZ(0deg); } 17% { left: 32%; top: 26%; transform: translate(-50%,-50%) rotateZ(10deg); } 34% { left: 38%; top: 42%; transform: translate(-50%,-50%) rotateZ(-8deg); } 51% { left: 52%; top: 56%; transform: translate(-50%,-50%) rotateZ(13deg); } 68% { left: 67%; top: 50%; transform: translate(-50%,-50%) rotateZ(-10deg); } 84% { left: 57%; top: 76%; transform: translate(-50%,-50%) rotateZ(6deg); } 100% { left: 35%; top: 90%; transform: translate(-50%,-50%) rotateZ(0deg); } }
+      @keyframes webPacket { 0% { left: 45%; top: 9%; transform: translate(-50%,-50%); } 22% { left: 32%; top: 26%; transform: translate(-50%,-50%); } 44% { left: 52%; top: 56%; transform: translate(-50%,-50%); } 66% { left: 76%; top: 66%; transform: translate(-50%,-50%); } 100% { left: 19%; top: 85%; transform: translate(-50%,-50%); } }
+      @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
+      @media (max-width: 1180px) { .hero, .story-grid, .recovery-layout { grid-template-columns: 1fr; } .hero-stage { min-height: 660px; } .scope-grid, .docs-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+      @media (max-width: 820px) { .topbar { position: absolute; grid-template-columns: 1fr; align-items: stretch; border-radius: 18px; } .nav { display: none; } .lang { justify-self: start; } .hero { grid-template-columns: 1fr; padding-top: 214px; padding-inline: 24px; } .hero-copy, .hero-stage, .actions, .signals, .hero-lead { width: min(342px, calc(100vw - 48px)); max-width: min(342px, calc(100vw - 48px)); min-width: 0; } h1 { width: min(342px, calc(100vw - 48px)); max-width: min(342px, calc(100vw - 48px)); font-size: clamp(1.9rem, 9.2vw, 2.5rem); line-height: 1.06; } .hero-stage { display: grid; min-height: auto; } .mail-stage { position: relative; inset: auto; min-height: 520px; } .mail-core { width: min(312px, calc(100vw - 76px)); min-height: 318px; padding: 18px; } .mail-chip { display: none; } .system-map { min-height: auto; display: grid; gap: 10px; padding: 14px; overflow: visible; } .route-lines, .map-floor, .packet { display: none; } .node, .service { position: static; width: auto; min-width: 0; transform: none; animation: none; } .path-grid, .scope-grid, .boundary-grid, .docs-grid { grid-template-columns: 1fr; } .actions .button { width: 100%; max-width: min(342px, calc(100vw - 48px)); } .footer { flex-direction: column; } }
     </style>
   </head>
   <body>
@@ -18,7 +273,7 @@
       <header class="topbar">
         <a class="brand" href="https://ateight.xyz/">
           <span class="brand-mark"><img src="../at8-logo.png" alt="AT8 logo" /></span>
-          <span class="brand-text"><strong>Milad</strong><small>AT8</small></span>
+          <span class="brand-text"><strong>Milad Ateight</strong><small>AT8 Infrastructure</small></span>
         </a>
         <nav class="nav" aria-label="Page navigation">
           <a href="https://ateight.xyz/" data-en="Home" data-fa="خانه">Home</a>
@@ -28,6 +283,7 @@
         </nav>
         <div class="lang"><button class="active" data-lang="en">EN</button><button data-lang="fa">FA</button></div>
       </header>
+
       <section class="hero">
         <div class="hero-copy">
           <p class="eyebrow" data-en="Sanitized production case study" data-fa="مطالعه موردی واقعی و پاک سازی شده">Sanitized production case study</p>
@@ -37,14 +293,21 @@
           <div class="signals"><span data-en="Web and mail hosting" data-fa="هاستینگ وب و ایمیل">Web and mail hosting</span><span data-en="Encrypted edge transport" data-fa="ارتباط رمزنگاری شده edge">Encrypted edge transport</span><span data-en="Domain-based SMTP routing" data-fa="SMTP routing بر اساس دامنه">Domain-based SMTP routing</span><span data-en="Recovery documentation" data-fa="مستندات بازیابی">Recovery documentation</span></div>
         </div>
         <div class="hero-stage" aria-label="Animated email exchange">
-          <div class="mail-stage"><span class="mail-orbit"></span><span class="mail-orbit"></span><span class="mail-message"></span><span class="mail-message mail-message-two"></span><span class="mail-message mail-message-three"></span><span class="mail-chip mail-chip-in">Inbound SMTP</span><span class="mail-chip mail-chip-out">Outbound relay</span><span class="mail-chip mail-chip-auth">SPF / DKIM / DMARC</span><div class="mail-core"><div class="mail-core-top"><span>mail-flow.status</span><span data-en="live routing" data-fa="routing فعال">live routing</span></div><div class="mail-icon"><span class="mail-envelope"></span></div><div class="mail-slot"><strong data-en="Incoming messages" data-fa="پیام های ورودی">Incoming messages</strong><span data-en="External users -> secure entry -> mailbox services" data-fa="کاربران خارجی -> ورودی امن -> سرویس های mailbox">External users -> secure entry -> mailbox services</span></div><div class="mail-slot"><strong data-en="Outgoing policy" data-fa="سیاست خروجی">Outgoing policy</strong><span data-en="Sender domain -> direct or relayed SMTP path" data-fa="Sender domain -> مسیر SMTP مستقیم یا relay">Sender domain -> direct or relayed SMTP path</span></div></div></div>
+          <div class="mail-stage">
+            <span class="mail-orbit"></span><span class="mail-orbit"></span><span class="mail-lane lane-one"></span><span class="mail-lane lane-two"></span><span class="mail-lane lane-three"></span>
+            <span class="mail-message"></span><span class="mail-message mail-message-two"></span><span class="mail-message mail-message-three"></span>
+            <span class="mail-chip mail-chip-in">Inbound SMTP</span><span class="mail-chip mail-chip-out">Outbound relay</span><span class="mail-chip mail-chip-auth">SPF / DKIM / DMARC</span>
+            <div class="mail-core"><div class="mail-core-top"><span>mail-flow.status</span><span data-en="live routing" data-fa="routing فعال">live routing</span></div><div class="mail-icon"><span class="mail-envelope"></span></div><div class="mail-slot"><strong data-en="Incoming messages" data-fa="پیام های ورودی">Incoming messages</strong><span data-en="External users -> secure entry -> mailbox services" data-fa="کاربران خارجی -> ورودی امن -> سرویس های mailbox">External users -> secure entry -> mailbox services</span></div><div class="mail-slot"><strong data-en="Outgoing policy" data-fa="سیاست خروجی">Outgoing policy</strong><span data-en="Sender domain -> direct or relayed SMTP path" data-fa="Sender domain -> مسیر SMTP مستقیم یا relay">Sender domain -> direct or relayed SMTP path</span></div></div>
+          </div>
         </div>
       </section>
+
       <section id="architecture" class="section">
         <div class="section-heading"><p class="eyebrow" data-en="Project story" data-fa="داستان پروژه">Project story</p><h2 data-en="One platform, many layers, clear boundaries." data-fa="یک پلتفرم، چند لایه، مرزبندی شفاف.">One platform, many layers, clear boundaries.</h2><p data-en="The project joined corporate website delivery and corporate email into a maintainable operational model. The important work was coordinating public DNS, TLS, proxies, tunnels, routing, mail authentication, backups, and recovery so each layer could be validated without exposing production secrets." data-fa="این پروژه تحویل وب سایت سازمانی و ایمیل سازمانی را به یک مدل عملیاتی قابل نگهداری تبدیل کرد. کار اصلی هماهنگ کردن DNS عمومی، TLS، proxy ها، tunnel ها، routing، mail authentication، backup و recovery بود تا هر لایه قابل اعتبارسنجی باشد بدون اینکه رازهای production منتشر شود.">The project joined corporate website delivery and corporate email into a maintainable operational model. The important work was coordinating public DNS, TLS, proxies, tunnels, routing, mail authentication, backups, and recovery so each layer could be validated without exposing production secrets.</p></div>
         <div class="story-grid"><article class="story-panel"><strong data-en="My role" data-fa="نقش من">My role</strong><h3 data-en="End-to-end infrastructure ownership" data-fa="مالکیت end-to-end زیرساخت">End-to-end infrastructure ownership</h3><p data-en="I designed and deployed the website presentation layer, administered the Linux hosting environment, configured web and mail services, integrated secure remote connectivity, implemented routing policies, validated DNS and TLS behavior, investigated incidents, and documented recovery procedures." data-fa="لایه presentation وب سایت را طراحی و deploy کردم، محیط Linux hosting را مدیریت کردم، سرویس های وب و ایمیل را پیکربندی کردم، ارتباط امن راه دور را اضافه کردم، policy های routing را پیاده سازی کردم، رفتار DNS و TLS را اعتبارسنجی کردم، incident ها را بررسی کردم و مسیرهای recovery را مستند کردم.">I designed and deployed the website presentation layer, administered the Linux hosting environment, configured web and mail services, integrated secure remote connectivity, implemented routing policies, validated DNS and TLS behavior, investigated incidents, and documented recovery procedures.</p></article><aside class="story-panel metric-list"><div class="metric"><strong>Type</strong><small>Sanitized production case study</small></div><div class="metric"><strong>Stack</strong><small>Linux / HestiaCP / Nginx / Exim / Dovecot</small></div><div class="metric"><strong>Network</strong><small>WireGuard / HAProxy / MikroTik / DNS</small></div><div class="metric"><strong>Boundary</strong><small>No production identifiers</small></div></aside></div>
         <div class="architecture-stage" aria-label="Animated infrastructure flow"><div class="system-map"><span class="map-floor"></span><svg class="route-lines" viewBox="0 0 1000 780" aria-hidden="true"><path d="M180 95 C230 130 270 160 320 205"/><path d="M450 70 C410 116 366 160 320 205"/><path d="M320 205 C345 270 360 315 380 330"/><path d="M380 330 C430 390 485 420 520 440"/><path d="M520 440 C585 386 636 372 670 390"/><path d="M670 390 C705 450 735 488 760 515"/><path d="M760 515 C700 555 630 594 570 590"/><path d="M820 240 C780 282 725 335 670 390"/><path d="M570 590 C460 660 350 690 190 664"/><path d="M570 590 C550 682 530 710 510 718"/><path d="M570 590 C636 660 704 690 680 694"/><path d="M570 590 C694 640 802 650 850 640"/></svg><article class="node node-public" data-code="U"><strong>External users</strong><small>public access</small></article><article class="node node-dns" data-code="DNS"><strong>Public DNS</strong><small>MX / SPF / DKIM / DMARC</small></article><article class="node node-vps" data-code="VPS"><strong>External VPS</strong><small>controlled entry layer</small></article><article class="node node-haproxy" data-code="HA"><strong>HAProxy and SMTP relay</strong><small>selected services</small></article><article class="node node-tunnel" data-code="WG"><strong>Encrypted WireGuard tunnel</strong><small>cross-location transport</small></article><article class="node node-router" data-code="MT"><strong>MikroTik edge router</strong><small>firewall / NAT / policy routes</small></article><article class="node node-proxy" data-code="RP"><strong>Reverse proxy server</strong><small>controlled web path</small></article><article class="node node-server" data-code="LX"><strong>Linux web and mail server</strong><small>HestiaCP / Nginx / Exim / Dovecot</small></article><article class="node node-internal" data-code="LAN"><strong>Internal users</strong><small>routed internal access</small></article><span class="service service-web">Corporate website</span><span class="service service-smtp">Exim SMTP</span><span class="service service-imap">Dovecot IMAP</span><span class="service service-webmail">Roundcube webmail</span><span class="service service-backup">Backup and logs</span><span class="packet"></span><span class="packet packet-two"></span><span class="packet packet-three"></span></div><div class="stage-caption"><strong>Mail and web traffic are animated as moving packets.</strong><small>The public repo keeps this diagram generalized: no production domains, routes, addresses, credentials, exact ports, logs, or provider details are published.</small></div></div>
       </section>
+
       <section class="section"><div class="section-heading"><p class="eyebrow">Engineering scope</p><h2>What was implemented</h2></div><div class="scope-grid"><article class="scope-card"><span>01</span><h3>Web and hosting platform</h3><p>Corporate website delivery, Linux hosting, HestiaCP administration, Nginx, HTTPS behavior, service health, ownership, permissions, and deployment validation.</p></article><article class="scope-card"><span>02</span><h3>Mail platform</h3><p>Exim SMTP transport, Dovecot mailbox access, Roundcube webmail, TLS-secured user paths, queue inspection, logs, certificate checks, and reachability validation.</p></article><article class="scope-card"><span>03</span><h3>Hybrid access paths</h3><p>Internal users reached services through routed local policy, while external users entered through a VPS, HAProxy, WireGuard, MikroTik, and the controlled hosting network.</p></article><article class="scope-card"><span>04</span><h3>SMTP delivery policy</h3><p>Sender-domain based Exim routing selected either direct delivery or secure external relay transport, keeping delivery behavior aligned with SPF, DKIM, DMARC, MX, PTR, and TLS.</p></article><article class="scope-card"><span>05</span><h3>Network controls</h3><p>MikroTik firewall, NAT, policy routes, controlled public exposure, encrypted transport, route verification, HAProxy backend checks, and post-change network validation.</p></article><article class="scope-card"><span>06</span><h3>Operations and recovery</h3><p>Backup planning, health checks, restore validation, log review, troubleshooting notes, and a documented recovery case for a hosting control panel dependency failure.</p></article></div></section>
       <section class="section"><div class="section-heading"><p class="eyebrow">Traffic paths</p><h2>How requests move through the system</h2></div><div class="path-grid"><article class="flow-card"><span>Website flow</span><h3>Public web delivery</h3><div class="flow-row">DNS -> entry/proxy -> Nginx -> website content</div><p>The website layer is delivered through controlled hosting and proxy behavior, with HTTPS, availability, filesystem changes, and service status validated after operational changes.</p></article><article class="flow-card"><span>External mail access</span><h3>Public mail path through a protected edge</h3><div class="flow-row">External user -> VPS -> HAProxy -> WireGuard -> MikroTik -> mail services</div><p>The VPS is an entry layer, WireGuard carries selected traffic, and MikroTik policy controls what reaches the internal hosting environment.</p></article><article class="flow-card"><span>Internal access</span><h3>Internal users use the local routed path</h3><div class="flow-row">Internal user -> MikroTik -> Exim / Dovecot / Roundcube / web</div><p>Internal access reduces dependence on the public entry layer while keeping access policy, service validation, and operational visibility centralized.</p></article><article class="flow-card"><span>Outbound SMTP</span><h3>Domain policy chooses the route</h3><div class="flow-row">sender domain -> Exim policy -> direct or relayed transport</div><p>Each hosted sender domain can use the delivery route that matches its operational requirements instead of forcing one global outbound path for all mail.</p></article></div></section>
       <section id="operations" class="section"><div class="section-heading"><p class="eyebrow">Validation and recovery</p><h2>Built for operation, not just installation.</h2></div><div class="recovery-layout"><article class="recovery-card"><span>Validation model</span><h3>Changes were checked across the full chain</h3><p>Validation covered website availability, HTTP to HTTPS behavior, certificate validity, DNS records, SMTP and IMAP reachability, webmail availability, Exim queues, Dovecot health, WireGuard peer state, HAProxy backend reachability, MikroTik routing counters, and restore checks.</p></article><article class="recovery-card"><span>Incident recovery</span><h3>A dependency failure was recovered without treating everything as one blob</h3><p>When hosting control panel login returned HTTP 500 after a filesystem-related change, recovery separated hosted website content from control-panel application files, restored or validated the dependency layer, checked service health, and documented preventive controls.</p></article></div></section>
@@ -53,10 +316,16 @@
       <footer class="footer"><span>Hybrid Web & Mail Infrastructure by Milad Ateight</span><span>Project page: ateight.xyz/hybrid-web-mail-infrastructure</span></footer>
     </main>
     <script>
-      const buttons=document.querySelectorAll('[data-lang]');
-      const nodes=document.querySelectorAll('[data-en]');
-      function setLang(lang){document.documentElement.lang=lang;document.documentElement.dir=lang==='fa'?'rtl':'ltr';document.body.classList.toggle('rtl',lang==='fa');nodes.forEach(node=>{const value=node.dataset[lang];if(value)node.textContent=value});buttons.forEach(button=>button.classList.toggle('active',button.dataset.lang===lang))}
-      buttons.forEach(button=>button.addEventListener('click',()=>setLang(button.dataset.lang)));
+      const buttons = document.querySelectorAll('[data-lang]');
+      const nodes = document.querySelectorAll('[data-en]');
+      function setLang(lang) {
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+        document.body.classList.toggle('rtl', lang === 'fa');
+        nodes.forEach((node) => { const value = node.dataset[lang]; if (value) node.textContent = value; });
+        buttons.forEach((button) => button.classList.toggle('active', button.dataset.lang === lang));
+      }
+      buttons.forEach((button) => button.addEventListener('click', () => setLang(button.dataset.lang)));
     </script>
   </body>
 </html>
