@@ -32,6 +32,7 @@ jobs:
           cp CNAME _site/CNAME
           cp .nojekyll _site/.nojekyll
           cp -R NetDoctor _site/NetDoctor
+          cp -R hybrid-web-mail-infrastructure _site/hybrid-web-mail-infrastructure
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
