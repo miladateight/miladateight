@@ -31,6 +31,11 @@ jobs:
           cp index.html _site/index.html
           cp CNAME _site/CNAME
           cp .nojekyll _site/.nojekyll
+          cp -R assets _site/assets
+          cp favicon.png _site/favicon.png
+          cp apple-touch-icon.png _site/apple-touch-icon.png
+          cp at8-logo.png _site/at8-logo.png
+          cp -R KeyFix _site/KeyFix
           cp -R NetDoctor _site/NetDoctor
           cp -R hybrid-web-mail-infrastructure _site/hybrid-web-mail-infrastructure
 
