@@ -2,8 +2,9 @@ name: Deploy static portfolio to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  schedule:
+    - cron: "17 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -35,9 +36,21 @@ jobs:
           cp favicon.png _site/favicon.png
           cp apple-touch-icon.png _site/apple-touch-icon.png
           cp at8-logo.png _site/at8-logo.png
-          cp -R KeyFix _site/KeyFix
-          cp -R NetDoctor _site/NetDoctor
-          cp -R hybrid-web-mail-infrastructure _site/hybrid-web-mail-infrastructure
+
+      - name: Fetch project pages from their own repos
+        run: |
+          set -euo pipefail
+          fetch_project () {
+            local repo="$1"
+            local dir="$2"
+            mkdir -p "_site/$dir"
+            curl -fsSL "https://raw.githubusercontent.com/miladateight/$repo/main/index.html" -o "_site/$dir/index.html"
+            curl -fsSL "https://raw.githubusercontent.com/miladateight/$repo/main/at8-logo.png" -o "_site/$dir/at8-logo.png"
+          }
+          fetch_project "NetDoctor" "NetDoctor"
+          fetch_project "KeyFix" "KeyFix"
+          fetch_project "hybrid-web-mail-infrastructure" "hybrid-web-mail-infrastructure"
+          fetch_project "instagram-youtube-soundcloud-downloader" "instagram-youtube-soundcloud-downloader"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
