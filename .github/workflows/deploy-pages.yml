@@ -36,6 +36,8 @@ jobs:
           cp favicon.png _site/favicon.png
           cp apple-touch-icon.png _site/apple-touch-icon.png
           cp at8-logo.png _site/at8-logo.png
+          cp at8-kit.css _site/at8-kit.css
+          cp at8-kit.js _site/at8-kit.js
 
       - name: Fetch project pages from their own repos
         run: |
@@ -51,6 +53,12 @@ jobs:
           fetch_project "KeyFix" "KeyFix"
           fetch_project "hybrid-web-mail-infrastructure" "hybrid-web-mail-infrastructure"
           fetch_project "instagram-youtube-soundcloud-downloader" "instagram-youtube-soundcloud-downloader"
+
+          mkdir -p "_site/NetDoctor/assets/screenshots"
+          for shot in start.png dashboard.png start-iran.png dashboard-iran.png; do
+            curl -fsSL "https://raw.githubusercontent.com/miladateight/NetDoctor/main/assets/screenshots/$shot" \
+              -o "_site/NetDoctor/assets/screenshots/$shot"
+          done
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
