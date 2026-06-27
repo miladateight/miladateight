@@ -9,20 +9,21 @@ import { useLanguage } from "./hooks/useLanguage";
 import { projects } from "./data/projects";
 
 const hasWebGL = (() => {
-  try {
-    const c = document.createElement("canvas");
-    return !!(c.getContext("webgl") || c.getContext("webgl2"));
-  } catch { return false }
+  try { const c = document.createElement("canvas"); return !!(c.getContext("webgl") || c.getContext("webgl2")); }
+  catch { return false }
 })();
+
+const pageSpring = { type: "spring", stiffness: 200, damping: 25, mass: 0.8 };
+
+const pageVariants = {
+  initial: { opacity: 0, y: 12, scale: 0.98 },
+  animate: { opacity: 1, y: 0, scale: 1 },
+  exit: { opacity: 0, y: -8, scale: 0.98 },
+};
 
 function PageTransition({ children }) {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-    >
+    <motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit" transition={pageSpring}>
       {children}
     </motion.div>
   );
@@ -33,8 +34,7 @@ function BackgroundWrap() {
   useEffect(() => {
     if (hasWebGL) {
       import("./components/background/ImmersiveBackground").then(
-        (m) => setBg(() => m.default),
-        () => {}
+        (m) => setBg(() => m.default), () => {}
       );
     }
   }, []);
@@ -46,9 +46,7 @@ export default function App() {
   const { language, setLanguage, t, isRtl, dir } = useLanguage();
   const location = useLocation();
 
-  useEffect(() => {
-    document.getElementById("loader")?.remove();
-  }, []);
+  useEffect(() => { document.getElementById("loader")?.remove(); }, []);
 
   useEffect(() => {
     document.body.classList.toggle("rtl", isRtl);
@@ -58,12 +56,8 @@ export default function App() {
 
   useEffect(() => {
     if (location.hash) {
-      setTimeout(() => {
-        document.querySelector(location.hash)?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
-    } else {
-      window.scrollTo(0, 0);
-    }
+      setTimeout(() => { document.querySelector(location.hash)?.scrollIntoView({ behavior: "smooth" }); }, 100);
+    } else { window.scrollTo(0, 0); }
   }, [location]);
 
   return (
@@ -71,26 +65,18 @@ export default function App() {
       <BackgroundWrap />
       <div className="page-shell">
         <Header t={t} language={language} setLanguage={setLanguage} isRtl={isRtl} />
-
         <main className="main-content">
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
               <Route path="/" element={<PageTransition><Home t={t} language={language} isRtl={isRtl} /></PageTransition>} />
               {projects.map((project) => (
-                <Route
-                  key={project.slug}
-                  path={project.pageUrl}
-                  element={
-                    <PageTransition>
-                      <ProjectPage project={project} language={language} t={t} />
-                    </PageTransition>
-                  }
-                />
+                <Route key={project.slug} path={project.pageUrl} element={
+                  <PageTransition><ProjectPage project={project} language={language} t={t} /></PageTransition>
+                } />
               ))}
             </Routes>
           </AnimatePresence>
         </main>
-
         <Footer t={t} language={language} />
       </div>
     </div>

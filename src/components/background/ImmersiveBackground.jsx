@@ -5,9 +5,9 @@ import * as THREE from "three";
 function Stars() {
   const ref = useRef();
   const positions = useMemo(() => {
-    const p = new Float32Array(500 * 3);
-    for (let i = 0; i < 500; i++) {
-      const r = 20 + Math.random() * 120;
+    const p = new Float32Array(350 * 3);
+    for (let i = 0; i < 350; i++) {
+      const r = 20 + Math.random() * 130;
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
       p[i * 3] = r * Math.sin(phi) * Math.cos(theta);
@@ -16,43 +16,46 @@ function Stars() {
     }
     return p;
   }, []);
-  useFrame((_, d) => { if (ref.current) ref.current.rotation.y += d * 0.0015; });
+  useFrame((_, d) => { if (ref.current) ref.current.rotation.y += d * 0.0008; });
   return (
     <points ref={ref}>
-      <bufferGeometry><bufferAttribute attach="attributes-position" count={500} array={positions} itemSize={3} /></bufferGeometry>
-      <pointsMaterial color="#446688" size={0.03} transparent opacity={0.12} sizeAttenuation depthWrite={false} blending={THREE.AdditiveBlending} />
+      <bufferGeometry><bufferAttribute attach="attributes-position" count={350} array={positions} itemSize={3} /></bufferGeometry>
+      <pointsMaterial color="#556688" size={0.025} transparent opacity={0.1} sizeAttenuation depthWrite={false} blending={THREE.AdditiveBlending} />
     </points>
   );
 }
 
-function AmbientRing({ radius, opacity, speedX, speedY, color }) {
+function DeepGeometry() {
   const ref = useRef();
-  useFrame((_, d) => {
-    if (ref.current) { ref.current.rotation.x += d * speedX; ref.current.rotation.y += d * speedY; }
+  useFrame((state) => {
+    if (ref.current) {
+      ref.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.015) * 0.08;
+      ref.current.rotation.y += 0.002;
+    }
   });
   return (
-    <mesh ref={ref}>
-      <torusGeometry args={[radius, 0.012, 8, 80]} />
-      <meshBasicMaterial color={color} transparent opacity={opacity} />
+    <mesh ref={ref} position={[0, 0, -25]}>
+      <torusKnotGeometry args={[6, 1.5, 80, 12]} />
+      <meshBasicMaterial color="#22d394" wireframe transparent opacity={0.012} />
     </mesh>
   );
 }
 
-function DriftOrb({ position, color, size, speed }) {
+function SoftGlow({ pos, size, color, speed }) {
   const ref = useRef();
-  const base = useRef(new THREE.Vector3(position[0], position[1], position[2]));
+  const b = useRef(new THREE.Vector3(pos[0], pos[1], pos[2]));
   useFrame((state) => {
     if (!ref.current) return;
     const t = state.clock.elapsedTime * speed;
-    ref.current.position.x = base.current.x + Math.sin(t * 0.3) * 1.5;
-    ref.current.position.y = base.current.y + Math.sin(t * 0.2 + 1) * 1.2;
-    ref.current.position.z = base.current.z + Math.sin(t * 0.25 + 2) * 0.8;
-    ref.current.material.opacity = 0.015 + Math.sin(t * 0.4) * 0.008;
+    ref.current.position.x = b.current.x + Math.sin(t * 0.15) * 1.5;
+    ref.current.position.y = b.current.y + Math.sin(t * 0.12 + 1) * 1.2;
+    ref.current.position.z = b.current.z + Math.sin(t * 0.14 + 2) * 0.8;
+    ref.current.material.opacity = 0.01 + Math.sin(t * 0.25) * 0.005;
   });
   return (
-    <mesh ref={ref} position={position}>
-      <sphereGeometry args={[size, 12, 12]} />
-      <meshBasicMaterial color={color} transparent opacity={0.02} />
+    <mesh ref={ref} position={pos}>
+      <sphereGeometry args={[size, 10, 10]} />
+      <meshBasicMaterial color={color} transparent opacity={0.012} />
     </mesh>
   );
 }
@@ -61,14 +64,11 @@ export default function ImmersiveBackground() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }} aria-hidden="true">
-      <Canvas dpr={[1, reduce ? 1 : 1.5]} gl={{ alpha: true, powerPreference: "low-power" }} style={{ width: "100%", height: "100%" }}>
+      <Canvas dpr={[1, reduce ? 1 : 1.2]} gl={{ alpha: true, powerPreference: "low-power" }} style={{ width: "100%", height: "100%" }}>
         <Stars />
-        {!reduce && <AmbientRing radius={12} opacity={0.025} speedX={0.004} speedY={0.002} color="#22d394" />}
-        {!reduce && <AmbientRing radius={18} opacity={0.015} speedX={0.002} speedY={0.003} color="#2dd4bf" />}
-        {!reduce && <AmbientRing radius={8} opacity={0.02} speedX={0.003} speedY={0.005} color="#22d394" />}
-        {!reduce && <DriftOrb position={[-8, 3, -10]} color="#22d394" size={2.5} speed={0.3} />}
-        {!reduce && <DriftOrb position={[7, -4, -12]} color="#2dd4bf" size={2} speed={0.25} />}
-        {!reduce && <DriftOrb position={[0, 6, -15]} color="#34d399" size={1.8} speed={0.35} />}
+        {!reduce && <DeepGeometry />}
+        {!reduce && <SoftGlow pos={[-8, 3, -20]} size={2.5} color="#22d394" speed={0.2} />}
+        {!reduce && <SoftGlow pos={[6, -4, -22]} size={2} color="#2dd4bf" speed={0.18} />}
       </Canvas>
     </div>
   );
