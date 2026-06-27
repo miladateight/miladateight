@@ -73,16 +73,23 @@ function KeyFixScene() {
     const { ctx, canvas, texture } = ct;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    const r = 8, w = canvas.width, h = canvas.height;
     ctx.fillStyle = "rgba(3,7,18,0.92)";
     ctx.beginPath();
-    ctx.roundRect(4, 4, canvas.width - 8, canvas.height - 8, 8);
-    ctx.fill();
+    ctx.moveTo(r, 4); ctx.lineTo(w - r, 4); ctx.quadraticCurveTo(w, 4, w, r);
+    ctx.lineTo(w, h - r); ctx.quadraticCurveTo(w, h, w - r, h);
+    ctx.lineTo(r, h); ctx.quadraticCurveTo(4, h, 4, h - r);
+    ctx.lineTo(4, r); ctx.quadraticCurveTo(4, 4, r, 4);
+    ctx.closePath(); ctx.fill();
 
     ctx.strokeStyle = "rgba(34,211,148,0.3)";
     ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.roundRect(4, 4, canvas.width - 8, canvas.height - 8, 8);
-    ctx.stroke();
+    ctx.moveTo(r, 4); ctx.lineTo(w - r, 4); ctx.quadraticCurveTo(w, 4, w, r);
+    ctx.lineTo(w, h - r); ctx.quadraticCurveTo(w, h, w - r, h);
+    ctx.lineTo(r, h); ctx.quadraticCurveTo(4, h, 4, h - r);
+    ctx.lineTo(4, r); ctx.quadraticCurveTo(4, 4, r, 4);
+    ctx.closePath(); ctx.stroke();
 
     let label = "";
     let statusLine = "";
