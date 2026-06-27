@@ -1,23 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import ImmersiveBackground from "./components/background/ImmersiveBackground";
 import Home from "./pages/Home";
 import ProjectPage from "./pages/ProjectPage";
 import { useLanguage } from "./hooks/useLanguage";
 import { projects } from "./data/projects";
 
-window.addEventListener("error", (e) => {
-  const el = document.getElementById("loader");
-  if (el) {
-    el.innerHTML = `<div style="padding:40px;text-align:center;color:#ef4444;font-family:monospace;font-size:14px">
-      <strong>Error loading app</strong><br><br>
-      <code style="color:#94a3b8">${e.message || "Unknown error"}</code>
-    </div>`;
-  }
-});
+const hasWebGL = (() => {
+  try {
+    const c = document.createElement("canvas");
+    return !!(c.getContext("webgl") || c.getContext("webgl2"));
+  } catch { return false }
+})();
 
 function PageTransition({ children }) {
   return (
@@ -30,6 +26,20 @@ function PageTransition({ children }) {
       {children}
     </motion.div>
   );
+}
+
+function BackgroundWrap() {
+  const [Bg, setBg] = useState(null);
+  useEffect(() => {
+    if (hasWebGL) {
+      import("./components/background/ImmersiveBackground").then(
+        (m) => setBg(() => m.default),
+        () => {}
+      );
+    }
+  }, []);
+  if (!Bg) return null;
+  return <Bg />;
 }
 
 export default function App() {
@@ -58,7 +68,7 @@ export default function App() {
 
   return (
     <div className={`app ${isRtl ? "rtl" : "ltr"}`}>
-      <ImmersiveBackground />
+      <BackgroundWrap />
       <div className="page-shell">
         <Header t={t} language={language} setLanguage={setLanguage} isRtl={isRtl} />
 

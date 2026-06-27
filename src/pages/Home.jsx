@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -9,7 +9,6 @@ import { profile } from "../data/profile";
 import { projects, specialties } from "../data/projects";
 import { Reveal, RevealGroup, TextReveal } from "../components/ScrollReveal";
 import ProjectCard from "../components/ProjectCard";
-import HeroCore3D from "../components/hero/HeroCore3D";
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -20,6 +19,21 @@ const fadeUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
 };
+
+function HeroVisual() {
+  const [Hero, setHero] = useState(null);
+  useEffect(() => {
+    import("../components/hero/HeroCore3D").then(
+      (m) => setHero(() => m.default),
+      () => {}
+    );
+  }, []);
+  return (
+    <div className="hero-canvas-wrap">
+      {Hero ? <Hero /> : <div className="hero-canvas-placeholder" />}
+    </div>
+  );
+}
 
 export default function Home({ t, language, isRtl }) {
   const contactLinks = useMemo(() => [
@@ -41,42 +55,26 @@ export default function Home({ t, language, isRtl }) {
             initial="hidden"
             animate="visible"
           >
-            <motion.p
-              className="hero-kicker"
-              variants={fadeUp}
-            >
+            <motion.p className="hero-kicker" variants={fadeUp}>
               {t.heroKicker}
             </motion.p>
             <h1>
               <TextReveal delay={0.15}>{t.headline}</TextReveal>
             </h1>
-            <motion.p
-              className="hero-intro"
-              variants={fadeUp}
-            >
+            <motion.p className="hero-intro" variants={fadeUp}>
               {t.intro}
             </motion.p>
-            <motion.div
-              className="hero-actions"
-              variants={fadeUp}
-            >
-              <Magnetic>
-                <button className="btn btn-primary" type="button" onClick={() => scrollTo("#projects")}>
-                  <Layers3 size={16} />
-                  {t.primary}
-                </button>
-              </Magnetic>
-              <Magnetic strength={9}>
-                <button className="btn btn-ghost" type="button" onClick={() => scrollTo("#about")}>
-                  <UserRound size={16} />
-                  {t.secondary}
-                </button>
-              </Magnetic>
+            <motion.div className="hero-actions" variants={fadeUp}>
+              <button className="btn btn-primary" type="button" onClick={() => scrollTo("#projects")}>
+                <Layers3 size={16} />
+                {t.primary}
+              </button>
+              <button className="btn btn-ghost" type="button" onClick={() => scrollTo("#about")}>
+                <UserRound size={16} />
+                {t.secondary}
+              </button>
             </motion.div>
-            <motion.div
-              className="hero-specs"
-              variants={fadeUp}
-            >
+            <motion.div className="hero-specs" variants={fadeUp}>
               {t.specialties.map((item) => (
                 <span key={item}>
                   <CheckCircle2 size={12} />
@@ -92,9 +90,7 @@ export default function Home({ t, language, isRtl }) {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, ease: [0.2, 0.7, 0.2, 1], delay: 0.15 }}
           >
-            <div className="hero-canvas-wrap">
-              <HeroCore3D />
-            </div>
+            <HeroVisual />
             <div className="hero-badge">
               <span>{t.heroSubtitle}</span>
             </div>
@@ -216,12 +212,10 @@ export default function Home({ t, language, isRtl }) {
             </p>
             <h2>{t.contactTitle}</h2>
             <p>{t.contactLead}</p>
-            <Magnetic strength={10}>
-              <a className="btn btn-primary contact-cta" href={profile.telegram}>
-                <Send size={16} />
-                {t.contactButton}
-              </a>
-            </Magnetic>
+            <a className="btn btn-primary contact-cta" href={profile.telegram}>
+              <Send size={16} />
+              {t.contactButton}
+            </a>
           </Reveal>
           <RevealGroup className="contact-links">
             {contactLinks.map(([Icon, label, href, text]) => (
