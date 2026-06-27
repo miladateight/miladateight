@@ -69,6 +69,7 @@ export default function HeroBackground() {
       cx = w / 2;
       cy = h / 2;
       generateGrid();
+      if (reduce) drawFallback();
     }
 
     function draw(time) {
@@ -77,7 +78,6 @@ export default function HeroBackground() {
 
       if (reduce) {
         drawFallback();
-        frameId = requestAnimationFrame(draw);
         return;
       }
 

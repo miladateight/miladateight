@@ -1,0 +1,241 @@
+import { useEffect, useMemo } from "react";
+import { useLocation } from "react-router-dom";
+import { projects } from "../data/projects";
+import { profile } from "../data/profile";
+import { localize } from "../utils/localize";
+
+const siteUrl = "https://ateight.xyz";
+const ogImage = `${siteUrl}/og-image.svg`;
+
+const pageCopy = {
+  home: {
+    title: {
+      en: "Milad Ateight | AT8 - Infrastructure, Networks, DevOps and Web Systems",
+      fa: "میلاد ایت‌ایت | AT8 - زیرساخت، شبکه، DevOps و سیستم‌های وب",
+      ar: "ميلاد أتيت | AT8 - البنية التحتية والشبكات وDevOps وأنظمة الويب",
+      de: "Milad Ateight | AT8 - Infrastruktur, Netzwerke, DevOps und Web-Systeme",
+    },
+    description: {
+      en: "Milad Ateight is an IT specialist focused on infrastructure, networks, server administration, DevOps, cloud, web and mail systems, programming, and automation.",
+      fa: "میلاد ایت‌ایت متخصص IT با تمرکز بر زیرساخت، شبکه، مدیریت سرور، DevOps، ابر، سیستم‌های وب و ایمیل، برنامه‌نویسی و اتوماسیون است.",
+      ar: "ميلاد أتيت متخصص تقنية معلومات يركز على البنية التحتية والشبكات وإدارة الخوادم وDevOps والسحابة وأنظمة الويب والبريد والبرمجة والأتمتة.",
+      de: "Milad Ateight ist IT-Spezialist mit Fokus auf Infrastruktur, Netzwerke, Serveradministration, DevOps, Cloud, Web- und Mail-Systeme, Programmierung und Automatisierung.",
+    },
+  },
+  about: {
+    title: {
+      en: "About Milad Ateight | AT8",
+      fa: "درباره میلاد ایت‌ایت | AT8",
+      ar: "عن ميلاد أتيت | AT8",
+      de: "Über Milad Ateight | AT8",
+    },
+    description: {
+      en: "Learn about Milad Ateight's work across IT operations, network infrastructure, Linux and Windows servers, web and mail systems, DevOps, cloud, and automation.",
+      fa: "با کار میلاد ایت‌ایت در عملیات IT، زیرساخت شبکه، سرورهای لینوکس و ویندوز، سیستم‌های وب و ایمیل، DevOps، ابر و اتوماسیون آشنا شوید.",
+      ar: "تعرف على عمل ميلاد أتيت في عمليات تقنية المعلومات وبنية الشبكات وخوادم Linux وWindows وأنظمة الويب والبريد وDevOps والسحابة والأتمتة.",
+      de: "Erfahre mehr über Milad Ateights Arbeit in IT-Betrieb, Netzwerkinfrastruktur, Linux- und Windows-Servern, Web- und Mail-Systemen, DevOps, Cloud und Automatisierung.",
+    },
+  },
+  contact: {
+    title: {
+      en: "Contact Milad Ateight | AT8",
+      fa: "تماس با میلاد ایت‌ایت | AT8",
+      ar: "تواصل مع ميلاد أتيت | AT8",
+      de: "Kontakt zu Milad Ateight | AT8",
+    },
+    description: {
+      en: "Contact Milad Ateight through email, GitHub, or Telegram for infrastructure work, project review, automation, and technical collaboration.",
+      fa: "برای کارهای زیرساختی، بررسی پروژه، اتوماسیون و همکاری فنی از طریق ایمیل، گیت‌هاب یا تلگرام با میلاد ایت‌ایت تماس بگیرید.",
+      ar: "تواصل مع ميلاد أتيت عبر البريد الإلكتروني أو GitHub أو Telegram لأعمال البنية التحتية ومراجعة المشاريع والأتمتة والتعاون التقني.",
+      de: "Kontaktiere Milad Ateight per E-Mail, GitHub oder Telegram für Infrastrukturarbeit, Projekt-Reviews, Automatisierung und technische Zusammenarbeit.",
+    },
+  },
+  notFound: {
+    title: {
+      en: "Page Not Found | AT8",
+      fa: "صفحه پیدا نشد | AT8",
+      ar: "الصفحة غير موجودة | AT8",
+      de: "Seite nicht gefunden | AT8",
+    },
+    description: {
+      en: "The requested AT8 portfolio page could not be found.",
+      fa: "صفحه درخواستی در پورتفولیوی AT8 پیدا نشد.",
+      ar: "تعذر العثور على صفحة AT8 المطلوبة.",
+      de: "Die angeforderte AT8 Portfolio-Seite wurde nicht gefunden.",
+    },
+  },
+};
+
+function normalizePath(pathname) {
+  if (!pathname || pathname === "/") return "/";
+  return pathname.endsWith("/") ? pathname : `${pathname}/`;
+}
+
+function upsertMeta(selector, attrs) {
+  let node = document.head.querySelector(selector);
+  if (!node) {
+    node = document.createElement("meta");
+    document.head.appendChild(node);
+  }
+  Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, value));
+}
+
+function upsertCanonical(href) {
+  let node = document.head.querySelector('link[rel="canonical"]');
+  if (!node) {
+    node = document.createElement("link");
+    node.setAttribute("rel", "canonical");
+    document.head.appendChild(node);
+  }
+  node.setAttribute("href", href);
+}
+
+function setRouteJsonLd(items) {
+  document.head.querySelectorAll('script[data-at8-route-jsonld="true"]').forEach((node) => node.remove());
+  items.forEach((item) => {
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.dataset.at8RouteJsonld = "true";
+    script.textContent = JSON.stringify(item);
+    document.head.appendChild(script);
+  });
+}
+
+function getProject(pathname) {
+  const normalized = normalizePath(pathname);
+  return projects.find((project) => normalizePath(project.pageUrl) === normalized);
+}
+
+function breadcrumbJsonLd(items) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+}
+
+function personJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: profile.name,
+    url: profile.website,
+    email: profile.email,
+    jobTitle: "IT Specialist",
+    sameAs: [profile.github, profile.telegram],
+    knowsAbout: [
+      "IT operations",
+      "Network infrastructure",
+      "MikroTik",
+      "Linux server administration",
+      "Windows Server",
+      "DevOps",
+      "Cloud",
+      "Web development",
+      "Mail systems",
+      "Automation",
+    ],
+  };
+}
+
+function websiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "AT8 Portfolio",
+    url: siteUrl,
+    author: { "@type": "Person", name: profile.name },
+  };
+}
+
+export default function SeoManager({ language }) {
+  const location = useLocation();
+
+  const seo = useMemo(() => {
+    const normalized = normalizePath(location.pathname);
+    const project = getProject(normalized);
+    const is404 = !project && !["/", "/about/", "/contact/"].includes(normalized);
+    const canonical = `${siteUrl}${normalized}`;
+
+    if (project) {
+      const title = `${project.title} | AT8 Project`;
+      const description = localize(project.lines, language);
+      return {
+        title,
+        description,
+        canonical,
+        robots: "index,follow",
+        jsonLd: [
+          breadcrumbJsonLd([
+            { name: "Home", url: siteUrl },
+            { name: "Projects", url: `${siteUrl}/#projects` },
+            { name: project.title, url: canonical },
+          ]),
+          {
+            "@context": "https://schema.org",
+            "@type": project.slug === "hybrid-web-mail-infrastructure" ? "CreativeWork" : "SoftwareApplication",
+            name: project.title,
+            url: canonical,
+            description,
+            applicationCategory: localize(project.type, language),
+            programmingLanguage: project.stack,
+            author: { "@type": "Person", name: profile.name, url: profile.website },
+            codeRepository: project.url,
+          },
+        ],
+      };
+    }
+
+    const key = normalized === "/about/" ? "about" : normalized === "/contact/" ? "contact" : is404 ? "notFound" : "home";
+    return {
+      title: localize(pageCopy[key].title, language),
+      description: localize(pageCopy[key].description, language),
+      canonical: is404 ? `${siteUrl}${normalized}` : canonical,
+      robots: is404 ? "noindex,follow" : "index,follow",
+      jsonLd: [
+        key === "home" ? personJsonLd() : null,
+        key === "home" ? websiteJsonLd() : null,
+        key === "about"
+          ? {
+              "@context": "https://schema.org",
+              "@type": "ProfilePage",
+              name: localize(pageCopy.about.title, language),
+              url: canonical,
+              mainEntity: personJsonLd(),
+            }
+          : null,
+        key !== "home"
+          ? breadcrumbJsonLd([
+              { name: "Home", url: siteUrl },
+              { name: key === "about" ? "About" : key === "contact" ? "Contact" : "404", url: canonical },
+            ])
+          : null,
+      ].filter(Boolean),
+    };
+  }, [language, location.pathname]);
+
+  useEffect(() => {
+    document.title = seo.title;
+    upsertMeta('meta[name="description"]', { name: "description", content: seo.description });
+    upsertMeta('meta[name="robots"]', { name: "robots", content: seo.robots });
+    upsertMeta('meta[property="og:type"]', { property: "og:type", content: "website" });
+    upsertMeta('meta[property="og:url"]', { property: "og:url", content: seo.canonical });
+    upsertMeta('meta[property="og:title"]', { property: "og:title", content: seo.title });
+    upsertMeta('meta[property="og:description"]', { property: "og:description", content: seo.description });
+    upsertMeta('meta[property="og:image"]', { property: "og:image", content: ogImage });
+    upsertMeta('meta[property="og:site_name"]', { property: "og:site_name", content: "AT8 Portfolio" });
+    upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: "summary_large_image" });
+    upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: seo.title });
+    upsertMeta('meta[name="twitter:description"]', { name: "twitter:description", content: seo.description });
+    upsertMeta('meta[name="twitter:image"]', { name: "twitter:image", content: ogImage });
+    upsertCanonical(seo.canonical);
+    setRouteJsonLd(seo.jsonLd);
+  }, [seo]);
+
+  return null;
+}

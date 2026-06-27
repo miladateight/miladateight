@@ -4,7 +4,7 @@ const springReveal = { type: "spring", stiffness: 260, damping: 24, mass: 0.8 };
 
 export function Reveal({ children, className = "", as, delay = 0 }) {
   const reduce = useReducedMotion();
-  const Tag = as || motion.div;
+  const Tag = typeof as === "string" ? motion[as] : as || motion.div;
   return (
     <Tag
       className={className}

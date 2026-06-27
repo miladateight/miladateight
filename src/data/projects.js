@@ -2,16 +2,17 @@ import { Wrench, Network, Server, Bot } from "lucide-react";
 import { repos } from "./profile";
 
 export const projectAccents = {
-  keyfix: "#34D399",
-  netdoctor: "#34D399",
-  hwmi: "#34D399",
-  downloader: "#34D399"
+  keyfix: "#2dd4bf",
+  netdoctor: "#38bdf8",
+  hwmi: "#8b5cf6",
+  downloader: "#e879f9"
 };
 
 export const projects = [
   {
     slug: "keyfix",
     accent: "keyfix",
+    visualTone: "precision-input",
     title: "KeyFix",
     type: {
       en: "Privacy-first Windows utility",
@@ -34,6 +35,7 @@ export const projects = [
   {
     slug: "netdoctor",
     accent: "netdoctor",
+    visualTone: "network-diagnostics",
     title: "NetDoctor",
     type: {
       en: "Network diagnosis and safe repair",
@@ -56,6 +58,7 @@ export const projects = [
   {
     slug: "hybrid-web-mail-infrastructure",
     accent: "hwmi",
+    visualTone: "infrastructure-map",
     title: "Hybrid Web & Mail Infrastructure",
     type: {
       en: "Production case study",
@@ -78,6 +81,7 @@ export const projects = [
   {
     slug: "instagram-youtube-soundcloud-downloader",
     accent: "downloader",
+    visualTone: "automation-flow",
     title: "Media Downloader Bot",
     type: {
       en: "Telegram automation",
