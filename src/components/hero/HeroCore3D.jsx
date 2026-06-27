@@ -2,9 +2,8 @@ import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const NODES = 24;
+const NODES = 32;
 const RADIUS = 2.4;
-const CONNECT_DIST = RADIUS * 0.55;
 
 function randomSpherePoints(n, r) {
   const pts = [];
@@ -22,13 +21,14 @@ function randomSpherePoints(n, r) {
 
 function NetworkTopology() {
   const groupRef = useRef();
+  const glowRef = useRef();
   const nodePositions = useMemo(() => randomSpherePoints(NODES, RADIUS), []);
 
   const connections = useMemo(() => {
     const c = [];
     for (let i = 0; i < nodePositions.length; i++) {
       for (let j = i + 1; j < nodePositions.length; j++) {
-        if (nodePositions[i].distanceTo(nodePositions[j]) < CONNECT_DIST) {
+        if (nodePositions[i].distanceTo(nodePositions[j]) < RADIUS * 0.5) {
           c.push([i, j]);
         }
       }
@@ -51,24 +51,28 @@ function NetworkTopology() {
     return g;
   }, [linePositions]);
 
-  const dotPositions = useMemo(() => {
-    const positions = [];
-    for (let i = 0; i < NODES; i++) {
-      const angle = (i / NODES) * Math.PI * 2;
-      const r2 = RADIUS + 0.3 + Math.sin(i * 1.7) * 0.3;
-      positions.push(new THREE.Vector3(
-        Math.cos(angle) * r2,
-        Math.sin(angle * 2.3) * 0.5,
-        Math.sin(angle) * r2
-      ));
+  const particles = useMemo(() => {
+    const p = new Float32Array(60 * 3);
+    for (let i = 0; i < 60; i++) {
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      const r = 0.5 + Math.random() * 0.8;
+      p[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+      p[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      p[i * 3 + 2] = r * Math.cos(phi);
     }
-    return positions;
+    return p;
   }, []);
 
   useFrame((state, delta) => {
+    const t = state.clock.elapsedTime;
     if (groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.12;
-      groupRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.05) * 0.04;
+      groupRef.current.rotation.y += delta * 0.1;
+      groupRef.current.rotation.x = Math.sin(t * 0.04) * 0.03;
+    }
+    if (glowRef.current) {
+      glowRef.current.scale.setScalar(1 + Math.sin(t * 0.3) * 0.08);
+      glowRef.current.material.opacity = 0.04 + Math.sin(t * 0.4) * 0.02;
     }
   });
 
@@ -79,26 +83,31 @@ function NetworkTopology() {
         <meshBasicMaterial color="#22d394" wireframe transparent opacity={0.04} />
       </mesh>
 
+      <mesh ref={glowRef}>
+        <sphereGeometry args={[RADIUS * 0.6, 16, 16]} />
+        <meshBasicMaterial color="#22d394" transparent opacity={0.04} />
+      </mesh>
+
       <lineSegments geometry={lineGeom}>
-        <lineBasicMaterial color="#22d394" transparent opacity={0.12} />
+        <lineBasicMaterial color="#22d394" transparent opacity={0.1} />
       </lineSegments>
 
       {nodePositions.map((pos, i) => {
-        const pulse = Math.sin(i * 1.3) * 0.3 + 0.7;
+        const pulse = Math.sin(i * 1.7) * 0.4 + 0.6;
         return (
           <mesh key={i} position={pos}>
-            <sphereGeometry args={[0.04 + pulse * 0.02, 6, 6]} />
-            <meshBasicMaterial color="#22d394" transparent opacity={0.5 * pulse} />
+            <sphereGeometry args={[0.035 + pulse * 0.025, 6, 6]} />
+            <meshBasicMaterial color="#22d394" transparent opacity={0.35 * pulse} />
           </mesh>
         );
       })}
 
-      {dotPositions.slice(0, 6).map((pos, i) => (
-        <mesh key={`orb-${i}`} position={pos}>
-          <sphereGeometry args={[0.015, 4, 4]} />
-          <meshBasicMaterial color="#22d394" transparent opacity={0.3} />
-        </mesh>
-      ))}
+      <points>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" count={60} array={particles} itemSize={3} />
+        </bufferGeometry>
+        <pointsMaterial color="#22d394" size={0.015} transparent opacity={0.15} sizeAttenuation blending={THREE.AdditiveBlending} depthWrite={false} />
+      </points>
     </group>
   );
 }
