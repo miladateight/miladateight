@@ -20,6 +20,11 @@ const fadeUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
 };
 
+const fadeLeft = {
+  hidden: { opacity: 0, x: -20 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+};
+
 function HeroVisual() {
   const [Hero, setHero] = useState(null);
   useEffect(() => {
@@ -34,6 +39,11 @@ function HeroVisual() {
     </div>
   );
 }
+
+const floatBadge = {
+  y: [0, -6, 0],
+  transition: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+};
 
 export default function Home({ t, language, isRtl }) {
   const contactLinks = useMemo(() => [
@@ -76,10 +86,14 @@ export default function Home({ t, language, isRtl }) {
             </motion.div>
             <motion.div className="hero-specs" variants={fadeUp}>
               {t.specialties.map((item) => (
-                <span key={item}>
+                <motion.span
+                  key={item}
+                  whileHover={{ scale: 1.05, borderColor: "var(--accent)" }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                >
                   <CheckCircle2 size={12} />
                   {item}
-                </span>
+                </motion.span>
               ))}
             </motion.div>
           </motion.div>
@@ -91,9 +105,9 @@ export default function Home({ t, language, isRtl }) {
             transition={{ duration: 0.7, ease: [0.2, 0.7, 0.2, 1], delay: 0.15 }}
           >
             <HeroVisual />
-            <div className="hero-badge">
+            <motion.div className="hero-badge" animate={floatBadge}>
               <span>{t.heroSubtitle}</span>
-            </div>
+            </motion.div>
           </motion.div>
         </section>
       </div>
@@ -101,6 +115,13 @@ export default function Home({ t, language, isRtl }) {
       <div className="page-container">
         <section id="about" className="section">
           <Reveal className="section-heading">
+            <motion.div
+              initial={{ width: 0 }}
+              whileInView={{ width: "100%" }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              style={{ height: 2, background: "var(--accent)", opacity: 0.2, marginBottom: 16, borderRadius: 2 }}
+            />
             <p className="eyebrow">
               <ShieldCheck size={15} />
               {t.nav[1]}
@@ -132,7 +153,7 @@ export default function Home({ t, language, isRtl }) {
             {specialties.map((spec, i) => {
               const label = spec[language] || spec.en;
               return (
-                <Reveal className="spec-card" as="div" key={label}>
+                <Reveal className="spec-card" as={motion.div} key={label} whileHover={{ scale: 1.02, transition: { type: "spring", stiffness: 400, damping: 10 } }}>
                   <span className="card-num">{String(i + 1).padStart(2, "0")}</span>
                   <span>{label}</span>
                 </Reveal>
@@ -212,14 +233,22 @@ export default function Home({ t, language, isRtl }) {
             </p>
             <h2>{t.contactTitle}</h2>
             <p>{t.contactLead}</p>
-            <a className="btn btn-primary contact-cta" href={profile.telegram}>
+            <motion.a
+              className="btn btn-primary contact-cta"
+              href={profile.telegram}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            >
               <Send size={16} />
               {t.contactButton}
-            </a>
+            </motion.a>
           </Reveal>
           <RevealGroup className="contact-links">
             {contactLinks.map(([Icon, label, href, text]) => (
-              <Reveal className="contact-link" as="a" href={href} key={label}>
+              <Reveal className="contact-link" as={motion.a} href={href} key={label}
+                whileHover={{ y: -5, borderColor: "var(--accent)", transition: { type: "spring", stiffness: 300, damping: 15 } }}
+              >
                 <Icon size={18} />
                 <span>{label}</span>
                 <small>{text}</small>

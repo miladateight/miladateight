@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { projects } from "../data/projects";
 import at8Logo from "../assets/at8-logo.png?inline";
@@ -39,9 +40,12 @@ export default function Header({ t, language, setLanguage, isRtl }) {
     <header className={`at8-header ${isRtl ? "rtl" : ""}`}>
       <div className="header-inner">
         <Link to="/" className="header-brand">
-          <span className="header-brand-mark">
+          <motion.span className="header-brand-mark"
+            animate={{ boxShadow: ["0 0 28px var(--accent-glow)", "0 0 40px var(--accent-glow)", "0 0 28px var(--accent-glow)"] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          >
             <img src={at8Logo} alt="" aria-hidden="true" />
-          </span>
+          </motion.span>
           <span className="header-brand-text">
             <strong>Milad</strong>
             <small>AT8</small>
