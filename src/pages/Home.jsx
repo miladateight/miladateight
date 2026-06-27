@@ -1,4 +1,4 @@
-import { useMemo, Suspense, lazy } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -9,6 +9,7 @@ import { profile } from "../data/profile";
 import { projects, specialties } from "../data/projects";
 import { Reveal, RevealGroup, TextReveal } from "../components/ScrollReveal";
 import ProjectCard from "../components/ProjectCard";
+import HeroCore3D from "../components/hero/HeroCore3D";
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -92,9 +93,7 @@ export default function Home({ t, language, isRtl }) {
             transition={{ duration: 0.7, ease: [0.2, 0.7, 0.2, 1], delay: 0.15 }}
           >
             <div className="hero-canvas-wrap">
-              <Suspense fallback={<div style={{ width: "100%", height: "100%" }} />}>
-                <HeroCore3D />
-              </Suspense>
+              <HeroCore3D />
             </div>
             <div className="hero-badge">
               <span>{t.heroSubtitle}</span>

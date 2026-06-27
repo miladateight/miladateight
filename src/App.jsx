@@ -1,28 +1,23 @@
-import { Suspense, lazy, Component } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import ImmersiveBackground from "./components/background/ImmersiveBackground";
 import Home from "./pages/Home";
 import ProjectPage from "./pages/ProjectPage";
 import { useLanguage } from "./hooks/useLanguage";
 import { projects } from "./data/projects";
 
-const ImmersiveBackground = lazy(() => import("./components/background/ImmersiveBackground"));
-
-class ErrorBoundary extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
+window.addEventListener("error", (e) => {
+  const el = document.getElementById("loader");
+  if (el) {
+    el.innerHTML = `<div style="padding:40px;text-align:center;color:#ef4444;font-family:monospace;font-size:14px">
+      <strong>Error loading app</strong><br><br>
+      <code style="color:#94a3b8">${e.message || "Unknown error"}</code>
+    </div>`;
   }
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-  render() {
-    return this.state.hasError ? null : this.props.children;
-  }
-}
+});
 
 function PageTransition({ children }) {
   return (
@@ -42,6 +37,10 @@ export default function App() {
   const location = useLocation();
 
   useEffect(() => {
+    document.getElementById("loader")?.remove();
+  }, []);
+
+  useEffect(() => {
     document.body.classList.toggle("rtl", isRtl);
     document.documentElement.dir = dir;
     document.documentElement.lang = language;
@@ -57,17 +56,9 @@ export default function App() {
     }
   }, [location]);
 
-  const currentProject = projects.find(
-    (p) => location.pathname === p.pageUrl || location.pathname.startsWith(p.pageUrl)
-  );
-
   return (
     <div className={`app ${isRtl ? "rtl" : "ltr"}`}>
-      <ErrorBoundary>
-        <Suspense fallback={null}>
-          <ImmersiveBackground />
-        </Suspense>
-      </ErrorBoundary>
+      <ImmersiveBackground />
       <div className="page-shell">
         <Header t={t} language={language} setLanguage={setLanguage} isRtl={isRtl} />
 
