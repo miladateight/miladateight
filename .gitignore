@@ -1,0 +1,16 @@
+node_modules/
+dist/
+Milad-Portfolio.html
+.env
+.DS_Store
+Thumbs.db
+.claude/
+.codex/
+.agents/
+.chrome-*/
+skills/
+src/ui-ux-pro-max/
+hybrid-*-check*.png
+hybrid-mail-*-check*.png
+KeyFix.html
+NetDoctor.html
