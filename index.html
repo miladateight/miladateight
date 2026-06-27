@@ -3,120 +3,131 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0A0E17" />
+    <meta name="theme-color" content="#06080d" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta
-      name="description"
-      content="Milad Ateight (AT8): IT specialist working across network infrastructure, MikroTik, Linux and Windows servers, web and mail systems, DevOps, and tooling."
-    />
-    <title>Milad Ateight | AT8 Portfolio</title>
+
+    <!-- SEO -->
+    <title>Milad Ateight | AT8 — IT Specialist, Infrastructure & Networks</title>
+    <meta name="description" content="Milad Ateight (AT8): IT specialist in network infrastructure, MikroTik, Linux and Windows servers, DevOps, web and mail systems, and automation." />
+    <link rel="canonical" href="https://ateight.xyz/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ateight.xyz/" />
+    <meta property="og:title" content="Milad Ateight | AT8 — IT Specialist" />
+    <meta property="og:description" content="IT specialist in network infrastructure, servers, DevOps, web systems, and automation." />
+    <meta property="og:image" content="https://ateight.xyz/og-image.png" />
+    <meta property="og:site_name" content="AT8 Portfolio" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Milad Ateight | AT8 — IT Specialist" />
+    <meta name="twitter:description" content="IT specialist in network infrastructure, servers, DevOps, web systems, and automation." />
+    <meta name="twitter:image" content="https://ateight.xyz/og-image.png" />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap"
-    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Milad Ateight",
+      "url": "https://ateight.xyz",
+      "jobTitle": "IT Specialist",
+      "description": "IT specialist in network infrastructure, MikroTik, Linux and Windows servers, DevOps, web and mail systems, and automation.",
+      "sameAs": [
+        "https://github.com/miladateight",
+        "https://t.me/MiladAteight"
+      ],
+      "knowsAbout": [
+        "Network Infrastructure",
+        "MikroTik",
+        "Linux Server Administration",
+        "Windows Server",
+        "DevOps",
+        "Cloud Computing",
+        "Web Development",
+        "Mail Systems",
+        "Automation",
+        "Python",
+        ".NET"
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "AT8 Portfolio",
+      "url": "https://ateight.xyz",
+      "author": {
+        "@type": "Person",
+        "name": "Milad Ateight"
+      }
+    }
+    </script>
+
     <style>
       .loader-root {
         position: fixed; inset: 0;
         display: flex; flex-direction: column;
         align-items: center; justify-content: center;
-        background: #030712;
-        color: #94a3b8;
+        background: #06080d;
+        color: #6b7a96;
         font-family: 'Space Grotesk', sans-serif;
         z-index: 9999;
-        transition: opacity 0.4s ease;
+        transition: opacity 0.35s ease;
       }
-      .loader-root.fade-out {
-        opacity: 0;
-        pointer-events: none;
-      }
-      .loader-logo {
-        width: 80px; height: 80px;
-        position: relative;
-        margin-bottom: 36px;
-      }
-      .loader-emblem {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 26px;
-        font-weight: 700;
-        color: #22d394;
-        letter-spacing: -0.03em;
-        z-index: 2;
-        text-shadow: 0 0 40px rgba(34,211,148,0.3);
-      }
-      .loader-glow {
-        position: absolute;
-        inset: -12px;
+      .loader-root.fade-out { opacity: 0; pointer-events: none; }
+      .loader-mark {
+        width: 64px; height: 64px;
+        display: grid; place-items: center;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(34,211,148,0.08) 0%, transparent 70%);
-        animation: breathe 2.4s ease-in-out infinite;
+        background: linear-gradient(135deg, #38bdf8, #8b5cf6);
+        color: #fff;
+        font-family: 'Fira Code', monospace;
+        font-size: 18px; font-weight: 700;
+        letter-spacing: -0.03em;
+        margin-bottom: 28px;
+        box-shadow: 0 0 40px rgba(56,189,248,0.2);
+        animation: loaderBreathe 2s ease-in-out infinite;
       }
-      .loader-corner-tl, .loader-corner-tr, .loader-corner-bl, .loader-corner-br {
-        position: absolute;
-        width: 16px; height: 16px;
-        border-color: #22d394;
-        border-style: solid;
-        opacity: 0.5;
-        animation: corner-pulse 2s ease-in-out infinite;
+      @keyframes loaderBreathe {
+        0%, 100% { transform: scale(0.95); opacity: 0.7; }
+        50% { transform: scale(1.05); opacity: 1; }
       }
-      .loader-corner-tl { top: 0; left: 0; border-width: 2px 0 0 2px; }
-      .loader-corner-tr { top: 0; right: 0; border-width: 2px 2px 0 0; }
-      .loader-corner-bl { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
-      .loader-corner-br { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
-      .loader-corner-tr { animation-delay: 0.5s; }
-      .loader-corner-bl { animation-delay: 1s; }
-      .loader-corner-br { animation-delay: 1.5s; }
       .loader-bar {
-        width: 120px; height: 2px;
-        background: rgba(34,211,148,0.1);
+        width: 100px; height: 2px;
+        background: rgba(56,189,248,0.1);
         border-radius: 2px;
         overflow: hidden;
-        margin-bottom: 16px;
+        margin-bottom: 14px;
       }
       .loader-bar-fill {
-        height: 100%;
-        width: 30%;
-        background: linear-gradient(90deg, transparent, #22d394, transparent);
+        height: 100%; width: 30%;
+        background: linear-gradient(90deg, transparent, #38bdf8, transparent);
         border-radius: 2px;
-        animation: bar-sweep 1.5s ease-in-out infinite;
+        animation: loaderSweep 1.4s ease-in-out infinite;
       }
-      .loader-text {
-        font-size: 12px;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        opacity: 0.4;
-      }
-      @keyframes breathe {
-        0%, 100% { transform: scale(0.9); opacity: 0.5; }
-        50% { transform: scale(1.1); opacity: 1; }
-      }
-      @keyframes corner-pulse {
-        0%, 100% { opacity: 0.3; }
-        50% { opacity: 0.8; }
-      }
-      @keyframes bar-sweep {
+      @keyframes loaderSweep {
         0% { transform: translateX(-100%); }
         100% { transform: translateX(400%); }
+      }
+      .loader-text {
+        font-size: 11px; letter-spacing: 0.15em;
+        text-transform: uppercase; opacity: 0.4;
       }
     </style>
   </head>
   <body>
     <div id="root">
       <div class="loader-root" id="loader">
-        <div class="loader-logo">
-          <div class="loader-glow"></div>
-          <div class="loader-corner-tl"></div>
-          <div class="loader-corner-tr"></div>
-          <div class="loader-corner-bl"></div>
-          <div class="loader-corner-br"></div>
-          <div class="loader-emblem">AT8</div>
-        </div>
+        <div class="loader-mark">AT8</div>
         <div class="loader-bar"><div class="loader-bar-fill"></div></div>
         <div class="loader-text">Loading</div>
       </div>

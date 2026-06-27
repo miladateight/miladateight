@@ -1,17 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 import ProjectPage from "./pages/ProjectPage";
+import NotFound from "./pages/NotFound";
 import { useLanguage } from "./hooks/useLanguage";
 import { projects } from "./data/projects";
-
-const hasWebGL = (() => {
-  try { const c = document.createElement("canvas"); return !!(c.getContext("webgl") || c.getContext("webgl2")); }
-  catch { return false }
-})();
 
 const pageSpring = { type: "spring", stiffness: 200, damping: 25, mass: 0.8 };
 
@@ -27,19 +25,6 @@ function PageTransition({ children }) {
       {children}
     </motion.div>
   );
-}
-
-function BackgroundWrap() {
-  const [Bg, setBg] = useState(null);
-  useEffect(() => {
-    if (hasWebGL) {
-      import("./components/background/ImmersiveBackground").then(
-        (m) => setBg(() => m.default), () => {}
-      );
-    }
-  }, []);
-  if (!Bg) return null;
-  return <Bg />;
 }
 
 export default function App() {
@@ -62,18 +47,20 @@ export default function App() {
 
   return (
     <div className={`app ${isRtl ? "rtl" : "ltr"}`}>
-      <BackgroundWrap />
       <div className="page-shell">
         <Header t={t} language={language} setLanguage={setLanguage} isRtl={isRtl} />
         <main className="main-content">
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
               <Route path="/" element={<PageTransition><Home t={t} language={language} isRtl={isRtl} /></PageTransition>} />
+              <Route path="/about" element={<PageTransition><About t={t} language={language} /></PageTransition>} />
+              <Route path="/contact" element={<PageTransition><Contact t={t} language={language} /></PageTransition>} />
               {projects.map((project) => (
                 <Route key={project.slug} path={project.pageUrl} element={
                   <PageTransition><ProjectPage project={project} language={language} t={t} /></PageTransition>
                 } />
               ))}
+              <Route path="*" element={<PageTransition><NotFound t={t} language={language} /></PageTransition>} />
             </Routes>
           </AnimatePresence>
         </main>
