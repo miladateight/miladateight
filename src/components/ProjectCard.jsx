@@ -8,10 +8,10 @@ export default function ProjectCard({ project, language, index }) {
   const ref = useRef(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 200, damping: 15 });
-  const springY = useSpring(y, { stiffness: 200, damping: 15 });
-  const rotateX = useTransform(y, [-100, 100], [6, -6]);
-  const rotateY = useTransform(x, [-100, 100], [-6, 6]);
+  const springX = useSpring(x, { stiffness: 200, damping: 18 });
+  const springY = useSpring(y, { stiffness: 200, damping: 18 });
+  const rotateX = useTransform(y, [-100, 100], [4, -4]);
+  const rotateY = useTransform(x, [-100, 100], [-4, 4]);
 
   const handleMove = (e) => {
     const rect = ref.current.getBoundingClientRect();
@@ -21,9 +21,9 @@ export default function ProjectCard({ project, language, index }) {
   const handleLeave = () => { x.set(0); y.set(0); };
 
   const Icon = project.Icon;
-  const glowOpacity = useTransform(x, [-100, 0, 100], [0, 0.9, 0]);
-  const glowX = useTransform(x, [-100, 0, 100], [-40, 0, 40]);
-  const glowY = useTransform(y, [-100, 0, 100], [-40, 0, 40]);
+  const glowOpacity = useTransform(x, [-100, 0, 100], [0, 0.7, 0]);
+  const glowX = useTransform(x, [-100, 0, 100], [-30, 0, 30]);
+  const glowY = useTransform(y, [-100, 0, 100], [-30, 0, 30]);
 
   return (
     <Reveal className="project-card" as="article">
@@ -32,36 +32,58 @@ export default function ProjectCard({ project, language, index }) {
         onMouseMove={handleMove}
         onMouseLeave={handleLeave}
         style={{ rotateX, rotateY, perspective: 1000, transformStyle: "preserve-3d", position: "relative" }}
-        transition={{ type: "spring", stiffness: 200, damping: 15 }}
       >
         <motion.div
-          className="project-card-glow"
-          style={{ opacity: glowOpacity, x: glowX, y: glowY }}
+          style={{
+            position: "absolute",
+            width: 160, height: 160,
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(56,189,248,0.1) 0%, transparent 70%)",
+            pointerEvents: "none",
+            top: -40, right: -40,
+            opacity: glowOpacity,
+            x: glowX, y: glowY,
+            zIndex: 0,
+          }}
           aria-hidden="true"
         />
-        <motion.div className="project-card-top"
-          style={{ transformStyle: "preserve-3d" }}>
-          <motion.div className="project-card-icon"
-            style={{ z: 30 }}
-            whileHover={{ scale: 1.15, rotate: [0, -8, 8, 0] }}
-            transition={{ duration: 0.3 }}>
+        <motion.div className="project-card-head" style={{ transformStyle: "preserve-3d" }}>
+          <motion.div
+            className="project-card-icon"
+            style={{ z: 20 }}
+            whileHover={{ scale: 1.1, rotate: [0, -6, 6, 0] }}
+            transition={{ duration: 0.25 }}
+          >
             <Icon size={18} />
           </motion.div>
-          <span className="project-card-tag" style={{ transform: "translateZ(20px)" }}>{project.tag[language]}</span>
+          <span className="project-card-tag" style={{ transform: "translateZ(16px)" }}>
+            {project.tag[language]}
+          </span>
         </motion.div>
         <motion.div className="project-card-body" style={{ transformStyle: "preserve-3d" }}>
-          <motion.p className="project-card-type" style={{ transform: "translateZ(15px)" }}>{project.type[language]}</motion.p>
-          <h3 style={{ transform: "translateZ(25px)" }}>{project.title}</h3>
-          <p style={{ transform: "translateZ(10px)" }}>{project.lines[language]}</p>
+          <motion.p className="project-card-type" style={{ transform: "translateZ(12px)" }}>
+            {project.type[language]}
+          </motion.p>
+          <h3 style={{ transform: "translateZ(20px)" }}>{project.title}</h3>
+          <p className="project-card-desc" style={{ transform: "translateZ(8px)" }}>
+            {project.lines[language]}
+          </p>
         </motion.div>
         <motion.div className="project-card-footer" style={{ transformStyle: "preserve-3d" }}>
-          <motion.small style={{ transform: "translateZ(15px)" }}>{project.stack}</motion.small>
-          <Link to={project.pageUrl} className="project-card-link" style={{ transform: "translateZ(20px)" }}>
-            {project.type[language]}
+          <span className="project-card-stack" style={{ transform: "translateZ(12px)" }}>
+            {project.stack}
+          </span>
+          <Link to={project.pageUrl} className="project-card-link" style={{ transform: "translateZ(16px)" }}>
+            {t_viewProject(language)}
             <ArrowUpRight size={14} />
           </Link>
         </motion.div>
       </motion.div>
     </Reveal>
   );
+}
+
+function t_viewProject(lang) {
+  const map = { en: "View project", fa: "مشاهده پروژه", ar: "عرض المشروع", de: "Projekt ansehen" };
+  return map[lang] || map.en;
 }
