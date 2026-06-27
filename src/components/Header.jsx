@@ -5,6 +5,8 @@ import { Menu, X } from "lucide-react";
 import { projects } from "../data/projects";
 import at8Logo from "../assets/at8-logo.png?inline";
 
+const springFast = { type: "spring", stiffness: 500, damping: 12 };
+
 export default function Header({ t, language, setLanguage, isRtl }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -26,15 +28,18 @@ export default function Header({ t, language, setLanguage, isRtl }) {
 
   useEffect(() => { setMobileOpen(false); setMenuOpen(false); }, [language, location]);
 
-  const navLink = (to, label) => (
-    <Link
-      to={to}
-      className={location.pathname === to || (to === "/" && isHome) ? "nav-active" : ""}
-      onClick={() => setMobileOpen(false)}
-    >
-      {label}
-    </Link>
-  );
+  const navLink = (to, label) => {
+    const active = location.pathname === to || (to === "/" && isHome);
+    return (
+      <motion.span style={{ display: "inline-flex" }} whileHover={{ scale: 1.05 }} transition={springFast}>
+        <Link to={to} className={active ? "nav-active" : ""} onClick={() => setMobileOpen(false)}>
+          <motion.span layoutId={active ? "nav-active" : undefined} style={{ position: "absolute", inset: 0, borderRadius: "var(--radius-pill)", background: "var(--accent-dim)", zIndex: -1 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }} />
+          {label}
+        </Link>
+      </motion.span>
+    );
+  };
 
   return (
     <header className={`at8-header ${isRtl ? "rtl" : ""}`}>

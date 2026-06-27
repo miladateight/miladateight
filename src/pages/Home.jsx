@@ -9,74 +9,36 @@ import { profile } from "../data/profile";
 import { projects, specialties } from "../data/projects";
 import { Reveal, RevealGroup, TextReveal } from "../components/ScrollReveal";
 import ProjectCard from "../components/ProjectCard";
+import { fadeUp, scaleIn, spring, springBouncy, stagger, slideLeft, slideRight } from "../utils/motion";
 
-const spring = { type: "spring", stiffness: 300, damping: 20 };
-const springSnap = { type: "spring", stiffness: 400, damping: 12 };
-const springGentle = { type: "spring", stiffness: 200, damping: 25 };
-
-const containerStagger = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.06, delayChildren: 0.08 } },
-};
-
-const itemFadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
-};
-
-const itemScaleIn = {
-  hidden: { opacity: 0, scale: 0.92 },
-  visible: { opacity: 1, scale: 1, transition: { ...spring, duration: 0.5 } },
-};
-
-const itemSlideLeft = {
-  hidden: { opacity: 0, x: -20 },
-  visible: { opacity: 1, x: 0, transition: { ...springGentle } },
-};
-
-const itemSlideRight = {
-  hidden: { opacity: 0, x: 20 },
-  visible: { opacity: 1, x: 0, transition: { ...springGentle } },
-};
-
-const floatBadge = {
-  y: [0, -8, 0],
-  transition: { duration: 3.5, repeat: Infinity, ease: "easeInOut" },
-};
+const hoverLift = { type: "spring", stiffness: 300, damping: 15 };
+const springFast = { type: "spring", stiffness: 500, damping: 12 };
 
 function HeroVisual() {
   const [Hero, setHero] = useState(null);
   const ref = useRef(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 150, damping: 15 });
-  const springY = useSpring(mouseY, { stiffness: 150, damping: 15 });
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const sx = useSpring(mx, { stiffness: 100, damping: 20 });
+  const sy = useSpring(my, { stiffness: 100, damping: 20 });
 
-  useEffect(() => {
-    import("../components/hero/HeroCore3D").then((m) => setHero(() => m.default), () => {});
-  }, []);
+  useEffect(() => { import("../components/hero/HeroCore3D").then(m => setHero(() => m.default), () => {}); }, []);
 
   const handleMouse = (e) => {
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    mouseX.set((e.clientX - cx) / rect.width * 10);
-    mouseY.set((e.clientY - cy) / rect.height * 10);
+    const r = ref.current?.getBoundingClientRect();
+    if (!r) return;
+    mx.set((e.clientX - r.left - r.width / 2) / r.width * 8);
+    my.set((e.clientY - r.top - r.height / 2) / r.height * 8);
   };
 
   return (
-    <motion.div
-      ref={ref}
-      className="hero-canvas-wrap"
-      onMouseMove={handleMouse}
-      onMouseLeave={() => { mouseX.set(0); mouseY.set(0); }}
-      style={{ x: springX, y: springY }}
-    >
+    <motion.div ref={ref} className="hero-canvas-wrap" onMouseMove={handleMouse} onMouseLeave={() => { mx.set(0); my.set(0); }} style={{ x: sx, y: sy }}>
       {Hero ? <Hero /> : <div className="hero-canvas-placeholder" />}
     </motion.div>
   );
 }
+
+const floatBadge = { y: [0, -8, 0], transition: { duration: 3.5, repeat: Infinity, ease: "easeInOut" } };
 
 export default function Home({ t, language, isRtl }) {
   const contactLinks = useMemo(() => [
@@ -85,50 +47,44 @@ export default function Home({ t, language, isRtl }) {
     [AtSign, "Email", `mailto:${profile.email}`, profile.email],
     [Globe2, "Website", profile.website, profile.website.replace("https://", "")]
   ], []);
-
-  const scrollTo = (sel) => document.querySelector(sel)?.scrollIntoView({ behavior: "smooth" });
+  const scrollTo = (s) => document.querySelector(s)?.scrollIntoView({ behavior: "smooth" });
 
   return (
     <>
       <div className="hero-outer">
         <section className="hero">
-          <motion.div className="hero-copy" variants={containerStagger} initial="hidden" animate="visible">
-            <motion.p className="hero-kicker" variants={itemFadeUp}>{t.heroKicker}</motion.p>
-            <motion.div variants={itemScaleIn}>
+          <motion.div className="hero-copy" variants={stagger} initial="hidden" animate="visible">
+            <motion.p className="hero-kicker" variants={fadeUp}>{t.heroKicker}</motion.p>
+            <motion.div variants={scaleIn}>
               <h1><TextReveal delay={0.15}>{t.headline}</TextReveal></h1>
             </motion.div>
-            <motion.p className="hero-intro" variants={itemFadeUp}>{t.intro}</motion.p>
-            <motion.div className="hero-actions" variants={containerStagger}>
+            <motion.p className="hero-intro" variants={fadeUp}>{t.intro}</motion.p>
+            <motion.div className="hero-actions" variants={stagger}>
               <motion.button className="btn btn-primary" type="button" onClick={() => scrollTo("#projects")}
-                variants={itemFadeUp}
+                variants={fadeUp}
                 whileHover={{ scale: 1.06, boxShadow: "0 16px 48px rgba(34,211,148,0.4)" }}
-                whileTap={{ scale: 0.96 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}>
+                whileTap={{ scale: 0.95 }}
+                transition={springFast}>
                 <Layers3 size={16} />{t.primary}
               </motion.button>
               <motion.button className="btn btn-ghost" type="button" onClick={() => scrollTo("#about")}
-                variants={itemFadeUp}
-                whileHover={{ scale: 1.06 }}
-                whileTap={{ scale: 0.96 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}>
+                variants={fadeUp}
+                whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.95 }}
+                transition={springFast}>
                 <UserRound size={16} />{t.secondary}
               </motion.button>
             </motion.div>
-            <motion.div className="hero-specs" variants={containerStagger}>
-              {t.specialties.map((item) => (
-                <motion.span key={item} variants={itemFadeUp}
+            <motion.div className="hero-specs" variants={stagger}>
+              {t.specialties.map(item => (
+                <motion.span key={item} variants={fadeUp}
                   whileHover={{ scale: 1.06, borderColor: "var(--accent)", background: "rgba(34,211,148,0.12)" }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}>
+                  transition={springFast}>
                   <CheckCircle2 size={12} />{item}
                 </motion.span>
               ))}
             </motion.div>
           </motion.div>
-
-          <motion.div className="hero-visual"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, ease: [0.2, 0.7, 0.2, 1], delay: 0.2 }}>
+          <motion.div className="hero-visual" initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7, ease: [0.2, 0.7, 0.2, 1], delay: 0.2 }}>
             <HeroVisual />
             <motion.div className="hero-badge" animate={floatBadge}>
               <motion.span initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.4 }}>
@@ -140,7 +96,6 @@ export default function Home({ t, language, isRtl }) {
       </div>
 
       <div className="page-container">
-
         <section id="about" className="section">
           <Reveal className="section-heading">
             <motion.div initial={{ width: 0 }} whileInView={{ width: "100%" }} viewport={{ once: true }}
@@ -158,9 +113,7 @@ export default function Home({ t, language, isRtl }) {
               const Icon = icons[i] || UserRound;
               return (
                 <Reveal className="card identity-card" key={title} as="article">
-                  <motion.div className="identity-card-icon"
-                    whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
-                    transition={{ duration: 0.3 }}>
+                  <motion.div className="identity-card-icon" whileHover={{ scale: 1.15, rotate: [0, -8, 8, 0] }} transition={{ duration: 0.3 }}>
                     <Icon size={18} />
                   </motion.div>
                   <span className="card-num">{String(i + 1).padStart(2, "0")}</span>
@@ -185,8 +138,8 @@ export default function Home({ t, language, isRtl }) {
               const label = spec[language] || spec.en;
               return (
                 <Reveal className="spec-card" as={motion.div} key={label}
-                  whileHover={{ y: -6, scale: 1.02, borderColor: "var(--accent)", background: "rgba(34,211,148,0.08)" }}
-                  transition={{ type: "spring", stiffness: 300, damping: 15 }}>
+                  whileHover={{ y: -6, scale: 1.03, borderColor: "var(--accent)", background: "rgba(34,211,148,0.08)" }}
+                  transition={hoverLift}>
                   <span className="card-num">{String(i + 1).padStart(2, "0")}</span>
                   <span>{label}</span>
                 </Reveal>
@@ -210,7 +163,8 @@ export default function Home({ t, language, isRtl }) {
               [BookOpen, "03", "Project detail", "Architecture, screenshots, downloads, and release notes."]
             ].map(([Icon, num, title, desc]) => (
               <Reveal className="blueprint-card" as={motion.article} key={num}
-                whileHover={{ y: -8, boxShadow: "0 20px 60px rgba(34,211,148,0.12)", transition: { type: "spring", stiffness: 300, damping: 15 } }}>
+                whileHover={{ y: -8, scale: 1.01, boxShadow: "0 20px 60px rgba(34,211,148,0.12)" }}
+                transition={hoverLift}>
                 <div className="blueprint-card-header"><span>{num}</span><Icon size={18} /></div>
                 <h3>{title}</h3>
                 <p>{desc}</p>
@@ -229,21 +183,21 @@ export default function Home({ t, language, isRtl }) {
           <div className="timeline">
             <motion.div className="timeline-line" initial={{ height: 0 }} whileInView={{ height: "calc(100% - 24px)" }} viewport={{ once: true }} transition={{ duration: 1.2, ease: "easeOut" }} />
             {t.method.map(([title, body], i) => (
-              <Reveal className={`timeline-item ${i % 2 ? "timeline-right" : ""}`} as={motion.article} key={title}
-                variants={i % 2 ? itemSlideRight : itemSlideLeft}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-60px" }}>
+              <motion.article className="timeline-item" key={title}
+                initial={{ opacity: 0, x: i % 2 ? 30 : -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ type: "spring", stiffness: 200, damping: 25, delay: i * 0.1 }}>
                 <motion.span className="timeline-step"
                   whileHover={{ scale: 1.15, boxShadow: "0 0 40px rgba(34,211,148,0.3)" }}
-                  transition={{ type: "spring", stiffness: 300, damping: 10 }}>
+                  transition={springFast}>
                   {String(i + 1).padStart(2, "0")}
                 </motion.span>
                 <div className="timeline-content">
                   <h3>{title}</h3>
                   <p>{body}</p>
                 </div>
-              </Reveal>
+              </motion.article>
             ))}
           </div>
         </section>
@@ -272,8 +226,8 @@ export default function Home({ t, language, isRtl }) {
             <p>{t.contactLead}</p>
             <motion.a className="btn btn-primary contact-cta" href={profile.telegram}
               whileHover={{ scale: 1.06, boxShadow: "0 16px 48px rgba(34,211,148,0.4)" }}
-              whileTap={{ scale: 0.96 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}>
+              whileTap={{ scale: 0.95 }}
+              transition={springFast}>
               <Send size={16} />{t.contactButton}
             </motion.a>
           </Reveal>
@@ -281,10 +235,8 @@ export default function Home({ t, language, isRtl }) {
             {contactLinks.map(([Icon, label, href, text]) => (
               <Reveal className="contact-link" as={motion.a} href={href} key={label}
                 whileHover={{ y: -6, scale: 1.02, borderColor: "var(--accent)", background: "rgba(34,211,148,0.06)" }}
-                transition={{ type: "spring", stiffness: 300, damping: 15 }}>
-                <motion.span
-                  whileHover={{ rotate: [0, -5, 5, 0] }}
-                  transition={{ duration: 0.3 }}>
+                transition={hoverLift}>
+                <motion.span whileHover={{ rotate: [0, -8, 8, 0] }} transition={{ duration: 0.3 }}>
                   <Icon size={18} />
                 </motion.span>
                 <span>{label}</span>
