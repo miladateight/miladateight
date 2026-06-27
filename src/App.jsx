@@ -1,13 +1,15 @@
+import { Suspense, lazy } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import StarField from "./components/StarField";
 import Home from "./pages/Home";
 import ProjectPage from "./pages/ProjectPage";
 import { useLanguage } from "./hooks/useLanguage";
 import { projects } from "./data/projects";
+
+const ImmersiveBackground = lazy(() => import("./components/background/ImmersiveBackground"));
 
 function PageTransition({ children }) {
   return (
@@ -25,13 +27,6 @@ function PageTransition({ children }) {
 export default function App() {
   const { language, setLanguage, t, isRtl, dir } = useLanguage();
   const location = useLocation();
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     document.body.classList.toggle("rtl", isRtl);
@@ -55,29 +50,33 @@ export default function App() {
 
   return (
     <div className={`app ${isRtl ? "rtl" : "ltr"}`}>
-      <StarField />
-      <Header t={t} language={language} setLanguage={setLanguage} isRtl={isRtl} />
+      <Suspense fallback={null}>
+        <ImmersiveBackground />
+      </Suspense>
+      <div className="page-shell">
+        <Header t={t} language={language} setLanguage={setLanguage} isRtl={isRtl} />
 
-      <main className="main-content">
-        <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<PageTransition><Home t={t} language={language} isRtl={isRtl} /></PageTransition>} />
-            {projects.map((project) => (
-              <Route
-                key={project.slug}
-                path={project.pageUrl}
-                element={
-                  <PageTransition>
-                    <ProjectPage project={project} language={language} t={t} />
-                  </PageTransition>
-                }
-              />
-            ))}
-          </Routes>
-        </AnimatePresence>
-      </main>
+        <main className="main-content">
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<PageTransition><Home t={t} language={language} isRtl={isRtl} /></PageTransition>} />
+              {projects.map((project) => (
+                <Route
+                  key={project.slug}
+                  path={project.pageUrl}
+                  element={
+                    <PageTransition>
+                      <ProjectPage project={project} language={language} t={t} />
+                    </PageTransition>
+                  }
+                />
+              ))}
+            </Routes>
+          </AnimatePresence>
+        </main>
 
-      <Footer t={t} language={language} />
+        <Footer t={t} language={language} />
+      </div>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 export const profile = {
   name: "Milad Ateight",
   shortName: "Milad",
-  title: "IT Lead / Infrastructure, Networks, Web & Mail Systems",
+  title: "IT Specialist / Infrastructure, Networks, Web & Mail Systems",
   location: "Iran",
   github: "https://github.com/miladateight",
   telegram: "https://t.me/MiladAteight",

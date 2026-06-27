@@ -30,6 +30,8 @@ export default function OpsCore() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.1 : 1.5));
     renderer.setSize(mount.clientWidth, mount.clientHeight);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2;
     mount.appendChild(renderer.domElement);
 
     const group = new THREE.Group();
@@ -57,7 +59,6 @@ export default function OpsCore() {
         emissiveIntensity: 0.55,
         roughness: 0.32,
         metalness: 0.4,
-        wireframe: false,
         transparent: true,
         opacity: 0.46
       })
@@ -136,9 +137,7 @@ export default function OpsCore() {
     onResize();
 
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        isVisible = entry.isIntersecting;
-      },
+      ([entry]) => { isVisible = entry.isIntersecting; },
       { threshold: 0.05 }
     );
     observer.observe(mount);
