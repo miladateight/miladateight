@@ -1,4 +1,4 @@
-import { Suspense, lazy } from "react";
+import { useMemo, Suspense, lazy } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
