@@ -468,6 +468,10 @@ p { color: var(--text-soft); line-height: 1.75; }
   position: absolute;
   inset: -6% -8%;
 }
+.hero-canvas-placeholder {
+  width: 100%;
+  height: 100%;
+}
 .ops-core-canvas {
   width: 100%;
   height: 100%;
@@ -545,6 +549,15 @@ p { color: var(--text-soft); line-height: 1.75; }
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
+.identity-card-icon {
+  display: grid;
+  place-items: center;
+  width: 40px; height: 40px;
+  border-radius: var(--radius-md);
+  color: #030712;
+  background: linear-gradient(135deg, var(--accent), #059669);
+  margin-bottom: 4px;
+}
 
 /* =========== SPECIALTIES (BENTO) =========== */
 .spec-grid {
@@ -588,8 +601,9 @@ p { color: var(--text-soft); line-height: 1.75; }
   transition: transform var(--dur-base) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
 }
 .blueprint-card:hover { transform: translateY(-5px); border-color: var(--accent); }
-.blueprint-card span { color: var(--accent); font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; }
-.blueprint-card svg { color: var(--accent); }
+.blueprint-card-header { display: flex; align-items: center; gap: 10px; }
+.blueprint-card-header span { color: var(--accent); font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; }
+.blueprint-card-header svg { color: var(--accent); }
 .blueprint-card h3 { margin: 0; font-size: 1.18rem; }
 .blueprint-card p { margin-bottom: 0; color: var(--muted); font-size: 0.94rem; }
 
@@ -887,15 +901,18 @@ p { color: var(--text-soft); line-height: 1.75; }
 
 /* =========== RTL =========== */
 .rtl .hero-copy, .rtl .section-heading, .rtl .contact-copy { text-align: right; }
+.rtl .hero-badge { left: auto; right: 50%; transform: translateX(50%); }
 .rtl .timeline-item { grid-template-columns: 1fr 64px; }
 .rtl .timeline-step { order: 2; }
 .rtl .timeline-line { left: auto; right: 31px; }
 .rtl .contact-link { direction: rtl; }
 .rtl .project-card-footer { direction: rtl; }
-.rtl .header-inner { direction: ltr; }
-.rtl .header-nav { direction: ltr; }
-.rtl .header-projects-panel { text-align: right; }
+.rtl .header-inner { direction: rtl; }
+.rtl .header-brand { direction: ltr; }
+.rtl .header-nav { direction: rtl; }
+.rtl .header-projects-panel { text-align: right; left: auto; right: 50%; }
 .rtl .header-projects-panel a { direction: rtl; }
+.rtl .header-projects-trigger { direction: rtl; }
 
 /* =========== REDUCED MOTION =========== */
 @media (prefers-reduced-motion: reduce) {
