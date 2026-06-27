@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">AT8 portfolio preview</title>
+  <desc id="desc">Milad Ateight AT8 portfolio, infrastructure, networks, DevOps, and web systems.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#06080d"/>
+      <stop offset="0.55" stop-color="#0c1220"/>
+      <stop offset="1" stop-color="#10172a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="0.5" stop-color="#2dd4bf"/>
+      <stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#38bdf8" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="870" cy="230" r="280" fill="url(#glow)" filter="url(#soft)"/>
+  <g opacity="0.36" stroke="#38bdf8" stroke-width="1">
+    <path d="M78 110H1122M78 190H1122M78 270H1122M78 350H1122M78 430H1122M78 510H1122"/>
+    <path d="M170 62V568M290 62V568M410 62V568M530 62V568M650 62V568M770 62V568M890 62V568M1010 62V568"/>
+  </g>
+  <g transform="translate(730 128)">
+    <circle cx="170" cy="170" r="152" fill="none" stroke="#38bdf8" stroke-opacity="0.42" stroke-width="2"/>
+    <circle cx="170" cy="170" r="95" fill="none" stroke="#8b5cf6" stroke-opacity="0.4" stroke-width="2"/>
+    <path d="M38 170C122 84 224 82 302 170C218 252 116 254 38 170Z" fill="none" stroke="#2dd4bf" stroke-opacity="0.45" stroke-width="2"/>
+    <circle cx="170" cy="170" r="58" fill="#07111c" stroke="url(#accent)" stroke-width="2"/>
+    <text x="170" y="184" text-anchor="middle" font-family="ui-monospace, Cascadia Code, monospace" font-size="36" font-weight="800" fill="#e8ecf4">AT8</text>
+    <circle cx="70" cy="100" r="8" fill="#38bdf8"/>
+    <circle cx="292" cy="160" r="8" fill="#2dd4bf"/>
+    <circle cx="115" cy="295" r="8" fill="#8b5cf6"/>
+  </g>
+  <g transform="translate(86 130)">
+    <rect width="118" height="38" rx="19" fill="#0b1422" stroke="#1f3650"/>
+    <text x="59" y="25" text-anchor="middle" font-family="ui-monospace, Cascadia Code, monospace" font-size="14" font-weight="700" fill="#38bdf8">ATEIGHT</text>
+    <text x="0" y="118" font-family="ui-sans-serif, system-ui, sans-serif" font-size="72" font-weight="800" fill="#f6f8fb">Milad Ateight</text>
+    <text x="0" y="192" font-family="ui-sans-serif, system-ui, sans-serif" font-size="46" font-weight="700" fill="#9bdcff">Infrastructure. Networks. DevOps.</text>
+    <text x="0" y="256" font-family="ui-sans-serif, system-ui, sans-serif" font-size="28" font-weight="500" fill="#b8c3d9">Web and mail systems, automation, programming, and IT operations.</text>
+    <g transform="translate(0 326)" font-family="ui-monospace, Cascadia Code, monospace" font-size="17" font-weight="700">
+      <rect width="188" height="42" rx="21" fill="#38bdf8"/>
+      <text x="94" y="27" text-anchor="middle" fill="#041018">ateight.xyz</text>
+      <rect x="210" width="210" height="42" rx="21" fill="#0b1422" stroke="#243b58"/>
+      <text x="315" y="27" text-anchor="middle" fill="#b8c3d9">GitHub / AT8</text>
+    </g>
+  </g>
+</svg>

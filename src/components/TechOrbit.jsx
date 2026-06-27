@@ -36,6 +36,7 @@ export default function TechOrbit() {
       cx = w / 2;
       cy = h / 2;
       radius = Math.min(w, h) * 0.38;
+      if (reduce) draw(0);
     }
 
     function getItemPos(i, t) {
@@ -119,7 +120,7 @@ export default function TechOrbit() {
       ctx.fillStyle = "rgba(56, 189, 248, 0.5)";
       ctx.fillText("AT8", cx, cy);
 
-      frameId = requestAnimationFrame(draw);
+      if (!reduce) frameId = requestAnimationFrame(draw);
     }
 
     const onMouseMove = (e) => {
@@ -137,7 +138,7 @@ export default function TechOrbit() {
     };
 
     resize();
-    frameId = requestAnimationFrame(draw);
+    if (!reduce) frameId = requestAnimationFrame(draw);
     window.addEventListener("resize", resize);
     canvas.addEventListener("mousemove", onMouseMove);
 

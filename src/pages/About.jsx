@@ -1,235 +1,214 @@
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  Server, Network, Cloud, Code2, Settings, ShieldCheck,
-  Globe2, Wrench, Activity, Database, Send, ArrowUpRight
+  Activity,
+  BookOpen,
+  Cloud,
+  Code2,
+  Database,
+  Network,
+  Send,
+  Server,
+  ShieldCheck,
+  UserRound,
+  Wrench,
 } from "lucide-react";
+import { motion } from "framer-motion";
 import { profile } from "../data/profile";
-import { specialties } from "../data/projects";
 import { Reveal, RevealGroup, TextReveal } from "../components/ScrollReveal";
 import { fadeUp, stagger } from "../utils/motion";
+import { localize } from "../utils/localize";
 
-const expertise = [
+const aboutCopy = {
+  title: {
+    en: "Milad Ateight works across the full operating surface.",
+    fa: "میلاد ایت‌ایت در تمام سطح عملیاتی فناوری کار می‌کند.",
+    ar: "ميلاد أتيت يعمل عبر السطح التشغيلي الكامل للتقنية.",
+    de: "Milad Ateight arbeitet über die gesamte operative Technikfläche.",
+  },
+  lead: {
+    en: "I am an IT Lead working in an EPC company, focused on infrastructure, networks, servers, secure access, web and mail systems, backup, monitoring, technical continuity, documentation, and internal tools.",
+    fa: "من IT Lead در یک شرکت EPC هستم و روی زیرساخت، شبکه، سرورها، دسترسی امن، سیستم‌های وب و ایمیل، بکاپ، مانیتورینگ، تداوم فنی، مستندسازی و ابزارهای داخلی تمرکز دارم.",
+    ar: "أنا IT Lead في شركة EPC، أركز على البنية التحتية والشبكات والخوادم والوصول الآمن وأنظمة الويب والبريد والنسخ الاحتياطي والمراقبة والاستمرارية التقنية والتوثيق والأدوات الداخلية.",
+    de: "Ich bin IT Lead in einem EPC-Unternehmen und arbeite an Infrastruktur, Netzwerken, Servern, sicherem Zugriff, Web- und Mail-Systemen, Backups, Monitoring, technischer Kontinuität, Dokumentation und internen Tools.",
+  },
+  approachTitle: {
+    en: "Operating approach",
+    fa: "رویکرد کاری",
+    ar: "نهج العمل",
+    de: "Arbeitsweise",
+  },
+  approachLead: {
+    en: "I do not start by forcing a tool onto the problem. I read the architecture, constraints, risks, and expected outcome, then choose a fix that can be tested, documented, and maintained.",
+    fa: "کار را با تحمیل یک ابزار شروع نمی‌کنم. معماری، محدودیت‌ها، ریسک‌ها و نتیجه مورد انتظار را می‌خوانم، سپس راه‌حلی انتخاب می‌کنم که قابل تست، مستندسازی و نگهداری باشد.",
+    ar: "لا أبدأ بفرض أداة على المشكلة. أقرأ المعمارية والقيود والمخاطر والنتيجة المطلوبة، ثم أختار حلا قابلا للاختبار والتوثيق والصيانة.",
+    de: "Ich beginne nicht damit, ein Werkzeug auf ein Problem zu drücken. Ich lese Architektur, Grenzen, Risiken und Zielbild und wähle dann eine Lösung, die testbar, dokumentierbar und wartbar ist.",
+  },
+  journeyTitle: {
+    en: "Training and growth",
+    fa: "آموزش و مسیر رشد",
+    ar: "التدريب ومسار النمو",
+    de: "Training und Entwicklung",
+  },
+  journeyLead: {
+    en: "I completed Python and Artificial Intelligence training through Irancell Labs and continue building toward DevOps and Cloud Engineering through Docker, CI/CD, infrastructure as code, automation, Kubernetes, monitoring, and Linux security.",
+    fa: "دوره‌های Python و هوش مصنوعی را در Irancell Labs گذرانده‌ام و مسیر خود را به سمت DevOps و Cloud Engineering با Docker، CI/CD، Infrastructure as Code، اتوماسیون، Kubernetes، مانیتورینگ و امنیت لینوکس ادامه می‌دهم.",
+    ar: "أكملت تدريبات Python والذكاء الاصطناعي عبر Irancell Labs وأواصل البناء نحو DevOps وCloud Engineering عبر Docker وCI/CD والبنية ككود والأتمتة وKubernetes والمراقبة وأمن Linux.",
+    de: "Ich habe Python- und KI-Trainings über Irancell Labs abgeschlossen und baue meinen Weg zu DevOps und Cloud Engineering über Docker, CI/CD, Infrastructure as Code, Automatisierung, Kubernetes, Monitoring und Linux-Sicherheit weiter aus.",
+  },
+};
+
+const focusAreas = [
   {
     icon: Server,
-    title: { en: "Server Administration", fa: "مدیریت سرور", ar: "إدارة الخوادم", de: "Serververwaltung" },
-    desc: {
-      en: "Linux and Windows server setup, hardening, monitoring, and maintenance. From bare-metal to cloud VMs.",
-      fa: "راه‌اندازی، امن‌سازی، نظارت و نگهداری سرورهای لینوکس و ویندوز. از سخت‌افزار واقعی تا ماشین‌های مجازی ابری.",
-      ar: "إعداد وأمن ومراقبة وصيانة خوادم Linux وWindows. من الأجهزة المادية إلى الآلات الافتراضية السحابية.",
-      de: "Linux- und Windows-Server-Setup, Absicherung, Überwachung und Wartung. Von Bare-Metal bis Cloud-VMs."
-    }
+    title: { en: "Systems administration", fa: "مدیریت سیستم", ar: "إدارة الأنظمة", de: "Systemadministration" },
+    body: {
+      en: "Linux, Ubuntu Server, Windows Server, virtualization, backup integrity, monitoring, service management, SSH, and hardening basics.",
+      fa: "Linux، Ubuntu Server، Windows Server، مجازی‌سازی، صحت بکاپ، مانیتورینگ، مدیریت سرویس، SSH و اصول سخت‌سازی.",
+      ar: "Linux وUbuntu Server وWindows Server والمحاكاة الافتراضية وسلامة النسخ الاحتياطي والمراقبة وإدارة الخدمات وSSH وأساسيات التحصين.",
+      de: "Linux, Ubuntu Server, Windows Server, Virtualisierung, Backup-Integrität, Monitoring, Service Management, SSH und Hardening-Grundlagen.",
+    },
   },
   {
     icon: Network,
-    title: { en: "Network Infrastructure", fa: "زیرساخت شبکه", ar: "بنية الشبكة", de: "Netzwerkinfrastruktur" },
-    desc: {
-      en: "MikroTik routing, VLANs, firewall rules, VPN tunnels, and site-to-site connectivity.",
-      fa: "مسیریابی MikroTik، VLAN‌ها، قوانین فایروال، تونل‌های VPN و اتصال سایت به سایت.",
-      ar: "توجيه MikroTik وقواعد جدار الحماية وأنفاق VPN والاتصال بين المواقع.",
-      de: "MikroTik-Routing, VLANs, Firewall-Regeln, VPN-Tunnel und Site-to-Site-Konnektivität."
-    }
+    title: { en: "Network infrastructure", fa: "زیرساخت شبکه", ar: "بنية الشبكات", de: "Netzwerkinfrastruktur" },
+    body: {
+      en: "MikroTik RouterOS, routing, NAT, firewalling, VLANs, multi-WAN, failover, WireGuard, OpenVPN, L2TP, and connectivity diagnosis.",
+      fa: "MikroTik RouterOS، مسیریابی، NAT، فایروال، VLAN، چند WAN، failover، WireGuard، OpenVPN، L2TP و تشخیص اتصال.",
+      ar: "MikroTik RouterOS والتوجيه وNAT والجدار الناري وVLAN وmulti-WAN والتجاوز وWireGuard وOpenVPN وL2TP وتشخيص الاتصال.",
+      de: "MikroTik RouterOS, Routing, NAT, Firewalling, VLANs, Multi-WAN, Failover, WireGuard, OpenVPN, L2TP und Konnektivitätsdiagnose.",
+    },
   },
   {
-    icon: Cloud,
-    title: { en: "DevOps & Cloud", fa: "DevOps و ابر", ar: "DevOps والسحابة", de: "DevOps & Cloud" },
-    desc: {
-      en: "Containerization, CI/CD, deployment automation, and cloud service integration.",
-      fa: "کانتینرسازی، CI/CD، اتوماسیون استقرار و یکپارچه‌سازی سرویس‌های ابری.",
-      ar: "حاويات وخط أنابيب النشر الآلي وتكامل الخدمات السحابية.",
-      de: "Containerisierung, CI/CD, Deployment-Automatisierung und Cloud-Service-Integration."
-    }
-  },
-  {
-    icon: Globe2,
-    title: { en: "Web & Mail Systems", fa: "سیستم‌های وب و ایمیل", ar: "أنظمة الويب والبريد", de: "Web- und Mail-Systeme" },
-    desc: {
-      en: "Nginx, HAProxy, Exim, Dovecot, DNS records, SSL/TLS, and mail deliverability.",
-      fa: "Nginx، HAProxy، Exim، Dovecot، رکوردهای DNS، SSL/TLS و قابلیت تحویل ایمیل.",
-      ar: "Nginx وHAProxy وExim وDovecot وسجلات DNS وSSL/TLS وقابلية تسليم البريد.",
-      de: "Nginx, HAProxy, Exim, Dovecot, DNS-Einträge, SSL/TLS und Zustellbarkeit von E-Mails."
-    }
+    icon: Database,
+    title: { en: "Web and mail infrastructure", fa: "زیرساخت وب و ایمیل", ar: "بنية الويب والبريد", de: "Web- und Mail-Infrastruktur" },
+    body: {
+      en: "Nginx, Caddy, HAProxy, HestiaCP, DNS, SSL/TLS, reverse proxies, SMTP relays, delivery troubleshooting, and migrations.",
+      fa: "Nginx، Caddy، HAProxy، HestiaCP، DNS، SSL/TLS، reverse proxy، SMTP relay، عیب‌یابی تحویل ایمیل و مهاجرت سرویس‌ها.",
+      ar: "Nginx وCaddy وHAProxy وHestiaCP وDNS وSSL/TLS ووكلاء عكسيون وSMTP relay وتحليل تسليم البريد والترحيل.",
+      de: "Nginx, Caddy, HAProxy, HestiaCP, DNS, SSL/TLS, Reverse Proxies, SMTP-Relays, Zustellungsanalyse und Migrationen.",
+    },
   },
   {
     icon: Code2,
-    title: { en: "Programming & Automation", fa: "برنامه‌نویسی و اتوماسیون", ar: "البرمجة والأتمتة", de: "Programmierung & Automatisierung" },
-    desc: {
-      en: "Python scripting, .NET desktop tools, Telegram bots, and infrastructure automation.",
-      fa: "اسکریپت‌نویسی Python، ابزارهای دسکتاپ .NET، ربات‌های تلگرام و اتوماسیون زیرساخت.",
-      ar: "سكربتات Python وأدوات سطح المكتب .NET وبوتات Telegram وأتمتة البنية التحتية.",
-      de: "Python-Skripting, .NET-Desktop-Tools, Telegram-Bots und Infrastruktur-Automatisierung."
-    }
+    title: { en: "Programming and automation", fa: "برنامه‌نویسی و اتوماسیون", ar: "البرمجة والأتمتة", de: "Programmierung und Automatisierung" },
+    body: {
+      en: "Python, Bash, C#, Unity, Git, GitHub, reusable tooling, infrastructure scripts, and operational automation.",
+      fa: "Python، Bash، C#، Unity، Git، GitHub، ابزارهای قابل استفاده مجدد، اسکریپت زیرساخت و اتوماسیون عملیاتی.",
+      ar: "Python وBash وC# وUnity وGit وGitHub وأدوات قابلة لإعادة الاستخدام وسكربتات بنية تحتية وأتمتة تشغيلية.",
+      de: "Python, Bash, C#, Unity, Git, GitHub, wiederverwendbare Tools, Infrastruktur-Skripte und Betriebsautomatisierung.",
+    },
   },
   {
-    icon: ShieldCheck,
-    title: { en: "Security & Troubleshooting", fa: "امنیت و عیب‌یابی", ar: "الأمن واستكشاف الأخطاء", de: "Sicherheit & Fehlerbehebung" },
-    desc: {
-      en: "Systematic diagnosis, root cause analysis, and security-first problem resolution.",
-      fa: "تشخیص سیستماتیک، تحلیل ریشه‌ای و حل مسئله با اولویت امنیت.",
-      ar: "تشخيص منهجي وتحليل الأسباب الجذرية وحل المشاكل مع أولوية الأمان.",
-      de: "Systematische Diagnose, Ursachenanalyse und sicherheitsorientierte Problemlösung."
-    }
+    icon: Activity,
+    title: { en: "Business IT operations", fa: "عملیات IT سازمانی", ar: "عمليات تقنية معلومات الأعمال", de: "Business-IT-Betrieb" },
+    body: {
+      en: "Equipment, permissions, technical assets, attendance systems, VoIP, continuity checks, user support, and cross-department coordination.",
+      fa: "تجهیزات، دسترسی‌ها، دارایی‌های فنی، سیستم حضور و غیاب، VoIP، بررسی تداوم، پشتیبانی کاربران و هماهنگی بین واحدها.",
+      ar: "معدات وصلاحيات وأصول تقنية وأنظمة حضور وVoIP وفحوص استمرارية ودعم مستخدمين وتنسيق بين الأقسام.",
+      de: "Ausrüstung, Berechtigungen, technische Assets, Zeiterfassung, VoIP, Kontinuitätschecks, User Support und Abstimmung zwischen Abteilungen.",
+    },
+  },
+  {
+    icon: BookOpen,
+    title: { en: "Technical communication", fa: "ارتباط فنی", ar: "التواصل التقني", de: "Technische Kommunikation" },
+    body: {
+      en: "Presentations, diagrams, documentation, reports, architecture explanation, visual communication, and clearer handoff material.",
+      fa: "پرزنتیشن، دیاگرام، مستندات، گزارش، توضیح معماری، ارتباط بصری و تحویل قابل فهم‌تر.",
+      ar: "عروض ومخططات وتوثيق وتقارير وشرح معمارية وتواصل بصري ومواد تسليم أوضح.",
+      de: "Präsentationen, Diagramme, Dokumentation, Berichte, Architekturerklärung, visuelle Kommunikation und klarere Übergaben.",
+    },
   },
 ];
 
 const tools = [
-  "Linux", "Windows Server", "MikroTik", "Nginx", "HAProxy", "Exim", "Dovecot",
-  "Docker", "WireGuard", "HestiaCP", "DNS", "Python", ".NET", "React", "Git",
-  "PostgreSQL", "Bash", "Ansible", "Telegram API", "SSL/TLS"
-];
-
-const experience = [
-  {
-    period: "2020 — Present",
-    title: { en: "IT Infrastructure Specialist", fa: "متخصص زیرساخت IT", ar: "متخصص بنية التحتية لتقنية المعلومات", de: "IT-Infrastruktur-Spezialist" },
-    desc: {
-      en: "Managing network infrastructure, server operations, web/mail systems, and building internal tools.",
-      fa: "مدیریت زیرساخت شبکه، عملیات سرور، سیستم‌های وب و ایمیل و ساخت ابزارهای داخلی.",
-      ar: "إدارة البنية التحتية للشبكة وعمليات الخوادم وأنظمة الويب والبريد وبناء الأدوات الداخلية.",
-      de: "Verwaltung der Netzwerkinfrastruktur, Serverbetrieb, Web-/Mail-Systeme und interne Tools."
-    }
-  },
+  "Linux", "Ubuntu Server", "Windows Server", "MikroTik", "RouterOS", "Nginx", "Caddy", "HAProxy",
+  "HestiaCP", "Exim", "Dovecot", "DNS", "SSL/TLS", "WireGuard", "OpenVPN", "Docker", "GitHub Actions",
+  "Python", "Bash", "C#", ".NET", "React", "WordPress", "Photoshop",
 ];
 
 export default function About({ t, language }) {
   return (
-    <div className="page-shell">
-      {/* Hero */}
-      <section className="about-hero">
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={stagger}
-        >
+    <div className="page-container">
+      <section className="subpage-hero about-hero">
+        <motion.div initial="hidden" animate="visible" variants={stagger}>
           <motion.p className="section-label" variants={fadeUp}>
-            <UserRound size={14} />
+            <UserRound size={14} aria-hidden="true" />
             {t.nav[1]}
           </motion.p>
           <motion.h1 variants={fadeUp}>
-            <TextReveal>
-              {language === "en" ? "About Milad Ateight" :
-               language === "fa" ? "درباره میلاد ایت‌هایت" :
-               language === "ar" ? "عن ميلاد اتيت" :
-               "Über Milad Ateight"}
-            </TextReveal>
+            <TextReveal>{localize(aboutCopy.title, language)}</TextReveal>
           </motion.h1>
-          <motion.p className="lead" variants={fadeUp}>
-            {t.identityLead}
-          </motion.p>
+          <motion.p className="lead" variants={fadeUp}>{localize(aboutCopy.lead, language)}</motion.p>
         </motion.div>
       </section>
 
-      {/* Expertise */}
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section compact-section">
+        <RevealGroup className="about-focus-grid">
+          {focusAreas.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <Reveal className={index === 0 ? "about-focus-card large" : "about-focus-card"} key={localize(item.title, "en")}>
+                <div className="about-focus-icon"><Icon size={20} aria-hidden="true" /></div>
+                <h2>{localize(item.title, language)}</h2>
+                <p>{localize(item.body, language)}</p>
+              </Reveal>
+            );
+          })}
+        </RevealGroup>
+      </section>
+
+      <section className="section about-approach">
         <Reveal className="section-header">
-          <h2 className="section-title">
-            {language === "en" ? "What I Do" : language === "fa" ? "چه کاری انجام می‌دهم" : language === "ar" ? "ماذا أفعل" : "Was ich tue"}
-          </h2>
+          <p className="section-label"><ShieldCheck size={14} aria-hidden="true" />{localize(aboutCopy.approachTitle, language)}</p>
+          <h2 className="section-title">{localize(aboutCopy.approachTitle, language)}</h2>
+          <p className="section-subtitle">{localize(aboutCopy.approachLead, language)}</p>
         </Reveal>
-        <RevealGroup className="about-grid">
-          {expertise.map((item, i) => (
-            <Reveal className="about-card" key={i}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-                <div style={{
-                  width: 36, height: 36, display: "grid", placeItems: "center",
-                  borderRadius: "var(--radius-md)", background: "var(--accent-dim)", color: "var(--accent)"
-                }}>
-                  <item.icon size={18} />
-                </div>
-                <h3 style={{ margin: 0 }}>{item.title[language]}</h3>
-              </div>
-              <p>{item.desc[language]}</p>
+        <RevealGroup className="approach-steps">
+          {t.method.map(([title, body], index) => (
+            <Reveal className="approach-step" key={title}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h3>{title}</h3>
+              <p>{body}</p>
             </Reveal>
           ))}
         </RevealGroup>
       </section>
 
-      {/* Experience Timeline */}
-      <section className="section">
-        <Reveal className="section-header">
-          <h2 className="section-title">
-            {language === "en" ? "Experience" : language === "fa" ? "تجربه" : language === "ar" ? "الخبرة" : "Erfahrung"}
-          </h2>
+      <section className="section journey-section">
+        <Reveal className="journey-panel">
+          <div>
+            <p className="section-label"><Cloud size={14} aria-hidden="true" />{localize(aboutCopy.journeyTitle, language)}</p>
+            <h2 className="section-title">{localize(aboutCopy.journeyTitle, language)}</h2>
+          </div>
+          <p>{localize(aboutCopy.journeyLead, language)}</p>
         </Reveal>
-        <div className="timeline">
-          <motion.div
-            className="timeline-line"
-            initial={{ height: 0 }}
-            whileInView={{ height: "calc(100% - 24px)" }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          />
-          {experience.map((exp, i) => (
-            <motion.article
-              className="timeline-item"
-              key={i}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ type: "spring", stiffness: 220, damping: 22 }}
-            >
-              <span className="timeline-step">{String(i + 1).padStart(2, "0")}</span>
-              <div className="timeline-content">
-                <small style={{ color: "var(--accent)", fontFamily: "var(--font-mono)", fontSize: "0.76rem" }}>
-                  {exp.period}
-                </small>
-                <h3 style={{ marginTop: 6 }}>{exp.title[language]}</h3>
-                <p>{exp.desc[language]}</p>
-              </div>
-            </motion.article>
-          ))}
-        </div>
       </section>
 
-      {/* Tools */}
       <section className="section">
         <Reveal className="section-header">
-          <h2 className="section-title">
-            {language === "en" ? "Tools & Technologies" : language === "fa" ? "ابزارها و فناوری‌ها" : language === "ar" ? "الأدوات والتقنيات" : "Tools & Technologien"}
-          </h2>
+          <p className="section-label"><Wrench size={14} aria-hidden="true" />{t.specialtiesTitle}</p>
+          <h2 className="section-title">{t.specialtiesTitle}</h2>
+          <p className="section-subtitle">{t.specialtiesLead}</p>
         </Reveal>
-        <RevealGroup className="skills-grid">
+        <RevealGroup className="tool-cloud">
           {tools.map((tool) => (
-            <Reveal className="skill-chip" key={tool}>
-              <span className="dot" />
-              {tool}
-            </Reveal>
+            <Reveal className="tool-token" key={tool}>{tool}</Reveal>
           ))}
         </RevealGroup>
       </section>
 
-      {/* CTA */}
       <section className="contact-cta-section">
-        <div className="contact-cta-inner">
-          <Reveal>
-            <h2>
-              {language === "en" ? "Let's work together" :
-               language === "fa" ? "بیایید با هم کار کنیم" :
-               language === "ar" ? "دعنا نعمل معا" :
-               "Lass uns zusammenarbeiten"}
-            </h2>
-            <p className="lead">
-              {language === "en" ? "For collaboration, project reviews, or infrastructure work, reach out anytime." :
-               language === "fa" ? "برای همکاری، بررسی پروژه یا کار زیرساختی، هر زمان تماس بگیرید." :
-               language === "ar" ? "للتعاون أو مراجعة المشاريع أو أعمال البنية التحتية، تواصل في أي وقت." :
-               "Für Zusammenarbeit, Projekt-Reviews oder Infrastrukturarbeit — jederzeit ansprechbar."}
-            </p>
-            <Link to="/contact/" className="btn btn-primary">
-              <Send size={16} />
-              {t.contactButton}
-            </Link>
-          </Reveal>
-        </div>
+        <Reveal className="contact-cta-inner">
+          <p className="section-label"><Send size={14} aria-hidden="true" />{t.contactTitle}</p>
+          <h2>{t.contactTitle}</h2>
+          <p className="lead">{t.contactLead}</p>
+          <Link to="/contact/" className="btn btn-primary">
+            <Send size={17} aria-hidden="true" />
+            {t.contactButton}
+          </Link>
+          <p className="contact-note">{profile.email}</p>
+        </Reveal>
       </section>
     </div>
-  );
-}
-
-function UserRound(props) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width={props.size || 24} height={props.size || 24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="8" r="5" />
-      <path d="M20 21a8 8 0 0 0-16 0" />
-    </svg>
   );
 }

@@ -1,192 +1,322 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDown, Languages, Menu, X } from "lucide-react";
 import { projects } from "../data/projects";
+import { localize } from "../utils/localize";
 
-const springFast = { type: "spring", stiffness: 500, damping: 18 };
+const languages = [
+  { key: "en", short: "EN", label: "English" },
+  { key: "fa", short: "FA", label: "فارسی" },
+  { key: "ar", short: "AR", label: "العربية" },
+  { key: "de", short: "DE", label: "Deutsch" },
+];
+
+const shellText = {
+  skip: {
+    en: "Skip to content",
+    fa: "پرش به محتوا",
+    ar: "تخطي إلى المحتوى",
+    de: "Zum Inhalt springen",
+  },
+  openNav: {
+    en: "Open navigation",
+    fa: "باز کردن منو",
+    ar: "فتح التنقل",
+    de: "Navigation öffnen",
+  },
+  closeNav: {
+    en: "Close navigation",
+    fa: "بستن منو",
+    ar: "إغلاق التنقل",
+    de: "Navigation schließen",
+  },
+  language: {
+    en: "Language",
+    fa: "زبان",
+    ar: "اللغة",
+    de: "Sprache",
+  },
+  projectIntro: {
+    en: "Selected builds, tools, and infrastructure notes.",
+    fa: "ابزارها، پروژه‌ها و یادداشت‌های زیرساختی منتخب.",
+    ar: "أدوات ومشاريع وملاحظات بنية تحتية مختارة.",
+    de: "Ausgewählte Builds, Tools und Infrastruktur-Notizen.",
+  },
+};
+
+const panelMotion = {
+  initial: { opacity: 0, y: 10, scale: 0.98, filter: "blur(8px)" },
+  animate: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" },
+  exit: { opacity: 0, y: 8, scale: 0.98, filter: "blur(6px)" },
+  transition: { duration: 0.18, ease: [0.16, 1, 0.3, 1] },
+};
 
 export default function Header({ t, language, setLanguage, isRtl }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [projectsOpen, setProjectsOpen] = useState(false);
+  const [languageOpen, setLanguageOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const menuRef = useRef(null);
-  const isHome = location.pathname === "/";
-  const langs = ["en", "fa", "ar", "de"];
-  const langLabels = { en: "EN", fa: "FA", ar: "AR", de: "DE" };
+  const projectsRef = useRef(null);
+  const projectsButtonRef = useRef(null);
+  const langRef = useRef(null);
+  const langButtonRef = useRef(null);
+  const mobileFirstLinkRef = useRef(null);
+
+  const normalizedPath = location.pathname.endsWith("/") ? location.pathname : `${location.pathname}/`;
+  const activeProject = projects.some((project) => project.pageUrl === normalizedPath);
+  const activeLanguage = languages.find((item) => item.key === language) || languages[0];
+
+  const navItems = useMemo(() => [
+    { to: "/", label: t.nav[0], active: normalizedPath === "/" },
+    { to: "/about/", label: t.nav[1], active: normalizedPath === "/about/" },
+    { to: "/contact/", label: t.nav[3], active: normalizedPath === "/contact/" },
+  ], [normalizedPath, t.nav]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 18);
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    const onClick = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false);
+    const onPointerDown = (event) => {
+      if (projectsRef.current && !projectsRef.current.contains(event.target)) setProjectsOpen(false);
+      if (langRef.current && !langRef.current.contains(event.target)) setLanguageOpen(false);
     };
-    const onKey = (e) => { if (e.key === "Escape") { setMobileOpen(false); setMenuOpen(false); } };
-    document.addEventListener("click", onClick);
-    window.addEventListener("keydown", onKey);
-    return () => { document.removeEventListener("click", onClick); window.removeEventListener("keydown", onKey); };
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
   }, []);
 
-  useEffect(() => { setMobileOpen(false); setMenuOpen(false); }, [location.pathname, language]);
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (event.key !== "Escape") return;
+      if (projectsOpen) {
+        setProjectsOpen(false);
+        projectsButtonRef.current?.focus();
+      }
+      if (languageOpen) {
+        setLanguageOpen(false);
+        langButtonRef.current?.focus();
+      }
+      if (mobileOpen) setMobileOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [languageOpen, mobileOpen, projectsOpen]);
 
-  const scrollTo = (hash) => {
-    if (location.pathname !== "/") {
-      window.location.href = "/" + hash;
-    } else {
-      document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
+  useEffect(() => {
+    setProjectsOpen(false);
+    setLanguageOpen(false);
+    setMobileOpen(false);
+  }, [location.pathname, language]);
+
+  useEffect(() => {
+    document.body.classList.toggle("nav-locked", mobileOpen);
+    if (mobileOpen) window.setTimeout(() => mobileFirstLinkRef.current?.focus(), 80);
+    return () => document.body.classList.remove("nav-locked");
+  }, [mobileOpen]);
+
+  const focusFirstProject = () => {
+    window.setTimeout(() => {
+      projectsRef.current?.querySelector(".header-projects-panel a")?.focus();
+    }, 30);
+  };
+
+  const focusFirstLanguage = () => {
+    window.setTimeout(() => {
+      langRef.current?.querySelector(".header-language-panel button")?.focus();
+    }, 30);
+  };
+
+  const onProjectsKeyDown = (event) => {
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setProjectsOpen(true);
+      focusFirstProject();
     }
   };
 
-  const navLink = (to, label, hash) => {
-    const isActive = hash
-      ? isHome && location.hash === hash
-      : location.pathname === to;
-    return (
-      <Link
-        to={hash ? "/" : to}
-        onClick={(e) => {
-          if (hash) { e.preventDefault(); scrollTo(hash); }
-          setMobileOpen(false);
-        }}
-        className={isActive ? "nav-active" : ""}
-      >
-        {label}
-      </Link>
-    );
+  const onLanguageKeyDown = (event) => {
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setLanguageOpen(true);
+      focusFirstLanguage();
+    }
   };
 
   return (
     <>
-      <a href="#main-content" className="skip-link">Skip to content</a>
+      <a href="#main-content" className="skip-link">{localize(shellText.skip, language)}</a>
       <header className={`at8-header ${scrolled ? "is-scrolled" : ""} ${isRtl ? "rtl" : ""}`}>
         <div className="header-inner">
-          <Link to="/" className="header-brand">
-            <motion.span
-              className="header-brand-mark"
-              whileHover={{ scale: 1.05 }}
-              transition={springFast}
-            >
-              AT8
-            </motion.span>
-            <span className="header-brand-text">
-              <strong>Milad</strong>
-              <small>AT8</small>
+          <Link to="/" className="header-brand" aria-label="AT8 home">
+            <span className="brand-orbit" aria-hidden="true">
+              <span />
+            </span>
+            <span className="header-brand-copy">
+              <strong>AT8</strong>
+              <small>Ateight</small>
             </span>
           </Link>
 
           <nav className="header-nav" aria-label="Main navigation">
-            {navLink("/", t.nav[0])}
-            {navLink("/about/", t.nav[1])}
-            <div className="header-projects-menu" ref={menuRef}>
+            <Link to={navItems[0].to} className={navItems[0].active ? "is-active" : ""}>{navItems[0].label}</Link>
+            <Link to={navItems[1].to} className={navItems[1].active ? "is-active" : ""}>{navItems[1].label}</Link>
+            <div className="header-projects-menu" ref={projectsRef}>
               <button
+                ref={projectsButtonRef}
                 type="button"
-                className="header-projects-trigger"
-                onMouseEnter={() => setMenuOpen(true)}
-                onClick={(e) => {
-                  if (!window.matchMedia("(hover: hover)").matches) {
-                    e.preventDefault();
-                    setMenuOpen((o) => !o);
-                  }
-                }}
-                aria-expanded={menuOpen}
-                aria-haspopup="true"
+                className={`header-projects-trigger ${activeProject ? "is-active" : ""}`}
+                aria-expanded={projectsOpen}
+                aria-controls="projects-menu"
+                aria-haspopup="menu"
+                onClick={() => setProjectsOpen((open) => !open)}
+                onKeyDown={onProjectsKeyDown}
               >
                 {t.nav[2]}
-                <ChevronDown size={14} style={{ transform: menuOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s" }} />
+                <ChevronDown size={15} aria-hidden="true" />
               </button>
               <AnimatePresence>
-                {menuOpen && (
-                  <motion.div
-                    className="header-projects-panel is-open"
-                    onMouseLeave={() => setMenuOpen(false)}
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 6 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    <div className="header-projects-intro">
+                {projectsOpen && (
+                  <motion.div id="projects-menu" className="header-projects-panel" role="menu" {...panelMotion}>
+                    <div className="header-panel-intro">
                       <strong>{t.projectMenu}</strong>
-                      <small>{t.projectMenuLead}</small>
+                      <small>{localize(shellText.projectIntro, language)}</small>
                     </div>
-                    {projects.map((p) => (
-                      <Link key={p.slug} to={p.pageUrl} onClick={() => { setMenuOpen(false); setMobileOpen(false); }}>
-                        <span>{p.title}</span>
-                        <small>{p.type[language]}</small>
+                    {projects.map((project) => (
+                      <Link
+                        key={project.slug}
+                        to={project.pageUrl}
+                        role="menuitem"
+                        onClick={() => setProjectsOpen(false)}
+                      >
+                        <span>{project.title}</span>
+                        <small>{localize(project.type, language)}</small>
                       </Link>
                     ))}
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
-            {navLink("/contact/", t.nav[3])}
+            <Link to={navItems[2].to} className={navItems[2].active ? "is-active" : ""}>{navItems[2].label}</Link>
           </nav>
 
-          <div className="header-lang" aria-label="Language switcher">
-            {langs.map((key) => (
+          <div className="header-actions">
+            <div className="header-language" ref={langRef}>
               <button
-                key={key}
+                ref={langButtonRef}
                 type="button"
-                aria-pressed={language === key}
-                onClick={() => setLanguage(key)}
+                className="header-language-trigger"
+                aria-expanded={languageOpen}
+                aria-controls="language-menu"
+                aria-haspopup="listbox"
+                onClick={() => setLanguageOpen((open) => !open)}
+                onKeyDown={onLanguageKeyDown}
               >
-                {langLabels[key]}
+                <Languages size={15} aria-hidden="true" />
+                <span>{activeLanguage.short}</span>
+                <ChevronDown size={14} aria-hidden="true" />
               </button>
-            ))}
-          </div>
+              <AnimatePresence>
+                {languageOpen && (
+                  <motion.div
+                    id="language-menu"
+                    className="header-language-panel"
+                    role="listbox"
+                    aria-label={localize(shellText.language, language)}
+                    {...panelMotion}
+                  >
+                    {languages.map((item) => (
+                      <button
+                        key={item.key}
+                        type="button"
+                        role="option"
+                        aria-selected={language === item.key}
+                        onClick={() => {
+                          setLanguage(item.key);
+                          setLanguageOpen(false);
+                          langButtonRef.current?.focus();
+                        }}
+                      >
+                        <span>{item.short}</span>
+                        <small>{item.label}</small>
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
-          <button
-            type="button"
-            className="header-toggle"
-            aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
-            aria-expanded={mobileOpen}
-            onClick={() => setMobileOpen((o) => !o)}
-          >
-            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+            <button
+              type="button"
+              className="header-toggle"
+              aria-label={mobileOpen ? localize(shellText.closeNav, language) : localize(shellText.openNav, language)}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-navigation"
+              onClick={() => setMobileOpen((open) => !open)}
+            >
+              {mobileOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
+            </button>
+          </div>
         </div>
 
         <AnimatePresence>
           {mobileOpen && (
-            <motion.div
-              className="header-drawer is-open"
-              initial={{ opacity: 0, y: -8, maxHeight: 0 }}
-              animate={{ opacity: 1, y: 0, maxHeight: "min(85vh, 700px)" }}
-              exit={{ opacity: 0, y: -8, maxHeight: 0 }}
-              transition={{ duration: 0.25 }}
-            >
-              <nav className="header-drawer-links" aria-label="Mobile navigation">
-                {navLink("/", t.nav[0])}
-                {navLink("/about/", t.nav[1])}
-                {navLink("/#projects", t.nav[2])}
-                {navLink("/contact/", t.nav[3])}
-              </nav>
-              <div className="header-drawer-projects">
-                <strong>{t.projectMenu}</strong>
-                {projects.map((p) => (
-                  <Link key={p.slug} to={p.pageUrl} onClick={() => setMobileOpen(false)}>
-                    <span>{p.title}</span>
-                    <small>{p.type[language]}</small>
-                  </Link>
-                ))}
-              </div>
-              <div className="header-drawer-lang">
-                {langs.map((key) => (
-                  <button
-                    key={key}
-                    type="button"
-                    aria-pressed={language === key}
-                    onClick={() => setLanguage(key)}
-                  >
-                    {langLabels[key]}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
+            <>
+              <motion.button
+                className="mobile-scrim"
+                type="button"
+                aria-label={localize(shellText.closeNav, language)}
+                onClick={() => setMobileOpen(false)}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              />
+              <motion.div
+                id="mobile-navigation"
+                className="header-drawer"
+                initial={{ opacity: 0, y: -12, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -10, scale: 0.98 }}
+                transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <nav className="header-drawer-links" aria-label="Mobile navigation">
+                  <Link ref={mobileFirstLinkRef} to="/">{t.nav[0]}</Link>
+                  <Link to="/about/">{t.nav[1]}</Link>
+                  <Link to="/contact/">{t.nav[3]}</Link>
+                </nav>
+                <div className="header-drawer-section">
+                  <strong>{t.projectMenu}</strong>
+                  <div className="header-drawer-projects">
+                    {projects.map((project) => (
+                      <Link key={project.slug} to={project.pageUrl}>
+                        <span>{project.title}</span>
+                        <small>{localize(project.type, language)}</small>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+                <div className="header-drawer-section">
+                  <strong>{localize(shellText.language, language)}</strong>
+                  <div className="header-drawer-language" role="listbox" aria-label={localize(shellText.language, language)}>
+                    {languages.map((item) => (
+                      <button
+                        key={item.key}
+                        type="button"
+                        role="option"
+                        aria-selected={language === item.key}
+                        onClick={() => setLanguage(item.key)}
+                      >
+                        {item.short}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </header>
