@@ -1,4 +1,4 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, Component } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -10,6 +10,19 @@ import { useLanguage } from "./hooks/useLanguage";
 import { projects } from "./data/projects";
 
 const ImmersiveBackground = lazy(() => import("./components/background/ImmersiveBackground"));
+
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  render() {
+    return this.state.hasError ? null : this.props.children;
+  }
+}
 
 function PageTransition({ children }) {
   return (
@@ -50,9 +63,11 @@ export default function App() {
 
   return (
     <div className={`app ${isRtl ? "rtl" : "ltr"}`}>
-      <Suspense fallback={null}>
-        <ImmersiveBackground />
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={null}>
+          <ImmersiveBackground />
+        </Suspense>
+      </ErrorBoundary>
       <div className="page-shell">
         <Header t={t} language={language} setLanguage={setLanguage} isRtl={isRtl} />
 
