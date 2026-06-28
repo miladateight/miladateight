@@ -60,10 +60,10 @@ const homeCopy = {
     de: "Gespräch starten",
   },
   commandTitle: {
-    en: "Operational signal",
-    fa: "سیگنال عملیاتی",
-    ar: "إشارة تشغيلية",
-    de: "Operatives Signal",
+    en: "Systems cockpit",
+    fa: "کاکپیت سیستم",
+    ar: "قمرة الأنظمة",
+    de: "System-Cockpit",
   },
   identityTitle: {
     en: "From rack-level detail to user-facing systems",
@@ -197,13 +197,24 @@ const capabilityItems = [
 ];
 
 const operatorSignals = [
-  ["edge", "MikroTik route", "stable"],
-  ["tunnel", "WireGuard link", "sealed"],
-  ["mail", "DNS/TLS flow", "watch"],
-  ["deploy", "service health", "green"],
+  { key: "web", label: "Web edge", metric: "HTTPS 200", icon: Globe2 },
+  { key: "deploy", label: "Deploy", metric: "green", icon: GitBranch },
+  { key: "net", label: "Network", metric: "24ms", icon: Network },
+  { key: "backup", label: "Backup", metric: "verified", icon: Database },
+];
+
+const consoleRows = [
+  "deploy: ateight.xyz -> stable",
+  "wg0 tunnel handshake 24ms",
+  "haproxy route web:443 healthy",
+  "mail tls queue clear",
 ];
 
 function HeroCommandDeck({ language }) {
+  const reduceMotion = useReducedMotion();
+  const steamMotion = reduceMotion ? undefined : { opacity: [0, 0.85, 0], y: [0, -18, -34], scale: [0.85, 1.08, 1.24] };
+  const glanceMotion = reduceMotion ? undefined : { x: [0, 3, 0, -2, 0] };
+
   return (
     <motion.aside
       className="hero-command-deck"
@@ -216,55 +227,154 @@ function HeroCommandDeck({ language }) {
         <span>{localize(homeCopy.commandTitle, language)}</span>
         <Activity size={16} aria-hidden="true" />
       </div>
-      <div className="operator-stage" aria-hidden="true">
-        <span className="operator-light light-a" />
-        <span className="operator-light light-b" />
-        <div className="monitor-wall">
-          <motion.div className="monitor-panel main-panel" animate={{ y: [0, -5, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}>
-            <div className="panel-bar"><MonitorCheck size={14} /><span>ops console</span></div>
-            <span className="trace trace-a" />
-            <span className="trace trace-b" />
-            <span className="trace trace-c" />
-            <div className="metric-row"><Database size={13} /><strong>backup</strong><em>verified</em></div>
-            <div className="metric-row"><RadioTower size={13} /><strong>latency</strong><em>24ms</em></div>
-          </motion.div>
-          <motion.div className="monitor-panel side-panel" animate={{ x: [0, 4, 0] }} transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}>
-            <div className="panel-bar"><GitBranch size={13} /><span>pipeline</span></div>
-            <span className="status-line is-long" />
-            <span className="status-line" />
-            <span className="status-line is-hot" />
-          </motion.div>
-        </div>
-        <div className="operator-rig">
-          <div className="operator-body">
-            <span className="operator-head" />
-            <span className="operator-shoulder" />
-            <span className="operator-arm arm-left" />
-            <span className="operator-arm arm-right" />
-          </div>
-          <div className="operator-desk">
-            <div className="operator-laptop">
-              <HardDrive size={18} />
-              <span />
-              <span />
-            </div>
-            <div className="coffee-cup"><Coffee size={18} /><span /></div>
-          </div>
-        </div>
-        <div className="signal-lanes">
-          {operatorSignals.map(([name, scope, state], index) => (
-            <motion.div
-              className="signal-lane"
-              key={name}
-              animate={{ opacity: [0.68, 1, 0.68], x: [0, index % 2 ? -3 : 3, 0] }}
-              transition={{ duration: 3.5 + index * 0.4, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <span className="command-dot" />
-              <strong>{name}</strong>
-              <small>{scope}</small>
-              <em>{state}</em>
-            </motion.div>
-          ))}
+      <div className="workstation-scene" aria-hidden="true">
+        <svg className="workstation-svg" viewBox="0 0 720 560" role="img">
+          <defs>
+            <radialGradient id="hero-monitor-light" cx="50%" cy="42%" r="62%">
+              <stop offset="0%" stopColor="#7dd3fc" stopOpacity="0.46" />
+              <stop offset="48%" stopColor="#22d3ee" stopOpacity="0.16" />
+              <stop offset="100%" stopColor="#020617" stopOpacity="0" />
+            </radialGradient>
+            <linearGradient id="hero-screen" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stopColor="#172554" />
+              <stop offset="58%" stopColor="#07111f" />
+              <stop offset="100%" stopColor="#020617" />
+            </linearGradient>
+            <linearGradient id="hero-skin" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stopColor="#f5c9aa" />
+              <stop offset="100%" stopColor="#b7795a" />
+            </linearGradient>
+            <linearGradient id="hero-shirt" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stopColor="#1f2937" />
+              <stop offset="100%" stopColor="#0b1120" />
+            </linearGradient>
+            <filter id="hero-soft-glow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="12" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="34" y="30" width="652" height="498" rx="32" fill="#030712" />
+          <ellipse cx="365" cy="248" rx="296" ry="210" fill="url(#hero-monitor-light)" filter="url(#hero-soft-glow)" />
+          <path d="M72 412 C178 368 246 388 338 356 C440 320 548 326 650 380 L650 528 L72 528 Z" fill="#07111f" opacity="0.8" />
+
+          <g className="workstation-bg">
+            <rect x="76" y="70" width="144" height="70" rx="14" />
+            <rect x="520" y="78" width="96" height="152" rx="18" />
+            <path d="M94 166 H196 M544 112 H592 M544 142 H606 M544 172 H586 M544 202 H598" />
+          </g>
+
+          <motion.g
+            className="monitor-cluster"
+            animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <rect x="132" y="96" width="260" height="176" rx="18" className="monitor-shell" />
+            <rect x="147" y="113" width="230" height="134" rx="10" fill="url(#hero-screen)" />
+            <rect x="398" y="130" width="182" height="132" rx="16" className="monitor-shell side" />
+            <rect x="412" y="146" width="154" height="92" rx="9" fill="url(#hero-screen)" />
+            <path d="M268 272 L256 318 H356 L342 272" className="monitor-stand" />
+            <path d="M468 262 L458 306 H532 L520 262" className="monitor-stand" />
+
+            {consoleRows.map((row, index) => (
+              <g key={row} className="code-row" transform={`translate(166 ${138 + index * 24})`}>
+                <circle cx="0" cy="0" r="3.5" />
+                <motion.rect
+                  x="14"
+                  y="-5"
+                  height="8"
+                  rx="4"
+                  animate={reduceMotion ? undefined : { width: [88 + index * 18, 132 + index * 12, 88 + index * 18] }}
+                  transition={{ duration: 3.6 + index * 0.4, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <text x="14" y="17">{row}</text>
+              </g>
+            ))}
+            <motion.rect
+              className="screen-cursor"
+              x="310"
+              y="223"
+              width="8"
+              height="16"
+              rx="2"
+              animate={reduceMotion ? undefined : { opacity: [0, 1, 1, 0] }}
+              transition={{ duration: 1, repeat: Infinity }}
+            />
+
+            <path className="network-line" d="M430 176 C466 154 494 168 536 154" />
+            <path className="network-line network-mail" d="M430 206 C462 226 506 210 546 222" />
+            {[0, 1, 2].map((index) => (
+              <motion.circle
+                key={index}
+                className="network-packet"
+                r="4"
+                animate={reduceMotion ? undefined : { cx: [432, 538], cy: index === 1 ? [206, 222] : [176, 154] }}
+                transition={{ duration: 2.8, repeat: Infinity, delay: index * 0.65, ease: "easeInOut" }}
+              />
+            ))}
+          </motion.g>
+
+          <g className="operator-chair">
+            <path d="M286 316 C270 282 286 244 332 234 H406 C448 238 464 278 448 320 L430 420 H306 Z" />
+            <path d="M306 420 H434 L462 506 H418 L374 446 L328 506 H286 Z" />
+          </g>
+
+          <motion.g className="operator-person" animate={glanceMotion} transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}>
+            <path className="operator-neck" d="M352 247 H386 L394 289 H342 Z" />
+            <path className="operator-torso" d="M302 298 C322 270 420 268 442 302 C456 344 448 398 430 430 H314 C296 388 288 340 302 298 Z" />
+            <ellipse className="operator-face" cx="370" cy="210" rx="42" ry="50" />
+            <path className="operator-hair" d="M326 208 C326 160 358 139 392 152 C422 164 426 204 408 228 C400 198 374 196 352 186 C342 196 336 206 326 208 Z" />
+            <path className="operator-eye" d="M358 211 H368 M386 211 H396" />
+            <path className="operator-nose" d="M378 216 C374 228 376 232 384 235" />
+            <path className="operator-arm left" d="M318 318 C276 338 250 366 224 410" />
+            <path className="operator-arm right" d="M424 318 C456 346 482 366 522 392" />
+            <ellipse className="operator-hand" cx="222" cy="411" rx="17" ry="10" />
+            <ellipse className="operator-hand" cx="524" cy="394" rx="17" ry="10" />
+          </motion.g>
+
+          <g className="desk-layer">
+            <path d="M104 414 C248 400 426 400 616 414 L652 496 H70 Z" />
+            <rect x="234" y="406" width="214" height="34" rx="10" />
+            <path d="M260 423 H424 M278 434 H406" />
+            <rect x="462" y="400" width="82" height="22" rx="8" />
+            <path d="M134 435 C154 420 184 422 204 438" />
+          </g>
+
+          <g className="coffee-group">
+            <path d="M548 382 H606 L596 438 H558 Z" />
+            <path d="M604 392 C636 392 636 426 600 423" />
+            <rect x="546" y="438" width="58" height="9" rx="5" />
+            {[0, 1, 2].map((index) => (
+              <motion.path
+                key={index}
+                className="steam-path"
+                d={`M${562 + index * 13} 372 C${548 + index * 15} 350 ${578 + index * 7} 342 ${566 + index * 11} 320`}
+                animate={steamMotion}
+                transition={{ duration: 2.8, repeat: Infinity, delay: index * 0.42, ease: "easeInOut" }}
+              />
+            ))}
+          </g>
+        </svg>
+
+        <div className="workbench-telemetry">
+          {operatorSignals.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                className={`workbench-signal signal-${item.key}`}
+                key={item.key}
+                animate={reduceMotion ? undefined : { opacity: [0.72, 1, 0.72], y: [0, index % 2 ? -3 : 3, 0] }}
+                transition={{ duration: 3.8 + index * 0.28, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <Icon size={14} aria-hidden="true" />
+                <span>{item.label}</span>
+                <strong>{item.metric}</strong>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </motion.aside>
