@@ -3,8 +3,12 @@ const LANGUAGES = ["en", "fa", "ar", "de"];
 
 export function getInitialLanguage() {
   try {
+    const queryLang = new URLSearchParams(window.location.search).get("lang");
+    if (queryLang && LANGUAGES.includes(queryLang)) return queryLang;
     const saved = localStorage.getItem(LANG_KEY);
     if (saved && LANGUAGES.includes(saved)) return saved;
+    const browserLang = navigator.language?.slice(0, 2);
+    if (browserLang && LANGUAGES.includes(browserLang)) return browserLang;
   } catch {}
   return "en";
 }

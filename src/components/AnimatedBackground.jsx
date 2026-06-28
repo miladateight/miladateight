@@ -13,12 +13,16 @@ function makeNode(index, total) {
 }
 
 function makeComet(index) {
+  const angle = 0.18 + (index % 3) * 0.035;
   return {
-    x: -0.18 - index * 0.22,
-    y: 0.12 + ((index * 0.31) % 0.58),
-    speed: 0.000042 + (index % 3) * 0.000012,
-    length: 90 + index * 18,
-    delay: index * 0.19,
+    x: -0.24 - index * 0.28,
+    y: 0.1 + ((index * 0.29) % 0.6),
+    speed: 0.000022 + (index % 4) * 0.000006,
+    length: 135 + index * 26,
+    thickness: 0.85 + (index % 3) * 0.32,
+    alpha: 0.36 + (index % 4) * 0.08,
+    angle,
+    delay: index * 0.27,
   };
 }
 
@@ -76,7 +80,7 @@ export default function AnimatedBackground() {
         speed: 0.00015 + (index % 5) * 0.000035,
         progress: (index * 0.17) % 1,
       }));
-      comets = Array.from({ length: isMobile ? 2 : 4 }, (_, index) => makeComet(index));
+      comets = Array.from({ length: isMobile ? 2 : 5 }, (_, index) => makeComet(index));
     };
 
     const resize = () => {
@@ -172,26 +176,28 @@ export default function AnimatedBackground() {
 
       comets.forEach((comet, index) => {
         comet.x += comet.speed * 16;
-        if (comet.x > 1.18) {
-          comet.x = -0.2 - comet.delay;
-          comet.y = 0.1 + (((index + Math.floor(t)) * 0.29) % 0.62);
+        if (comet.x > 1.22) {
+          comet.x = -0.24 - comet.delay;
+          comet.y = 0.1 + (((index + Math.floor(t * 0.38)) * 0.29) % 0.62);
         }
         const x = comet.x * w;
         const y = comet.y * h;
-        const tail = comet.length * (isMobile ? 0.68 : 1);
-        const gradient = ctx.createLinearGradient(x - tail, y + tail * 0.24, x, y);
+        const tail = comet.length * (isMobile ? 0.72 : 1);
+        const drift = tail * Math.tan(comet.angle);
+        const gradient = ctx.createLinearGradient(x - tail, y + drift, x, y);
         gradient.addColorStop(0, "rgba(56, 189, 248, 0)");
-        gradient.addColorStop(0.62, index % 2 ? "rgba(139, 92, 246, 0.1)" : "rgba(45, 212, 191, 0.1)");
-        gradient.addColorStop(1, "rgba(226, 245, 255, 0.46)");
+        gradient.addColorStop(0.54, index % 2 ? "rgba(139, 92, 246, 0.08)" : "rgba(45, 212, 191, 0.08)");
+        gradient.addColorStop(0.86, `rgba(125, 211, 252, ${comet.alpha * 0.42})`);
+        gradient.addColorStop(1, `rgba(226, 245, 255, ${comet.alpha})`);
         ctx.beginPath();
-        ctx.moveTo(x - tail, y + tail * 0.24);
+        ctx.moveTo(x - tail, y + drift);
         ctx.lineTo(x, y);
         ctx.strokeStyle = gradient;
-        ctx.lineWidth = isMobile ? 1 : 1.35;
+        ctx.lineWidth = comet.thickness * (isMobile ? 0.78 : 1);
         ctx.stroke();
         ctx.beginPath();
-        ctx.arc(x, y, isMobile ? 1.4 : 1.8, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(226, 245, 255, 0.55)";
+        ctx.arc(x, y, (isMobile ? 1.2 : 1.7) + index * 0.1, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(226, 245, 255, ${comet.alpha + 0.12})`;
         ctx.fill();
       });
 
