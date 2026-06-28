@@ -1,10 +1,66 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { localize } from "../utils/localize";
+
+const L = (value, language) => localize(value, language);
+
+const visualCopy = {
+  keyfixCaption: {
+    en: "Functional illustration based on documented KeyFix behavior",
+    fa: "نمایش کارکردی بر پایه رفتار مستند KeyFix",
+    ar: "توضيح وظيفي مبني على سلوك KeyFix الموثق",
+    de: "Funktionale Darstellung des dokumentierten KeyFix-Verhaltens",
+  },
+  keyfixStatus: {
+    en: "local buffer, dictionary score, corrective rewrite",
+    fa: "بافر محلی، امتیاز دیکشنری، بازنویسی اصلاحی",
+    ar: "مخزن محلي، تقييم القاموس، إعادة كتابة تصحيحية",
+    de: "lokaler Puffer, Wörterbuch-Score, korrigierende Umschrift",
+  },
+  keyfixBuffer: { en: "KeyFix buffer", fa: "بافر KeyFix", ar: "مخزن KeyFix", de: "KeyFix-Puffer" },
+  keyfixReplace: { en: "replace", fa: "جایگزینی", ar: "استبدال", de: "ersetzen" },
+  netdoctorCaption: {
+    en: "Functional illustration of the diagnostic and repair workflow",
+    fa: "نمایش کارکردی روند تشخیص و ترمیم",
+    ar: "توضيح وظيفي لسير عمل التشخيص والإصلاح",
+    de: "Funktionale Darstellung des Diagnose- und Reparaturablaufs",
+  },
+  netdoctorScan: { en: "NetDoctor scan", fa: "اسکن NetDoctor", ar: "فحص NetDoctor", de: "NetDoctor-Scan" },
+  netdoctorMode: {
+    en: "safe repair mode",
+    fa: "حالت ترمیم امن",
+    ar: "وضع الإصلاح الآمن",
+    de: "sicherer Reparaturmodus",
+  },
+  pending: { en: "pending", fa: "در انتظار", ar: "قيد الانتظار", de: "ausstehend" },
+  infraCaption: {
+    en: "Functional illustration of the hybrid web and mail topology",
+    fa: "نمایش کارکردی توپولوژی ترکیبی وب و ایمیل",
+    ar: "توضيح وظيفي لطوبولوجيا الويب والبريد الهجينة",
+    de: "Funktionale Darstellung der hybriden Web- und Mail-Topologie",
+  },
+  infraActiveFlow: { en: "Active flow", fa: "جریان فعال", ar: "التدفق النشط", de: "Aktiver Fluss" },
+  infraHint: {
+    en: "Select a flow to trace its path across the topology.",
+    fa: "یک جریان را انتخاب کنید تا مسیر آن در توپولوژی دنبال شود.",
+    ar: "اختر تدفقًا لتتبع مساره عبر الطوبولوجيا.",
+    de: "Wähle einen Fluss, um seinen Pfad durch die Topologie zu verfolgen.",
+  },
+  infraAuto: { en: "auto", fa: "خودکار", ar: "تلقائي", de: "auto" },
+  infraLegendTitle: { en: "Path key", fa: "راهنمای مسیر", ar: "مفتاح المسارات", de: "Pfad-Legende" },
+  botCaption: {
+    en: "Functional illustration of the Telegram download workflow",
+    fa: "نمایش کارکردی روند دانلود در تلگرام",
+    ar: "توضيح وظيفي لسير عمل التنزيل عبر Telegram",
+    de: "Funktionale Darstellung des Telegram-Download-Ablaufs",
+  },
+  botTitle: { en: "AT8 Downloader", fa: "دانلودر AT8", ar: "AT8 Downloader", de: "AT8 Downloader" },
+};
 
 const keyfixExamples = [
-  { wrong: "sghl", right: "سلام", layout: "EN -> FA", keys: ["S", "G", "H", "L"] },
-  { wrong: "l,sd", right: "mail", layout: "FA -> EN", keys: ["M", "A", "I", "L"] },
-  { wrong: "ىخف", right: "net", layout: "AR -> EN", keys: ["N", "E", "T"] },
+  { wrong: "sghl", right: "سلام", layout: "EN → FA", keys: ["S", "G", "H", "L"] },
+  { wrong: "l,sd", right: "mail", layout: "FA → EN", keys: ["M", "A", "I", "L"] },
+  { wrong: "ىخف", right: "net", layout: "AR → EN", keys: ["N", "E", "T"] },
 ];
 
 const keyboardRows = [
@@ -13,34 +69,34 @@ const keyboardRows = [
   ["Z", "X", "C", "V", "B", "N", "M"],
 ];
 
-function useLoop(max, duration = 2400) {
+function useLoop(max, duration = 2400, paused = false) {
   const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    if (reduce) return undefined;
+    if (reduce || paused) return undefined;
     const id = window.setInterval(() => setIndex((value) => (value + 1) % max), duration);
     return () => window.clearInterval(id);
-  }, [duration, max, reduce]);
+  }, [duration, max, reduce, paused]);
 
   return reduce ? 0 : index;
 }
 
-function KeyFixVisual() {
+function KeyFixVisual({ language }) {
   const active = useLoop(keyfixExamples.length, 2600);
   const example = keyfixExamples[active];
 
   return (
     <div className="project-visual-scene keyfix-demo" aria-label="KeyFix functional illustration of layout correction">
-      <div className="demo-caption">Functional illustration based on documented KeyFix behavior</div>
+      <div className="demo-caption">{L(visualCopy.keyfixCaption, language)}</div>
       <div className="keyfix-stage">
         <div className="keyfix-editor">
           <div className="window-bar">
             <span />
-            <strong>KeyFix buffer</strong>
+            <strong>{L(visualCopy.keyfixBuffer, language)}</strong>
             <em>{example.layout}</em>
           </div>
-          <div className="typed-line">
+          <div className="typed-line" dir="ltr">
             <motion.span
               key={`wrong-${active}`}
               className="wrong-token"
@@ -63,7 +119,7 @@ function KeyFixVisual() {
             animate={{ opacity: 1, y: 0, clipPath: "inset(0 0% 0 0)" }}
             transition={{ delay: 0.72, duration: 0.48, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span>replace</span>
+            <span>{L(visualCopy.keyfixReplace, language)}</span>
             <strong>{example.right}</strong>
           </motion.div>
         </div>
@@ -86,45 +142,45 @@ function KeyFixVisual() {
       </div>
       <div className="visual-status-line">
         <span />
-        local buffer, dictionary score, corrective rewrite
+        {L(visualCopy.keyfixStatus, language)}
       </div>
     </div>
   );
 }
 
 const diagnosticSteps = [
-  ["adapter", "active"],
-  ["ip config", "valid"],
-  ["gateway", "reachable"],
-  ["dns", "resolved"],
-  ["internet", "online"],
-  ["latency", "42 ms"],
-  ["proxy", "clean"],
-  ["health", "stable"],
+  { label: "adapter", value: { en: "active", fa: "فعال", ar: "نشط", de: "aktiv" } },
+  { label: "ip config", value: { en: "valid", fa: "معتبر", ar: "صالح", de: "gültig" } },
+  { label: "gateway", value: { en: "reachable", fa: "در دسترس", ar: "متاح", de: "erreichbar" } },
+  { label: "dns", value: { en: "resolved", fa: "حل شد", ar: "تم الحل", de: "aufgelöst" } },
+  { label: "internet", value: { en: "online", fa: "آنلاین", ar: "متصل", de: "online" } },
+  { label: "latency", value: "42 ms" },
+  { label: "proxy", value: { en: "clean", fa: "سالم", ar: "نظيف", de: "sauber" } },
+  { label: "health", value: { en: "stable", fa: "پایدار", ar: "مستقر", de: "stabil" } },
 ];
 
-function NetDoctorVisual() {
+function NetDoctorVisual({ language }) {
   const active = useLoop(diagnosticSteps.length, 1050);
   return (
     <div className="project-visual-scene netdoctor-demo" aria-label="NetDoctor diagnostic workflow illustration">
-      <div className="demo-caption">Functional illustration of the diagnostic and repair workflow</div>
+      <div className="demo-caption">{L(visualCopy.netdoctorCaption, language)}</div>
       <div className="diagnostic-console">
         <div className="window-bar">
           <span />
-          <strong>NetDoctor scan</strong>
-          <em>safe repair mode</em>
+          <strong>{L(visualCopy.netdoctorScan, language)}</strong>
+          <em>{L(visualCopy.netdoctorMode, language)}</em>
         </div>
         <div className="diagnostic-steps">
-          {diagnosticSteps.map(([label, value], index) => (
+          {diagnosticSteps.map((step, index) => (
             <motion.div
               className={`diagnostic-step ${index <= active ? "is-done" : ""} ${index === active ? "is-active" : ""}`}
-              key={label}
+              key={step.label}
               animate={index === active ? { scale: [1, 1.02, 1] } : undefined}
               transition={{ duration: 0.7 }}
             >
               <span>{String(index + 1).padStart(2, "0")}</span>
-              <strong>{label}</strong>
-              <em>{index <= active ? value : "pending"}</em>
+              <strong dir="ltr">{step.label}</strong>
+              <em>{index <= active ? L(step.value, language) : L(visualCopy.pending, language)}</em>
             </motion.div>
           ))}
         </div>
@@ -147,65 +203,205 @@ function NetDoctorVisual() {
 }
 
 const infraNodes = [
-  { id: "users", label: "Users", meta: "requests", x: 72, y: 126, w: 92, zone: "local", status: "active" },
-  { id: "site", label: "Local Site", meta: "LAN services", x: 72, y: 248, w: 112, zone: "local", status: "private" },
-  { id: "mikrotik", label: "MikroTik", meta: "firewall/NAT", x: 216, y: 188, w: 116, zone: "local", status: "edge" },
-  { id: "wireguard", label: "WireGuard", meta: "encrypted link", x: 352, y: 188, w: 122, zone: "bridge", status: "tunnel" },
-  { id: "vps", label: "VPS", meta: "public IP", x: 492, y: 188, w: 92, zone: "public", status: "online" },
-  { id: "proxy", label: "HAProxy/Caddy", meta: "TCP + TLS", x: 630, y: 188, w: 132, zone: "public", status: "routing" },
-  { id: "web", label: "Web", meta: "HTTPS app", x: 730, y: 102, w: 84, zone: "public", status: "200" },
-  { id: "mail", label: "Mail", meta: "SMTP/IMAP", x: 730, y: 274, w: 92, zone: "public", status: "queue ok" },
-  { id: "dns", label: "DNS / TLS", meta: "MX SPF DKIM", x: 492, y: 72, w: 112, zone: "public", status: "valid" },
-  { id: "backup", label: "Backup", meta: "encrypted", x: 492, y: 318, w: 104, zone: "public", status: "verified" },
+  {
+    id: "users",
+    label: { en: "Users", fa: "کاربران", ar: "المستخدمون", de: "Benutzer" },
+    meta: { en: "requests", fa: "درخواست‌ها", ar: "طلبات", de: "Anfragen" },
+    status: { en: "active", fa: "فعال", ar: "نشط", de: "aktiv" },
+    x: 72, y: 126, w: 96, zone: "local",
+  },
+  {
+    id: "site",
+    label: { en: "Local Site", fa: "سایت محلی", ar: "الموقع المحلي", de: "Lokal" },
+    meta: { en: "LAN services", fa: "سرویس LAN", ar: "خدمات LAN", de: "LAN-Dienste" },
+    status: { en: "private", fa: "خصوصی", ar: "خاص", de: "privat" },
+    x: 72, y: 248, w: 116, zone: "local",
+  },
+  {
+    id: "mikrotik",
+    label: { en: "MikroTik", fa: "MikroTik", ar: "MikroTik", de: "MikroTik" },
+    meta: { en: "firewall / NAT", fa: "فایروال / NAT", ar: "جدار / NAT", de: "Firewall / NAT" },
+    status: { en: "edge", fa: "لبه", ar: "الحافة", de: "Edge" },
+    x: 220, y: 188, w: 120, zone: "local",
+  },
+  {
+    id: "wireguard",
+    label: { en: "WireGuard", fa: "WireGuard", ar: "WireGuard", de: "WireGuard" },
+    meta: { en: "encrypted", fa: "رمزگذاری‌شده", ar: "مشفّر", de: "verschlüsselt" },
+    status: { en: "tunnel", fa: "تونل", ar: "نفق", de: "Tunnel" },
+    x: 356, y: 188, w: 124, zone: "bridge",
+  },
+  {
+    id: "vps",
+    label: { en: "VPS", fa: "VPS", ar: "VPS", de: "VPS" },
+    meta: { en: "public IP", fa: "IP عمومی", ar: "IP عام", de: "öffentl. IP" },
+    status: { en: "online", fa: "آنلاین", ar: "متصل", de: "online" },
+    x: 494, y: 188, w: 94, zone: "public",
+  },
+  {
+    id: "proxy",
+    label: { en: "HAProxy / Caddy", fa: "HAProxy / Caddy", ar: "HAProxy / Caddy", de: "HAProxy / Caddy" },
+    meta: { en: "TCP + TLS", fa: "TCP + TLS", ar: "TCP + TLS", de: "TCP + TLS" },
+    status: { en: "routing", fa: "مسیریابی", ar: "توجيه", de: "Routing" },
+    x: 636, y: 188, w: 140, zone: "public",
+  },
+  {
+    id: "web",
+    label: { en: "Web", fa: "وب", ar: "الويب", de: "Web" },
+    meta: { en: "HTTPS app", fa: "اپ HTTPS", ar: "تطبيق HTTPS", de: "HTTPS-App" },
+    status: "HTTP 200",
+    x: 734, y: 100, w: 88, zone: "public",
+  },
+  {
+    id: "mail",
+    label: { en: "Mail", fa: "ایمیل", ar: "البريد", de: "Mail" },
+    meta: { en: "SMTP / IMAP", fa: "SMTP / IMAP", ar: "SMTP / IMAP", de: "SMTP / IMAP" },
+    status: { en: "queue ok", fa: "صف سالم", ar: "الطابور جيد", de: "Queue ok" },
+    x: 734, y: 276, w: 96, zone: "public",
+  },
+  {
+    id: "dns",
+    label: { en: "DNS / TLS", fa: "DNS / TLS", ar: "DNS / TLS", de: "DNS / TLS" },
+    meta: { en: "MX · SPF · DKIM", fa: "MX · SPF · DKIM", ar: "MX · SPF · DKIM", de: "MX · SPF · DKIM" },
+    status: { en: "valid", fa: "معتبر", ar: "صالح", de: "gültig" },
+    x: 494, y: 70, w: 120, zone: "public",
+  },
+  {
+    id: "backup",
+    label: { en: "Backup", fa: "بکاپ", ar: "نسخ احتياطي", de: "Backup" },
+    meta: { en: "encrypted", fa: "رمزگذاری‌شده", ar: "مشفّر", de: "verschlüsselt" },
+    status: { en: "verified", fa: "تأییدشده", ar: "مُتحقَّق", de: "verifiziert" },
+    x: 494, y: 320, w: 112, zone: "public",
+  },
 ];
 
 const infraPathMap = {
-  usersToDns: { id: "usersToDns", d: "M118 126 C230 56 360 54 436 72", kind: "dns" },
-  dnsToVps: { id: "dnsToVps", d: "M548 72 C570 98 560 142 538 188", kind: "dns" },
-  usersToMikrotik: { id: "usersToMikrotik", d: "M118 126 C150 142 178 164 216 188", kind: "web" },
-  siteToMikrotik: { id: "siteToMikrotik", d: "M128 248 C154 226 180 204 216 188", kind: "local" },
-  mikrotikToWireguard: { id: "mikrotikToWireguard", d: "M274 188 C302 188 324 188 352 188", kind: "tunnel" },
-  wireguardToVps: { id: "wireguardToVps", d: "M413 188 C440 188 466 188 492 188", kind: "tunnel" },
-  vpsToProxy: { id: "vpsToProxy", d: "M538 188 C570 188 598 188 630 188", kind: "web" },
-  proxyToWeb: { id: "proxyToWeb", d: "M696 188 C716 160 724 134 730 102", kind: "web" },
-  proxyToMail: { id: "proxyToMail", d: "M696 188 C716 216 724 246 730 274", kind: "mail" },
-  mailToDns: { id: "mailToDns", d: "M730 274 C660 210 606 114 548 72", kind: "dns" },
-  webToBackup: { id: "webToBackup", d: "M730 102 C680 214 610 292 544 318", kind: "backup" },
-  mailToBackup: { id: "mailToBackup", d: "M730 274 C664 304 602 318 544 318", kind: "backup" },
+  usersToDns: { id: "usersToDns", d: "M120 126 C232 56 362 54 438 70", kind: "dns" },
+  dnsToVps: { id: "dnsToVps", d: "M548 70 C572 98 562 142 540 188", kind: "dns" },
+  usersToMikrotik: { id: "usersToMikrotik", d: "M120 126 C152 142 182 164 220 188", kind: "web" },
+  siteToMikrotik: { id: "siteToMikrotik", d: "M130 248 C156 226 184 204 220 188", kind: "local" },
+  mikrotikToWireguard: { id: "mikrotikToWireguard", d: "M280 188 C306 188 330 188 356 188", kind: "tunnel" },
+  wireguardToVps: { id: "wireguardToVps", d: "M418 188 C444 188 468 188 494 188", kind: "tunnel" },
+  vpsToProxy: { id: "vpsToProxy", d: "M541 188 C572 188 600 188 636 188", kind: "web" },
+  proxyToWeb: { id: "proxyToWeb", d: "M700 188 C720 160 728 132 734 100", kind: "web" },
+  proxyToMail: { id: "proxyToMail", d: "M700 188 C720 216 728 248 734 276", kind: "mail" },
+  mailToDns: { id: "mailToDns", d: "M734 276 C662 210 608 112 548 70", kind: "dns" },
+  webToBackup: { id: "webToBackup", d: "M734 100 C684 214 612 294 548 320", kind: "backup" },
+  mailToBackup: { id: "mailToBackup", d: "M734 276 C666 306 604 320 548 320", kind: "backup" },
 };
 
 const infraFlows = [
-  { id: "web", label: "Web", detail: "Users resolve DNS, hit the VPS, and reach the web service through HAProxy/Caddy.", paths: ["usersToDns", "dnsToVps", "vpsToProxy", "proxyToWeb"], nodes: ["users", "dns", "vps", "proxy", "web"] },
-  { id: "mail", label: "Mail", detail: "Mail uses public DNS records, TLS, and the proxy path to SMTP/IMAP services.", paths: ["usersToDns", "dnsToVps", "vpsToProxy", "proxyToMail", "mailToDns"], nodes: ["users", "dns", "vps", "proxy", "mail"] },
-  { id: "tunnel", label: "Tunnel", detail: "Local services leave through MikroTik, cross WireGuard, and terminate at the VPS.", paths: ["siteToMikrotik", "mikrotikToWireguard", "wireguardToVps"], nodes: ["site", "mikrotik", "wireguard", "vps"] },
-  { id: "backup", label: "Backup", detail: "Web and mail snapshots move to an encrypted backup target after the public split.", paths: ["proxyToWeb", "webToBackup", "proxyToMail", "mailToBackup"], nodes: ["proxy", "web", "mail", "backup"] },
+  {
+    id: "web",
+    label: { en: "Web", fa: "وب", ar: "الويب", de: "Web" },
+    detail: {
+      en: "Users resolve DNS, reach the VPS, and hit the web app through HAProxy and Caddy.",
+      fa: "کاربران DNS را حل می‌کنند، به VPS می‌رسند و از طریق HAProxy و Caddy به اپ وب می‌رسند.",
+      ar: "يحل المستخدمون DNS، يصلون إلى VPS، ويبلغون تطبيق الويب عبر HAProxy و Caddy.",
+      de: "Nutzer lösen DNS auf, erreichen den VPS und treffen die Web-App über HAProxy und Caddy.",
+    },
+    paths: ["usersToDns", "dnsToVps", "vpsToProxy", "proxyToWeb"],
+    nodes: ["users", "dns", "vps", "proxy", "web"],
+  },
+  {
+    id: "mail",
+    label: { en: "Mail", fa: "ایمیل", ar: "البريد", de: "Mail" },
+    detail: {
+      en: "Mail relies on public DNS records, TLS, and the proxy path into SMTP and IMAP services.",
+      fa: "ایمیل به رکوردهای عمومی DNS، TLS و مسیر پراکسی به سرویس‌های SMTP و IMAP متکی است.",
+      ar: "يعتمد البريد على سجلات DNS العامة و TLS ومسار الوكيل إلى خدمات SMTP و IMAP.",
+      de: "Mail nutzt öffentliche DNS-Einträge, TLS und den Proxy-Pfad zu SMTP- und IMAP-Diensten.",
+    },
+    paths: ["usersToDns", "dnsToVps", "vpsToProxy", "proxyToMail", "mailToDns"],
+    nodes: ["users", "dns", "vps", "proxy", "mail"],
+  },
+  {
+    id: "tunnel",
+    label: { en: "Tunnel", fa: "تونل", ar: "النفق", de: "Tunnel" },
+    detail: {
+      en: "Local services leave through MikroTik, cross the WireGuard tunnel, and terminate at the VPS.",
+      fa: "سرویس‌های محلی از طریق MikroTik خارج می‌شوند، از تونل WireGuard عبور می‌کنند و در VPS پایان می‌یابند.",
+      ar: "تخرج الخدمات المحلية عبر MikroTik، تعبر نفق WireGuard، وتنتهي عند VPS.",
+      de: "Lokale Dienste verlassen über MikroTik, durchqueren den WireGuard-Tunnel und enden am VPS.",
+    },
+    paths: ["siteToMikrotik", "mikrotikToWireguard", "wireguardToVps"],
+    nodes: ["site", "mikrotik", "wireguard", "vps"],
+  },
+  {
+    id: "backup",
+    label: { en: "Backup", fa: "بکاپ", ar: "النسخ", de: "Backup" },
+    detail: {
+      en: "Web and mail snapshots move to an encrypted backup target after the public split.",
+      fa: "اسنپ‌شات‌های وب و ایمیل پس از تفکیک عمومی به مقصد بکاپ رمزگذاری‌شده منتقل می‌شوند.",
+      ar: "تنتقل لقطات الويب والبريد إلى هدف نسخ احتياطي مشفر بعد التقسيم العام.",
+      de: "Web- und Mail-Snapshots wandern nach dem öffentlichen Split zu einem verschlüsselten Backup-Ziel.",
+    },
+    paths: ["proxyToWeb", "webToBackup", "proxyToMail", "mailToBackup"],
+    nodes: ["proxy", "web", "mail", "backup"],
+  },
 ];
 
-function InfrastructureVisual() {
-  const auto = useLoop(infraFlows.length, 2600);
+const infraZones = {
+  local: {
+    title: { en: "Local environment", fa: "محیط محلی", ar: "البيئة المحلية", de: "Lokale Umgebung" },
+    sub: {
+      en: "users · LAN · router · tunnel origin",
+      fa: "کاربران · LAN · روتر · مبدأ تونل",
+      ar: "مستخدمون · LAN · موجّه · مصدر النفق",
+      de: "Nutzer · LAN · Router · Tunnel-Ursprung",
+    },
+  },
+  public: {
+    title: { en: "Public environment", fa: "محیط عمومی", ar: "البيئة العامة", de: "Öffentliche Umgebung" },
+    sub: {
+      en: "DNS · VPS · proxy · web · mail · backup",
+      fa: "DNS · VPS · پراکسی · وب · ایمیل · بکاپ",
+      ar: "DNS · VPS · وكيل · ويب · بريد · نسخ",
+      de: "DNS · VPS · Proxy · Web · Mail · Backup",
+    },
+  },
+};
+
+const infraLegend = [
+  { kind: "web", label: { en: "Web", fa: "وب", ar: "ويب", de: "Web" } },
+  { kind: "mail", label: { en: "Mail", fa: "ایمیل", ar: "بريد", de: "Mail" } },
+  { kind: "tunnel", label: { en: "Tunnel", fa: "تونل", ar: "نفق", de: "Tunnel" } },
+  { kind: "dns", label: { en: "DNS", fa: "DNS", ar: "DNS", de: "DNS" } },
+  { kind: "backup", label: { en: "Backup", fa: "بکاپ", ar: "نسخ", de: "Backup" } },
+];
+
+function InfrastructureVisual({ language }) {
   const [selectedFlow, setSelectedFlow] = useState(null);
+  const auto = useLoop(infraFlows.length, 3200, selectedFlow !== null);
   const activeFlow = infraFlows.find((flow) => flow.id === selectedFlow) || infraFlows[auto];
-  const activePaths = new Set(activeFlow.paths);
-  const activeNodes = new Set(activeFlow.nodes);
+  const activePaths = useMemo(() => new Set(activeFlow.paths), [activeFlow]);
+  const activeNodes = useMemo(() => new Set(activeFlow.nodes), [activeFlow]);
   const visiblePaths = Object.values(infraPathMap);
 
   return (
-    <div className="project-visual-scene infrastructure-demo" data-visual="hybrid-infrastructure" aria-label="Hybrid web and mail infrastructure topology illustration">
-      <div className="demo-caption">Functional illustration of the hybrid web and mail topology</div>
+    <div
+      className="project-visual-scene infrastructure-demo"
+      data-visual="hybrid-infrastructure"
+      aria-label="Hybrid web and mail infrastructure topology illustration"
+    >
+      <div className="demo-caption">{L(visualCopy.infraCaption, language)}</div>
+
       <div className="infra-flow-controls" role="group" aria-label="Infrastructure flow selector">
         {infraFlows.map((flow) => (
           <button
             type="button"
             key={flow.id}
             className={activeFlow.id === flow.id ? "is-active" : ""}
-            onClick={() => setSelectedFlow(flow.id)}
+            aria-pressed={activeFlow.id === flow.id}
+            onClick={() => setSelectedFlow((current) => (current === flow.id ? null : flow.id))}
           >
-            <strong>{flow.label}</strong>
-            <span>{flow.detail}</span>
+            <span className={`flow-dot flow-dot-${flow.id}`} aria-hidden="true" />
+            <strong>{L(flow.label, language)}</strong>
           </button>
         ))}
       </div>
-      <svg viewBox="0 0 800 400" aria-hidden="true">
+
+      <svg viewBox="0 0 800 388" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
         <defs>
           <linearGradient id="infra-zone-local" x1="0" x2="1" y1="0" y2="1">
             <stop offset="0%" stopColor="#2dd4bf" stopOpacity="0.18" />
@@ -223,98 +419,132 @@ function InfrastructureVisual() {
             </feMerge>
           </filter>
         </defs>
+
         <g className="infra-zone zone-local">
-          <rect x="28" y="36" width="392" height="320" rx="22" />
-          <text x="50" y="64">LOCAL ENVIRONMENT</text>
-          <text x="50" y="338">users, LAN, router, tunnel origin</text>
+          <rect x="28" y="34" width="396" height="322" rx="22" />
+          <text className="zone-title" x="50" y="62">{L(infraZones.local.title, language)}</text>
+          <text className="zone-sub" x="50" y="342">{L(infraZones.local.sub, language)}</text>
         </g>
         <g className="infra-zone zone-cloud">
-          <rect x="436" y="36" width="336" height="320" rx="22" />
-          <text x="458" y="64">PUBLIC ENVIRONMENT</text>
-          <text x="458" y="338">DNS, VPS, proxy, web, mail, backup</text>
+          <rect x="438" y="34" width="338" height="322" rx="22" />
+          <text className="zone-title" x="460" y="62">{L(infraZones.public.title, language)}</text>
+          <text className="zone-sub" x="460" y="342">{L(infraZones.public.sub, language)}</text>
         </g>
-        <path className="infra-tunnel-body" d="M274 188 C302 188 324 188 352 188 C386 188 436 188 492 188" />
+
+        <path className="infra-tunnel-body" d="M280 188 C306 188 330 188 356 188 C390 188 440 188 494 188" />
+
         {visiblePaths.map((path) => (
           <motion.path
             className={`infra-path infra-${path.kind} ${activePaths.has(path.id) ? "is-active" : ""}`}
             d={path.d}
             key={path.id}
             initial={false}
-            animate={{ pathLength: activePaths.has(path.id) ? 1 : 0.72, opacity: activePaths.has(path.id) ? 0.98 : 0.1 }}
+            animate={{ pathLength: activePaths.has(path.id) ? 1 : 0.72, opacity: activePaths.has(path.id) ? 0.98 : 0.08 }}
             transition={{ duration: 0.55 }}
           />
         ))}
+
         {activeFlow.paths.map((pathId, index) => {
           const path = infraPathMap[pathId];
           return (
-            <motion.circle key={`${activeFlow.id}-${pathId}`} r={path.kind === "tunnel" ? "5.5" : "4.6"} className={`packet packet-${path.kind}`}>
-              <animateMotion dur={path.kind === "tunnel" ? "2.9s" : "3.7s"} repeatCount="indefinite" begin={`${index * 0.22}s`} path={path.d} />
+            <motion.circle
+              key={`${activeFlow.id}-${pathId}`}
+              r={path.kind === "tunnel" ? "5.5" : "4.6"}
+              className={`packet packet-${path.kind}`}
+            >
+              <animateMotion
+                dur={path.kind === "tunnel" ? "2.9s" : "3.7s"}
+                repeatCount="indefinite"
+                begin={`${index * 0.22}s`}
+                path={path.d}
+              />
             </motion.circle>
           );
         })}
-        {infraNodes.map((node) => (
-          <g className={`infra-node node-${node.zone} ${activeNodes.has(node.id) ? "is-active" : ""}`} key={node.id}>
-            <rect x={node.x - node.w / 2} y={node.y - 28} width={node.w} height="56" rx="10" />
-            <circle cx={node.x - node.w / 2 + 15} cy={node.y - 9} r="3.8" />
-            <text className="node-label" x={node.x - node.w / 2 + 28} y={node.y - 6}>{node.label}</text>
-            <text className="node-meta" x={node.x - node.w / 2 + 15} y={node.y + 14}>{node.meta}</text>
-            <text className="node-status" x={node.x + node.w / 2 - 12} y={node.y + 14} textAnchor="end">{node.status}</text>
-          </g>
-        ))}
-        <g className="infra-status-rail">
-          <text x="48" y="382">active flow:</text>
-          <text x="138" y="382">{activeFlow.label}</text>
-          <text x="204" y="382">{activeFlow.detail}</text>
-        </g>
+
+        {infraNodes.map((node) => {
+          const isActive = activeNodes.has(node.id);
+          const startX = node.x - node.w / 2;
+          return (
+            <g className={`infra-node node-${node.zone} ${isActive ? "is-active" : ""}`} key={node.id}>
+              <rect x={startX} y={node.y - 29} width={node.w} height="58" rx="10" />
+              <circle cx={startX + 14} cy={node.y - 14} r="3.4" />
+              <text className="node-label" x={startX + 26} y={node.y - 10}>{L(node.label, language)}</text>
+              <text className="node-meta" x={startX + 14} y={node.y + 4}>{L(node.meta, language)}</text>
+              <text className="node-status" x={startX + 14} y={node.y + 18}>{L(node.status, language)}</text>
+            </g>
+          );
+        })}
       </svg>
+
       <div className="infra-mobile-flow" aria-hidden="true">
-        {activeFlow.nodes.map((nodeId, index) => {
+        {activeFlow.nodes.map((nodeId) => {
           const node = infraNodes.find((item) => item.id === nodeId);
           return (
-            <motion.div className="infra-mobile-node" key={`${activeFlow.id}-${nodeId}`} initial={false} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.04 }}>
-              <strong>{node?.label}</strong>
-              <span>{node?.status}</span>
+            <motion.div
+              className="infra-mobile-node"
+              key={`${activeFlow.id}-${nodeId}`}
+              initial={false}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <strong>{L(node?.label, language)}</strong>
+              <span>{L(node?.status, language)}</span>
             </motion.div>
           );
         })}
       </div>
-      <div className="infra-legend" aria-hidden="true">
-        <span>Only the selected flow is bright.</span>
-        <span>{activeFlow.detail}</span>
+
+      <div className="infra-summary">
+        <div className="infra-active-panel">
+          <span className="infra-active-tag">
+            <span className={`flow-dot flow-dot-${activeFlow.id}`} aria-hidden="true" />
+            {L(visualCopy.infraActiveFlow, language)}: <strong>{L(activeFlow.label, language)}</strong>
+            {selectedFlow === null && <em className="infra-auto-pill">{L(visualCopy.infraAuto, language)}</em>}
+          </span>
+          <p>{L(activeFlow.detail, language)}</p>
+        </div>
+        <div className="infra-legend-block" aria-hidden="true">
+          {infraLegend.map((item) => (
+            <span className={`infra-legend-item legend-${item.kind}`} key={item.kind}>
+              <span className={`flow-dot flow-dot-${item.kind}`} />
+              {L(item.label, language)}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
 const botSteps = [
-  ["YouTube link", "sent"],
-  ["platform", "detected"],
-  ["metadata", "retrieved"],
-  ["format", "selected"],
-  ["processing", "68%"],
-  ["file", "returned"],
+  { label: { en: "YouTube link", fa: "لینک YouTube", ar: "رابط YouTube", de: "YouTube-Link" }, value: { en: "sent", fa: "ارسال شد", ar: "أُرسل", de: "gesendet" } },
+  { label: { en: "platform", fa: "پلتفرم", ar: "المنصة", de: "Plattform" }, value: { en: "detected", fa: "شناسایی شد", ar: "تم الكشف", de: "erkannt" } },
+  { label: { en: "metadata", fa: "متادیتا", ar: "البيانات", de: "Metadaten" }, value: { en: "retrieved", fa: "دریافت شد", ar: "تم الجلب", de: "abgerufen" } },
+  { label: { en: "format", fa: "فرمت", ar: "الصيغة", de: "Format" }, value: { en: "selected", fa: "انتخاب شد", ar: "تم الاختيار", de: "gewählt" } },
+  { label: { en: "processing", fa: "پردازش", ar: "المعالجة", de: "Verarbeitung" }, value: "68%" },
+  { label: { en: "file", fa: "فایل", ar: "الملف", de: "Datei" }, value: { en: "returned", fa: "بازگردانده شد", ar: "تم الإرجاع", de: "geliefert" } },
 ];
 
-function BotVisual() {
+function BotVisual({ language }) {
   const active = useLoop(botSteps.length, 1250);
   const progress = Math.min(100, Math.max(18, active * 19));
   return (
     <div className="project-visual-scene bot-demo" data-visual="downloader" aria-label="Telegram media downloader workflow illustration">
-      <div className="demo-caption">Functional illustration of the Telegram download workflow</div>
+      <div className="demo-caption">{L(visualCopy.botCaption, language)}</div>
       <div className="bot-phone">
-        <div className="phone-top"><span />AT8 Downloader</div>
-        <motion.div className="bot-bubble is-user" layout>
+        <div className="phone-top"><span />{L(visualCopy.botTitle, language)}</div>
+        <motion.div className="bot-bubble is-user" layout dir="ltr">
           https://youtu.be/demo
         </motion.div>
-        {botSteps.map(([label, value], index) => (
+        {botSteps.map((step, index) => (
           <motion.div
             className={`bot-bubble is-bot ${index <= active ? "is-visible" : ""}`}
-            key={label}
+            key={index}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: index <= active ? 1 : 0.18, y: index <= active ? 0 : 10 }}
           >
-            <span>{label}</span>
-            <em>{value}</em>
+            <span>{L(step.label, language)}</span>
+            <em>{L(step.value, language)}</em>
           </motion.div>
         ))}
         <div className="download-progress">
@@ -343,8 +573,8 @@ const sceneMap = {
   "instagram-youtube-soundcloud-downloader": BotVisual,
 };
 
-export default function ProjectVisual({ slug }) {
+export default function ProjectVisual({ slug, language = "en" }) {
   const Scene = useMemo(() => sceneMap[slug], [slug]);
   if (!Scene) return null;
-  return <Scene />;
+  return <Scene language={language} />;
 }

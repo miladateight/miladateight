@@ -5,24 +5,25 @@ function makeNode(index, total) {
   return {
     x: 0.12 + ((index * 0.137) % 0.76),
     y: 0.1 + ((index * 0.223) % 0.78),
-    vx: (Math.sin(index * 1.7) * 0.000075),
-    vy: (Math.cos(index * 1.3) * 0.000065),
+    vx: (Math.sin(index * 1.7) * 0.000034),
+    vy: (Math.cos(index * 1.3) * 0.00003),
     r: 1.35 + (index % 4) * 0.38,
     phase: ring * Math.PI * 2,
   };
 }
 
 function makeComet(index) {
-  const angle = 0.18 + (index % 3) * 0.035;
+  const angle = 0.16 + (index % 3) * 0.03;
   return {
-    x: -0.24 - index * 0.28,
-    y: 0.1 + ((index * 0.29) % 0.6),
-    speed: 0.000022 + (index % 4) * 0.000006,
-    length: 135 + index * 26,
-    thickness: 0.85 + (index % 3) * 0.32,
-    alpha: 0.36 + (index % 4) * 0.08,
+    x: -0.32 - index * 0.46,
+    y: 0.06 + ((index * 0.37) % 0.52),
+    speed: 0.0000135 + (index % 3) * 0.0000038,
+    length: 150 + index * 30,
+    thickness: 0.7 + (index % 3) * 0.22,
+    alpha: 0.26 + (index % 3) * 0.06,
+    gap: 0.6 + (index % 4) * 0.45,
     angle,
-    delay: index * 0.27,
+    delay: index * 0.5,
   };
 }
 
@@ -74,13 +75,13 @@ export default function AnimatedBackground() {
     const seed = () => {
       const count = isMobile ? 22 : 46;
       nodes = Array.from({ length: count }, (_, index) => makeNode(index, count));
-      pulses = Array.from({ length: isMobile ? 8 : 16 }, (_, index) => ({
+      pulses = Array.from({ length: isMobile ? 6 : 12 }, (_, index) => ({
         from: index % count,
         to: (index * 5 + 7) % count,
-        speed: 0.00015 + (index % 5) * 0.000035,
+        speed: 0.00008 + (index % 5) * 0.00002,
         progress: (index * 0.17) % 1,
       }));
-      comets = Array.from({ length: isMobile ? 2 : 5 }, (_, index) => makeComet(index));
+      comets = Array.from({ length: isMobile ? 1 : 3 }, (_, index) => makeComet(index));
     };
 
     const resize = () => {
@@ -165,7 +166,7 @@ export default function AnimatedBackground() {
       pulses.forEach((pulse, index) => {
         const from = nodes[pulse.from];
         const to = nodes[pulse.to];
-        pulse.progress = (pulse.progress + pulse.speed * 16) % 1;
+        pulse.progress = (pulse.progress + pulse.speed * 9) % 1;
         const x = (from.x + (to.x - from.x) * pulse.progress) * w;
         const y = (from.y + (to.y - from.y) * pulse.progress) * h;
         ctx.beginPath();
@@ -175,34 +176,37 @@ export default function AnimatedBackground() {
       });
 
       comets.forEach((comet, index) => {
-        comet.x += comet.speed * 16;
-        if (comet.x > 1.22) {
-          comet.x = -0.24 - comet.delay;
-          comet.y = 0.1 + (((index + Math.floor(t * 0.38)) * 0.29) % 0.62);
+        comet.x += comet.speed * 9;
+        if (comet.x > 1.28 + comet.gap) {
+          comet.x = -0.32 - comet.gap;
+          comet.y = 0.05 + (((index + Math.floor(t * 0.31)) * 0.37) % 0.56);
         }
+        if (comet.x < -0.18) return;
         const x = comet.x * w;
         const y = comet.y * h;
         const tail = comet.length * (isMobile ? 0.72 : 1);
         const drift = tail * Math.tan(comet.angle);
+        const twinkle = 0.78 + Math.sin(t * 1.4 + index * 2.1) * 0.22;
         const gradient = ctx.createLinearGradient(x - tail, y + drift, x, y);
         gradient.addColorStop(0, "rgba(56, 189, 248, 0)");
-        gradient.addColorStop(0.54, index % 2 ? "rgba(139, 92, 246, 0.08)" : "rgba(45, 212, 191, 0.08)");
-        gradient.addColorStop(0.86, `rgba(125, 211, 252, ${comet.alpha * 0.42})`);
-        gradient.addColorStop(1, `rgba(226, 245, 255, ${comet.alpha})`);
+        gradient.addColorStop(0.62, index % 2 ? "rgba(139, 92, 246, 0.05)" : "rgba(45, 212, 191, 0.05)");
+        gradient.addColorStop(0.88, `rgba(125, 211, 252, ${comet.alpha * 0.34})`);
+        gradient.addColorStop(1, `rgba(226, 245, 255, ${comet.alpha * twinkle})`);
         ctx.beginPath();
         ctx.moveTo(x - tail, y + drift);
         ctx.lineTo(x, y);
         ctx.strokeStyle = gradient;
         ctx.lineWidth = comet.thickness * (isMobile ? 0.78 : 1);
+        ctx.lineCap = "round";
         ctx.stroke();
         ctx.beginPath();
-        ctx.arc(x, y, (isMobile ? 1.2 : 1.7) + index * 0.1, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(226, 245, 255, ${comet.alpha + 0.12})`;
+        ctx.arc(x, y, (isMobile ? 1.05 : 1.5) + index * 0.08, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(226, 245, 255, ${(comet.alpha + 0.1) * twinkle})`;
         ctx.fill();
       });
 
       nodes.forEach((node) => {
-        const pulse = 0.75 + Math.sin(t * 1.2 + node.phase) * 0.25;
+        const pulse = 0.78 + Math.sin(t * 0.8 + node.phase) * 0.22;
         ctx.beginPath();
         ctx.arc(node.x * w, node.y * h, node.r * pulse, 0, Math.PI * 2);
         ctx.fillStyle = "rgba(226, 245, 255, 0.38)";
