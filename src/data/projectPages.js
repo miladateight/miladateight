@@ -123,7 +123,7 @@ export const projectPages = {
       { title: { en: "Migrate services", fa: "مهاجرت سرویس‌ها", ar: "ترحيل الخدمات", de: "Dienste migrieren" }, body: { en: "Move mail and web services in a controlled sequence with validation at each step.", fa: "انتقال سرویس‌های ایمیل و وب در یک توالی کنترل‌شده با اعتبارسنجی در هر مرحله.", ar: "نقل خدمات البريد والويب بتسلسل محكوم مع التحقق في كل خطوة.", de: "Migration der Mail- und Webdienste in kontrollierter Reihenfolge mit Validierung bei jedem Schritt." } },
       { title: { en: "Verify & document", fa: "تأیید و مستندسازی", ar: "التحقق والتوثيق", de: "Verifizieren und dokumentieren" }, body: { en: "Test mail delivery, DNS resolution, failover routing, and document the final architecture.", fa: "تست تحویل ایمیل، DNS، مسیریابی failover و مستندسازی معماری نهایی.", ar: "اختبار تسليم البريد وتحليل DNS وتوجيه التبديل وتوثيق البنية النهائية.", de: "Testen der Mail-Zustellung, DNS-Auflösung, Failover-Routing und Dokumentation der endgültigen Architektur." } }
     ],
-    downloads: [{ label: { en: "Case study PDF", fa: "PDF مطالعه موردی", ar: "PDF دراسة الحالة", de: "Fallstudie PDF" }, url: "https://github.com/miladateight/hybrid-web-mail-infrastructure", primary: true },
+    downloads: [{ label: { en: "Architecture repository", fa: "مخزن معماری", ar: "مستودع المعمارية", de: "Architektur-Repository" }, url: "https://github.com/miladateight/hybrid-web-mail-infrastructure", primary: true },
                 { label: { en: "Source diagrams", fa: "نمودارهای منبع", ar: "مخططات المصدر", de: "Quelldiagramme" }, url: "https://github.com/miladateight/hybrid-web-mail-infrastructure", primary: false }]
   },
   "instagram-youtube-soundcloud-downloader": {

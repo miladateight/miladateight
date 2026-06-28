@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { projects } from "../data/projects";
+import { projectPages } from "../data/projectPages";
 import { profile } from "../data/profile";
 import { localize } from "../utils/localize";
 
@@ -163,8 +164,12 @@ export default function SeoManager({ language }) {
     const canonical = `${siteUrl}${normalized}`;
 
     if (project) {
-      const title = `${project.title} | AT8 Project`;
-      const description = localize(project.lines, language);
+      const projectPage = projectPages[project.slug];
+      const lead = projectPage?.lead ? localize(projectPage.lead, language) : "";
+      const stackItems = Array.isArray(project.stack) ? project.stack : String(project.stack || "").split(",").map((item) => item.trim()).filter(Boolean);
+      const stackText = stackItems.join(", ");
+      const title = `${project.title} | Milad Ateight AT8 Project`;
+      const description = lead || `${localize(project.lines, language)} Built and documented by Milad Ateight across ${stackText}.`;
       return {
         title,
         description,
@@ -183,7 +188,10 @@ export default function SeoManager({ language }) {
             url: canonical,
             description,
             applicationCategory: localize(project.type, language),
-            programmingLanguage: project.stack,
+            programmingLanguage: stackItems,
+            keywords: stackText,
+            inLanguage: language,
+            mainEntityOfPage: canonical,
             author: { "@type": "Person", name: profile.name, url: profile.website },
             codeRepository: project.url,
           },

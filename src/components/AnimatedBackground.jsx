@@ -5,10 +5,20 @@ function makeNode(index, total) {
   return {
     x: 0.12 + ((index * 0.137) % 0.76),
     y: 0.1 + ((index * 0.223) % 0.78),
-    vx: (Math.sin(index * 1.7) * 0.00012),
-    vy: (Math.cos(index * 1.3) * 0.0001),
-    r: 1.1 + (index % 4) * 0.35,
+    vx: (Math.sin(index * 1.7) * 0.000075),
+    vy: (Math.cos(index * 1.3) * 0.000065),
+    r: 1.35 + (index % 4) * 0.38,
     phase: ring * Math.PI * 2,
+  };
+}
+
+function makeComet(index) {
+  return {
+    x: -0.18 - index * 0.22,
+    y: 0.12 + ((index * 0.31) % 0.58),
+    speed: 0.000042 + (index % 3) * 0.000012,
+    length: 90 + index * 18,
+    delay: index * 0.19,
   };
 }
 
@@ -55,16 +65,18 @@ export default function AnimatedBackground() {
     let pointer = { x: 0.62, y: 0.24, active: false };
     let nodes = [];
     let pulses = [];
+    let comets = [];
 
     const seed = () => {
-      const count = isMobile ? 18 : 34;
+      const count = isMobile ? 22 : 46;
       nodes = Array.from({ length: count }, (_, index) => makeNode(index, count));
       pulses = Array.from({ length: isMobile ? 8 : 16 }, (_, index) => ({
         from: index % count,
         to: (index * 5 + 7) % count,
-        speed: 0.00022 + (index % 5) * 0.00005,
+        speed: 0.00015 + (index % 5) * 0.000035,
         progress: (index * 0.17) % 1,
       }));
+      comets = Array.from({ length: isMobile ? 2 : 4 }, (_, index) => makeComet(index));
     };
 
     const resize = () => {
@@ -158,6 +170,31 @@ export default function AnimatedBackground() {
         ctx.fill();
       });
 
+      comets.forEach((comet, index) => {
+        comet.x += comet.speed * 16;
+        if (comet.x > 1.18) {
+          comet.x = -0.2 - comet.delay;
+          comet.y = 0.1 + (((index + Math.floor(t)) * 0.29) % 0.62);
+        }
+        const x = comet.x * w;
+        const y = comet.y * h;
+        const tail = comet.length * (isMobile ? 0.68 : 1);
+        const gradient = ctx.createLinearGradient(x - tail, y + tail * 0.24, x, y);
+        gradient.addColorStop(0, "rgba(56, 189, 248, 0)");
+        gradient.addColorStop(0.62, index % 2 ? "rgba(139, 92, 246, 0.1)" : "rgba(45, 212, 191, 0.1)");
+        gradient.addColorStop(1, "rgba(226, 245, 255, 0.46)");
+        ctx.beginPath();
+        ctx.moveTo(x - tail, y + tail * 0.24);
+        ctx.lineTo(x, y);
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = isMobile ? 1 : 1.35;
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(x, y, isMobile ? 1.4 : 1.8, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(226, 245, 255, 0.55)";
+        ctx.fill();
+      });
+
       nodes.forEach((node) => {
         const pulse = 0.75 + Math.sin(t * 1.2 + node.phase) * 0.25;
         ctx.beginPath();
@@ -167,9 +204,9 @@ export default function AnimatedBackground() {
       });
 
       const shade = ctx.createLinearGradient(0, 0, 0, h);
-      shade.addColorStop(0, "rgba(6, 8, 13, 0.82)");
+      shade.addColorStop(0, "rgba(6, 8, 13, 0.76)");
       shade.addColorStop(0.46, "rgba(6, 8, 13, 0.22)");
-      shade.addColorStop(1, "rgba(6, 8, 13, 0.9)");
+      shade.addColorStop(1, "rgba(6, 8, 13, 0.58)");
       ctx.fillStyle = shade;
       ctx.fillRect(0, 0, w, h);
 
