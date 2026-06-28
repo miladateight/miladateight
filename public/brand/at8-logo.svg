@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">AT8 logo</title>
+  <desc id="desc">Milad Ateight AT8 mark with a yellow eight and red angular AT form.</desc>
+  <defs>
+    <linearGradient id="eight" x1="86" y1="122" x2="380" y2="448" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffd21a"/>
+      <stop offset="1" stop-color="#efb600"/>
+    </linearGradient>
+    <linearGradient id="at" x1="248" y1="88" x2="446" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff1d18"/>
+      <stop offset="1" stop-color="#d90610"/>
+    </linearGradient>
+    <filter id="shadow" x="-18%" y="-18%" width="136%" height="136%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#02040a" flood-opacity=".45"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <path fill="url(#eight)" d="M253 66c88 0 151 48 151 121 0 39-22 73-58 94 47 20 75 58 75 108 0 82-69 132-168 132-100 0-169-50-169-132 0-50 28-89 75-108-36-21-58-55-58-94 0-73 64-121 152-121Zm0 263c-43 0-73 21-73 54 0 34 30 55 73 55 42 0 72-21 72-55 0-33-30-54-72-54Zm0-176c-38 0-65 19-65 49s27 49 65 49 65-19 65-49-27-49-65-49Z"/>
+    <path fill="url(#at)" d="M259 28h202c-10 33-15 66-15 100 38 1 75 5 111 13l-28 119-89-35v136c-61-24-99-78-116-162l-105-23c16-36 49-61 105-75-2-25-4-49-5-73Z" transform="translate(-70 2)"/>
+  </g>
+</svg>

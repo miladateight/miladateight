@@ -21,8 +21,8 @@ import { localize } from "../utils/localize";
 const aboutCopy = {
   title: {
     en: "Milad Ateight works across the full operating surface.",
-    fa: "میلاد ایت‌ایت در تمام سطح عملیاتی فناوری کار می‌کند.",
-    ar: "ميلاد أتيت يعمل عبر السطح التشغيلي الكامل للتقنية.",
+    fa: "Milad Ateight در تمام سطح عملیاتی فناوری کار می‌کند.",
+    ar: "Milad Ateight يعمل عبر السطح التشغيلي الكامل للتقنية.",
     de: "Milad Ateight arbeitet über die gesamte operative Technikfläche.",
   },
   lead: {

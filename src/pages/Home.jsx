@@ -25,6 +25,7 @@ import { projects, specialties } from "../data/projects";
 import { Reveal, RevealGroup, TextReveal } from "../components/ScrollReveal";
 import ProjectCard from "../components/ProjectCard";
 import HeroBackground from "../components/hero/HeroBackground";
+import logoUrl from "../assets/at8-logo.png";
 import { fadeUp, springFast, stagger } from "../utils/motion";
 import { localize } from "../utils/localize";
 
@@ -270,6 +271,13 @@ export default function Home({ t, language }) {
         <HeroBackground />
         <div className="hero-inner">
           <motion.div className="hero-copy" initial="hidden" animate="visible" variants={stagger}>
+            <motion.div className="hero-brand-lockup" variants={fadeUp}>
+              <img src={logoUrl} alt="" width="74" height="74" />
+              <span>
+                <strong>Milad Ateight</strong>
+                <small>Milad AT8</small>
+              </span>
+            </motion.div>
             <motion.p className="hero-eyebrow" variants={fadeUp}>
               <TerminalSquare size={14} aria-hidden="true" />
               {t.heroKicker}

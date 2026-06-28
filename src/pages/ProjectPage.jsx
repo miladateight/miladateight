@@ -4,6 +4,7 @@ import { ArrowUpRight, ChevronLeft, ChevronRight, Download, Github, Layers3 } fr
 import { motion } from "framer-motion";
 import { projects } from "../data/projects";
 import { projectPages } from "../data/projectPages";
+import { VisualBoundary } from "../components/ErrorBoundary";
 import { Reveal, RevealGroup, TextReveal } from "../components/ScrollReveal";
 import { spring } from "../utils/motion";
 import { localize } from "../utils/localize";
@@ -133,9 +134,11 @@ export default function ProjectPage({ project, language, t }) {
 
           <Reveal className="project-hero-visual">
             <div className="visual-demo-card">
-              <Suspense fallback={<div className="visual-fallback" aria-hidden="true" />}>
-                <ProjectVisual slug={project.slug} />
-              </Suspense>
+              <VisualBoundary label={`${project.title} visual demonstration`}>
+                <Suspense fallback={<div className="visual-fallback" aria-hidden="true" />}>
+                  <ProjectVisual slug={project.slug} />
+                </Suspense>
+              </VisualBoundary>
               <span className="visual-demo-label">{localize(pageText.visual, language)}</span>
             </div>
           </Reveal>
