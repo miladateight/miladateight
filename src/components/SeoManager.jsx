@@ -7,6 +7,19 @@ import { localize } from "../utils/localize";
 
 const siteUrl = "https://ateight.xyz";
 const ogImage = `${siteUrl}/og-image.svg`;
+const supportedLanguages = ["en", "fa", "ar", "de"];
+const brandKeywords = [
+  "Ateight",
+  "Milad Ateight",
+  "AT8",
+  "Milad AT8",
+  "میلاد AT8",
+  "میلاد ۸۸",
+  "KeyFix",
+  "NetDoctor",
+  "Hybrid Web and Mail Infrastructure",
+  "Media Downloader Bot",
+];
 
 const pageCopy = {
   home: {
@@ -91,6 +104,24 @@ function upsertCanonical(href) {
   node.setAttribute("href", href);
 }
 
+function upsertAlternateLinks(canonical) {
+  document.head.querySelectorAll('link[data-at8-hreflang="true"]').forEach((node) => node.remove());
+  supportedLanguages.forEach((lang) => {
+    const node = document.createElement("link");
+    node.setAttribute("rel", "alternate");
+    node.setAttribute("hreflang", lang);
+    node.setAttribute("href", `${canonical}?lang=${lang}`);
+    node.dataset.at8Hreflang = "true";
+    document.head.appendChild(node);
+  });
+  const fallback = document.createElement("link");
+  fallback.setAttribute("rel", "alternate");
+  fallback.setAttribute("hreflang", "x-default");
+  fallback.setAttribute("href", canonical);
+  fallback.dataset.at8Hreflang = "true";
+  document.head.appendChild(fallback);
+}
+
 function setRouteJsonLd(items) {
   document.head.querySelectorAll('script[data-at8-route-jsonld="true"]').forEach((node) => node.remove());
   items.forEach((item) => {
@@ -149,8 +180,10 @@ function websiteJsonLd() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "AT8 Portfolio",
+    alternateName: ["Ateight", "Milad AT8", "Milad Ateight"],
     url: siteUrl,
     author: { "@type": "Person", name: profile.name },
+    inLanguage: supportedLanguages,
   };
 }
 
@@ -168,12 +201,14 @@ export default function SeoManager({ language }) {
       const lead = projectPage?.lead ? localize(projectPage.lead, language) : "";
       const stackItems = Array.isArray(project.stack) ? project.stack : String(project.stack || "").split(",").map((item) => item.trim()).filter(Boolean);
       const stackText = stackItems.join(", ");
-      const title = `${project.title} | Milad Ateight AT8 Project`;
+      const title = `${project.title} | ${localize(project.type, language)} | Milad Ateight AT8`;
       const description = lead || `${localize(project.lines, language)} Built and documented by Milad Ateight across ${stackText}.`;
+      const keywords = [...brandKeywords, project.title, localize(project.type, language), stackText].filter(Boolean).join(", ");
       return {
         title,
         description,
         canonical,
+        keywords,
         robots: "index,follow",
         jsonLd: [
           breadcrumbJsonLd([
@@ -189,7 +224,7 @@ export default function SeoManager({ language }) {
             description,
             applicationCategory: localize(project.type, language),
             programmingLanguage: stackItems,
-            keywords: stackText,
+            keywords,
             inLanguage: language,
             mainEntityOfPage: canonical,
             author: { "@type": "Person", name: profile.name, url: profile.website },
@@ -204,6 +239,7 @@ export default function SeoManager({ language }) {
       title: localize(pageCopy[key].title, language),
       description: localize(pageCopy[key].description, language),
       canonical: is404 ? `${siteUrl}${normalized}` : canonical,
+      keywords: brandKeywords.join(", "),
       robots: is404 ? "noindex,follow" : "index,follow",
       jsonLd: [
         key === "home" ? personJsonLd() : null,
@@ -230,6 +266,7 @@ export default function SeoManager({ language }) {
   useEffect(() => {
     document.title = seo.title;
     upsertMeta('meta[name="description"]', { name: "description", content: seo.description });
+    upsertMeta('meta[name="keywords"]', { name: "keywords", content: seo.keywords });
     upsertMeta('meta[name="robots"]', { name: "robots", content: seo.robots });
     upsertMeta('meta[property="og:type"]', { property: "og:type", content: "website" });
     upsertMeta('meta[property="og:url"]', { property: "og:url", content: seo.canonical });
@@ -242,6 +279,7 @@ export default function SeoManager({ language }) {
     upsertMeta('meta[name="twitter:description"]', { name: "twitter:description", content: seo.description });
     upsertMeta('meta[name="twitter:image"]', { name: "twitter:image", content: ogImage });
     upsertCanonical(seo.canonical);
+    upsertAlternateLinks(seo.canonical);
     setRouteJsonLd(seo.jsonLd);
   }, [seo]);
 

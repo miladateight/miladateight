@@ -8,17 +8,13 @@ import {
   CheckCircle2,
   Cloud,
   Code2,
-  Coffee,
   Cpu,
   Database,
   GitBranch,
   Github,
   Globe2,
-  HardDrive,
   Layers3,
-  MonitorCheck,
   Network,
-  RadioTower,
   Send,
   Server,
   ShieldCheck,
@@ -88,18 +84,6 @@ const homeCopy = {
     fa: "هفت لایه عملیاتی با یک عادت ثابت: قبل از تغییر، سیستم را درست بفهم.",
     ar: "سبع طبقات تشغيلية بعادة واحدة: افهم النظام قبل تغييره.",
     de: "Sieben Betriebsebenen, eine Haltung: das System verstehen, bevor es verändert wird.",
-  },
-  techTitle: {
-    en: "Technical universe",
-    fa: "جهان فنی",
-    ar: "العالم التقني",
-    de: "Technisches Universum",
-  },
-  techLead: {
-    en: "Tools, protocols, and platforms that appear across the work.",
-    fa: "ابزارها، پروتکل‌ها و پلتفرم‌هایی که در کارها تکرار می‌شوند.",
-    ar: "أدوات وبروتوكولات ومنصات تظهر عبر العمل.",
-    de: "Tools, Protokolle und Plattformen, die in der Arbeit wiederkehren.",
   },
   contactLead: {
     en: "For infrastructure reviews, automation, internal tools, or technical collaboration, the direct channels are open.",
@@ -214,6 +198,7 @@ function HeroCommandDeck({ language }) {
   const reduceMotion = useReducedMotion();
   const steamMotion = reduceMotion ? undefined : { opacity: [0, 0.85, 0], y: [0, -18, -34], scale: [0.85, 1.08, 1.24] };
   const glanceMotion = reduceMotion ? undefined : { x: [0, 3, 0, -2, 0] };
+  const typingMotion = reduceMotion ? undefined : { rotate: [0, -3, 1, 0], y: [0, 2, 0, 1, 0] };
 
   return (
     <motion.aside
@@ -244,6 +229,10 @@ function HeroCommandDeck({ language }) {
               <stop offset="0%" stopColor="#f5c9aa" />
               <stop offset="100%" stopColor="#b7795a" />
             </linearGradient>
+            <radialGradient id="hero-face-light" cx="42%" cy="34%" r="74%">
+              <stop offset="0%" stopColor="#ffd6b8" stopOpacity="0.95" />
+              <stop offset="100%" stopColor="#b7795a" stopOpacity="0.9" />
+            </radialGradient>
             <linearGradient id="hero-shirt" x1="0" x2="1" y1="0" y2="1">
               <stop offset="0%" stopColor="#1f2937" />
               <stop offset="100%" stopColor="#0b1120" />
@@ -325,14 +314,36 @@ function HeroCommandDeck({ language }) {
           <motion.g className="operator-person" animate={glanceMotion} transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}>
             <path className="operator-neck" d="M352 247 H386 L394 289 H342 Z" />
             <path className="operator-torso" d="M302 298 C322 270 420 268 442 302 C456 344 448 398 430 430 H314 C296 388 288 340 302 298 Z" />
+            <path className="operator-leg left-leg" d="M322 424 C306 452 294 476 286 504 H332 C342 474 356 450 376 424" />
+            <path className="operator-leg right-leg" d="M412 424 C438 452 454 476 464 504 H418 C404 474 388 450 366 424" />
             <ellipse className="operator-face" cx="370" cy="210" rx="42" ry="50" />
-            <path className="operator-hair" d="M326 208 C326 160 358 139 392 152 C422 164 426 204 408 228 C400 198 374 196 352 186 C342 196 336 206 326 208 Z" />
-            <path className="operator-eye" d="M358 211 H368 M386 211 H396" />
+            <g className="operator-curls">
+              {[328, 346, 366, 386, 406].map((cx, index) => (
+                <circle key={cx} cx={cx} cy={178 + (index % 2) * 6} r={18 - (index % 2) * 3} />
+              ))}
+              {[332, 352, 392, 414].map((cx, index) => (
+                <circle key={cx} cx={cx} cy={204 + index * 2} r={14} />
+              ))}
+            </g>
+            <path className="operator-hair" d="M326 210 C322 162 354 138 394 150 C426 160 434 196 412 230 C406 196 380 190 352 184 C340 194 334 204 326 210 Z" />
+            <g className="operator-glasses">
+              <rect x="346" y="202" width="25" height="19" rx="4" />
+              <rect x="383" y="202" width="25" height="19" rx="4" />
+              <path d="M371 211 H383" />
+            </g>
+            <motion.g animate={reduceMotion ? undefined : { x: [0, 2, 0, -1, 0] }} transition={{ duration: 5.4, repeat: Infinity, ease: "easeInOut" }}>
+              <path className="operator-eye" d="M356 212 H364 M391 212 H399" />
+            </motion.g>
             <path className="operator-nose" d="M378 216 C374 228 376 232 384 235" />
-            <path className="operator-arm left" d="M318 318 C276 338 250 366 224 410" />
-            <path className="operator-arm right" d="M424 318 C456 346 482 366 522 392" />
-            <ellipse className="operator-hand" cx="222" cy="411" rx="17" ry="10" />
-            <ellipse className="operator-hand" cx="524" cy="394" rx="17" ry="10" />
+            <path className="operator-mouth" d="M360 242 C368 248 382 248 390 241" />
+            <motion.g animate={typingMotion} transition={{ duration: 1.9, repeat: Infinity, ease: "easeInOut" }}>
+              <path className="operator-arm left" d="M318 318 C276 338 250 366 224 410" />
+              <ellipse className="operator-hand" cx="222" cy="411" rx="17" ry="10" />
+            </motion.g>
+            <motion.g animate={reduceMotion ? undefined : { rotate: [0, 2, -2, 0], y: [0, 1, 0, 2, 0] }} transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: 0.24 }}>
+              <path className="operator-arm right" d="M424 318 C456 346 482 366 522 392" />
+              <ellipse className="operator-hand" cx="524" cy="394" rx="17" ry="10" />
+            </motion.g>
           </motion.g>
 
           <g className="desk-layer">

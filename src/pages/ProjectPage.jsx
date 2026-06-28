@@ -68,6 +68,45 @@ const pageText = {
   },
 };
 
+const detailLabels = {
+  architecture: { en: "Architecture and workflow", fa: "معماری و روند کار", ar: "البنية وسير العمل", de: "Architektur und Ablauf" },
+  decisions: { en: "Technical decisions", fa: "تصمیم‌های فنی", ar: "قرارات تقنية", de: "Technische Entscheidungen" },
+  limits: { en: "Limits", fa: "محدودیت‌ها", ar: "القيود", de: "Grenzen" },
+  security: { en: "Security and privacy", fa: "امنیت و حریم خصوصی", ar: "الأمان والخصوصية", de: "Sicherheit und Datenschutz" },
+  result: { en: "Result and use", fa: "نتیجه و کاربرد", ar: "النتيجة والاستخدام", de: "Ergebnis und Nutzung" },
+};
+
+const projectDetails = {
+  keyfix: {
+    architecture: "KeyFix stays in the Windows tray, watches a short in-memory word buffer, compares that word with enabled keyboard-layout maps and dictionaries, then acts only after a clear trigger such as Space.",
+    decisions: "The project favors local scoring, per-language enablement, excluded apps, conservative handling for short words, and a release path that does not require users to build from source.",
+    limits: "It cannot guarantee every ambiguous short word is wrong, and unsupported layouts or sensitive apps should stay excluded so correction never becomes intrusive.",
+    security: "Typed text is not uploaded or stored as telemetry. The working buffer is temporary and the privacy model is based on local-only processing.",
+    result: "The practical outcome is a small desktop utility for multilingual typists who often switch between English, Persian, Arabic, and German layouts.",
+  },
+  netdoctor: {
+    architecture: "NetDoctor presents a step-by-step diagnostics flow for adapter state, IP configuration, gateway reachability, DNS, latency, proxy settings, and internet connectivity.",
+    decisions: "The repair model is guided and reversible where possible, so the user can understand what changed instead of running a black-box network reset.",
+    limits: "The tool can identify common Windows connectivity faults, but it does not replace ISP-side troubleshooting, damaged hardware checks, or enterprise network policy review.",
+    security: "The diagnostic focus is local network state. Repair actions should remain explicit, documented, and scoped to the setting being fixed.",
+    result: "It is useful when a user or technician needs a clearer path from symptom to likely cause before applying a network repair.",
+  },
+  "hybrid-web-mail-infrastructure": {
+    architecture: "The case study separates local and public environments: users and LAN services connect through MikroTik and WireGuard to a VPS, then HAProxy/Caddy routes web and mail traffic with DNS, TLS, and backup paths documented separately.",
+    decisions: "The design keeps the local site private, uses the VPS as a public edge, splits web and mail flows deliberately, and treats DNS, TLS, monitoring, and backup as first-class operational concerns.",
+    limits: "The published material is sanitized. It avoids exposing sensitive hostnames, secrets, customer details, and private network values.",
+    security: "WireGuard, DNS records, TLS handling, service separation, and encrypted backups are described as architecture decisions rather than leaked production configuration.",
+    result: "The page works as a readable infrastructure note for planning, reviewing, or explaining a hybrid web and mail migration.",
+  },
+  "instagram-youtube-soundcloud-downloader": {
+    architecture: "The Telegram bot receives a media URL from an authorized user, detects the platform, fetches metadata, selects a download format when available, queues work, and returns the file inside Telegram.",
+    decisions: "Admin activation, queueing, cookie-based authentication where needed, and platform-specific handling keep the workflow controlled instead of exposing a public downloader surface.",
+    limits: "Availability depends on platform behavior, account access, rate limits, media rights, and the size limits of the delivery channel.",
+    security: "Access is limited to approved Telegram users. Cookie handling and logs should stay minimal because downloader workflows can expose sensitive account or media metadata.",
+    result: "The useful result is a private automation tool that removes the need to jump between multiple ad-heavy download sites or browser extensions.",
+  },
+};
+
 function ProjectMetaPanel({ project, data, language }) {
   return (
     <RevealGroup className="project-meta-grid">
@@ -84,6 +123,28 @@ function ProjectMetaPanel({ project, data, language }) {
         <p>{project.stack}</p>
       </Reveal>
     </RevealGroup>
+  );
+}
+
+function ProjectDetailBlocks({ project, language }) {
+  const details = projectDetails[project.slug];
+  if (!details) return null;
+  return (
+    <section className="section project-detail-section">
+      <Reveal className="section-header">
+        <p className="section-label">AT8 Project Notes</p>
+        <h2 className="section-title">{project.title} technical notes</h2>
+      </Reveal>
+      <RevealGroup className="project-detail-grid">
+        {Object.entries(details).map(([key, body], index) => (
+          <Reveal className="project-detail-card" key={key} delay={index * 0.025}>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <h3>{localize(detailLabels[key], language)}</h3>
+            <p>{body}</p>
+          </Reveal>
+        ))}
+      </RevealGroup>
+    </section>
   );
 }
 
@@ -145,6 +206,7 @@ export default function ProjectPage({ project, language, t }) {
         </section>
 
         <ProjectMetaPanel project={project} data={data} language={language} />
+        <ProjectDetailBlocks project={project} language={language} />
 
         {data.problem && data.solution && (
           <section className="section">

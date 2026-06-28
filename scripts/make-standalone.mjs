@@ -9,6 +9,7 @@ const rootPreviewPath = fileURLToPath(new URL("../Milad-Portfolio.html", import.
 
 const html = await readFile(indexPath, "utf8");
 const siteUrl = "https://ateight.xyz";
+const keywords = "Ateight, Milad Ateight, AT8, Milad AT8, میلاد AT8, میلاد ۸۸, KeyFix, NetDoctor, Hybrid Web and Mail Infrastructure, Media Downloader Bot";
 const routes = [
   {
     path: "/about/",
@@ -52,10 +53,15 @@ function escapeHtml(value) {
 
 function routeHtml(route) {
   const canonical = `${siteUrl}${route.path}`;
+  const alternates = ["en", "fa", "ar", "de"]
+    .map((lang) => `    <link rel="alternate" hreflang="${lang}" href="${canonical}?lang=${lang}" />`)
+    .join("\n");
   return html
     .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(route.title)}</title>`)
     .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${escapeHtml(route.description)}" />`)
+    .replace(/<meta name="keywords" content="[^"]*" \/>/, `<meta name="keywords" content="${escapeHtml(keywords)}" />`)
     .replace(/<link rel="canonical" href="[^"]*" \/>/, `<link rel="canonical" href="${canonical}" />`)
+    .replace(/    <link rel="alternate" hreflang="en" href="[^"]*" \/>\n    <link rel="alternate" hreflang="fa" href="[^"]*" \/>\n    <link rel="alternate" hreflang="ar" href="[^"]*" \/>\n    <link rel="alternate" hreflang="de" href="[^"]*" \/>\n    <link rel="alternate" hreflang="x-default" href="[^"]*" \/>/, `${alternates}\n    <link rel="alternate" hreflang="x-default" href="${canonical}" />`)
     .replace(/<meta property="og:url" content="[^"]*" \/>/, `<meta property="og:url" content="${canonical}" />`)
     .replace(/<meta property="og:title" content="[^"]*" \/>/, `<meta property="og:title" content="${escapeHtml(route.title)}" />`)
     .replace(/<meta property="og:description" content="[^"]*" \/>/, `<meta property="og:description" content="${escapeHtml(route.description)}" />`)
