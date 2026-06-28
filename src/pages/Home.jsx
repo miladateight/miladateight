@@ -1,4 +1,4 @@
-import { lazy, Suspense, useMemo } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import {
@@ -8,11 +8,17 @@ import {
   CheckCircle2,
   Cloud,
   Code2,
+  Coffee,
   Cpu,
+  Database,
+  GitBranch,
   Github,
   Globe2,
+  HardDrive,
   Layers3,
+  MonitorCheck,
   Network,
+  RadioTower,
   Send,
   Server,
   ShieldCheck,
@@ -25,11 +31,8 @@ import { projects, specialties } from "../data/projects";
 import { Reveal, RevealGroup, TextReveal } from "../components/ScrollReveal";
 import ProjectCard from "../components/ProjectCard";
 import HeroBackground from "../components/hero/HeroBackground";
-import logoUrl from "../assets/at8-logo.png";
 import { fadeUp, springFast, stagger } from "../utils/motion";
 import { localize } from "../utils/localize";
-
-const TechOrbit = lazy(() => import("../components/TechOrbit"));
 
 const homeCopy = {
   heroTitle: {
@@ -193,11 +196,11 @@ const capabilityItems = [
   },
 ];
 
-const commandRows = [
-  ["edge-router", "routes", "ok"],
-  ["linux-host", "services", "ok"],
-  ["mail-flow", "tls/dns", "watch"],
-  ["backup-set", "integrity", "ok"],
+const operatorSignals = [
+  ["edge", "MikroTik route", "stable"],
+  ["tunnel", "WireGuard link", "sealed"],
+  ["mail", "DNS/TLS flow", "watch"],
+  ["deploy", "service health", "green"],
 ];
 
 function HeroCommandDeck({ language }) {
@@ -213,24 +216,56 @@ function HeroCommandDeck({ language }) {
         <span>{localize(homeCopy.commandTitle, language)}</span>
         <Activity size={16} aria-hidden="true" />
       </div>
-      <div className="command-map" aria-hidden="true">
-        <span className="map-ring ring-a" />
-        <span className="map-ring ring-b" />
-        <span className="map-core">AT8</span>
-        <span className="map-node map-node-a" />
-        <span className="map-node map-node-b" />
-        <span className="map-node map-node-c" />
-        <span className="map-node map-node-d" />
-      </div>
-      <div className="command-rows">
-        {commandRows.map(([name, scope, state]) => (
-          <div className="command-row" key={name}>
-            <span className="command-dot" />
-            <strong>{name}</strong>
-            <small>{scope}</small>
-            <em>{state}</em>
+      <div className="operator-stage" aria-hidden="true">
+        <span className="operator-light light-a" />
+        <span className="operator-light light-b" />
+        <div className="monitor-wall">
+          <motion.div className="monitor-panel main-panel" animate={{ y: [0, -5, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}>
+            <div className="panel-bar"><MonitorCheck size={14} /><span>ops console</span></div>
+            <span className="trace trace-a" />
+            <span className="trace trace-b" />
+            <span className="trace trace-c" />
+            <div className="metric-row"><Database size={13} /><strong>backup</strong><em>verified</em></div>
+            <div className="metric-row"><RadioTower size={13} /><strong>latency</strong><em>24ms</em></div>
+          </motion.div>
+          <motion.div className="monitor-panel side-panel" animate={{ x: [0, 4, 0] }} transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}>
+            <div className="panel-bar"><GitBranch size={13} /><span>pipeline</span></div>
+            <span className="status-line is-long" />
+            <span className="status-line" />
+            <span className="status-line is-hot" />
+          </motion.div>
+        </div>
+        <div className="operator-rig">
+          <div className="operator-body">
+            <span className="operator-head" />
+            <span className="operator-shoulder" />
+            <span className="operator-arm arm-left" />
+            <span className="operator-arm arm-right" />
           </div>
-        ))}
+          <div className="operator-desk">
+            <div className="operator-laptop">
+              <HardDrive size={18} />
+              <span />
+              <span />
+            </div>
+            <div className="coffee-cup"><Coffee size={18} /><span /></div>
+          </div>
+        </div>
+        <div className="signal-lanes">
+          {operatorSignals.map(([name, scope, state], index) => (
+            <motion.div
+              className="signal-lane"
+              key={name}
+              animate={{ opacity: [0.68, 1, 0.68], x: [0, index % 2 ? -3 : 3, 0] }}
+              transition={{ duration: 3.5 + index * 0.4, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <span className="command-dot" />
+              <strong>{name}</strong>
+              <small>{scope}</small>
+              <em>{state}</em>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </motion.aside>
   );
@@ -271,13 +306,6 @@ export default function Home({ t, language }) {
         <HeroBackground />
         <div className="hero-inner">
           <motion.div className="hero-copy" initial="hidden" animate="visible" variants={stagger}>
-            <motion.div className="hero-brand-lockup" variants={fadeUp}>
-              <img src={logoUrl} alt="" width="74" height="74" />
-              <span>
-                <strong>Milad Ateight</strong>
-                <small>Milad AT8</small>
-              </span>
-            </motion.div>
             <motion.p className="hero-eyebrow" variants={fadeUp}>
               <TerminalSquare size={14} aria-hidden="true" />
               {t.heroKicker}
@@ -354,19 +382,6 @@ export default function Home({ t, language }) {
               <ProjectCard key={project.slug} project={project} language={language} index={index} />
             ))}
           </div>
-        </section>
-
-        <section className="section tech-universe-section">
-          <Reveal className="section-header centered">
-            <p className="section-label"><Network size={14} aria-hidden="true" />{localize(homeCopy.techTitle, language)}</p>
-            <h2 className="section-title">{localize(homeCopy.techTitle, language)}</h2>
-            <p className="section-subtitle">{localize(homeCopy.techLead, language)}</p>
-          </Reveal>
-          <Reveal>
-            <Suspense fallback={<div className="tech-orbit-fallback" aria-hidden="true" />}>
-              <TechOrbit />
-            </Suspense>
-          </Reveal>
         </section>
 
         <section className="section">
