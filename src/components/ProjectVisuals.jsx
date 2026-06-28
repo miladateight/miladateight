@@ -146,37 +146,70 @@ function NetDoctorVisual() {
 }
 
 const infraNodes = [
-  { label: "Users", meta: "office", x: 68, y: 168, w: 92 },
-  { label: "DNS", meta: "SPF DKIM", x: 155, y: 72, w: 90 },
-  { label: "MikroTik", meta: "edge", x: 178, y: 248, w: 112 },
-  { label: "WireGuard", meta: "tunnel", x: 310, y: 206, w: 118 },
-  { label: "VPS", meta: "public IP", x: 424, y: 130, w: 98 },
-  { label: "HAProxy", meta: "TCP split", x: 530, y: 128, w: 116 },
-  { label: "Web", meta: "Nginx TLS", x: 636, y: 74, w: 90 },
-  { label: "Mail", meta: "Exim IMAP", x: 642, y: 174, w: 96 },
-  { label: "Backup", meta: "off-site", x: 558, y: 278, w: 104 },
+  { id: "office", label: "Local site", meta: "LAN users", x: 86, y: 170, w: 104, zone: "local" },
+  { id: "mikrotik", label: "MikroTik", meta: "NAT firewall", x: 190, y: 252, w: 118, zone: "local" },
+  { id: "wireguard", label: "WireGuard", meta: "sealed tunnel", x: 324, y: 216, w: 122, zone: "bridge" },
+  { id: "dns", label: "DNS", meta: "SPF DKIM TLSA", x: 176, y: 78, w: 110, zone: "local" },
+  { id: "vps", label: "VPS", meta: "public IP", x: 438, y: 118, w: 94, zone: "public" },
+  { id: "proxy", label: "HAProxy/Caddy", meta: "TCP + TLS", x: 542, y: 142, w: 128, zone: "public" },
+  { id: "web", label: "Web", meta: "HTTPS app", x: 646, y: 78, w: 86, zone: "public" },
+  { id: "mail", label: "Mail", meta: "SMTP IMAP", x: 648, y: 202, w: 92, zone: "public" },
+  { id: "backup", label: "Backup", meta: "encrypted", x: 548, y: 294, w: 104, zone: "public" },
 ];
 
-const infraPaths = [
-  { id: "dns", label: "DNS resolution", d: "M68 168 C92 124 118 88 155 72", kind: "dns" },
-  { id: "edge", label: "office edge", d: "M68 168 C116 204 128 238 178 248", kind: "local" },
-  { id: "tunnel", label: "secure tunnel", d: "M178 248 C226 246 260 212 310 206 C356 202 382 154 424 130", kind: "secure" },
-  { id: "proxy", label: "VPS proxy", d: "M424 130 C460 116 490 122 530 128", kind: "public" },
-  { id: "web", label: "HTTPS", d: "M530 128 C570 98 594 80 636 74", kind: "web" },
-  { id: "mail", label: "SMTP/IMAP", d: "M530 128 C574 142 606 166 642 174", kind: "mail" },
-  { id: "backup", label: "encrypted backup", d: "M642 174 C642 226 608 264 558 278", kind: "backup" },
-  { id: "auth", label: "mail auth", d: "M155 72 C304 48 478 58 642 174", kind: "dns" },
+const infraPathMap = {
+  officeToDns: { id: "officeToDns", label: "resolver query", d: "M86 170 C106 120 132 86 176 78", kind: "dns" },
+  dnsToVps: { id: "dnsToVps", label: "public answer", d: "M176 78 C272 42 354 64 438 118", kind: "dns" },
+  officeToEdge: { id: "officeToEdge", label: "local edge", d: "M86 170 C122 210 150 238 190 252", kind: "local" },
+  edgeToTunnel: { id: "edgeToTunnel", label: "WireGuard", d: "M190 252 C236 262 276 218 324 216", kind: "secure" },
+  tunnelToVps: { id: "tunnelToVps", label: "encrypted tunnel", d: "M324 216 C368 206 390 144 438 118", kind: "secure" },
+  vpsToProxy: { id: "vpsToProxy", label: "public split", d: "M438 118 C474 118 502 136 542 142", kind: "public" },
+  proxyToWeb: { id: "proxyToWeb", label: "web", d: "M542 142 C580 108 604 84 646 78", kind: "web" },
+  proxyToMail: { id: "proxyToMail", label: "mail", d: "M542 142 C586 150 612 190 648 202", kind: "mail" },
+  mailToDns: { id: "mailToDns", label: "SPF DKIM", d: "M648 202 C514 42 320 40 176 78", kind: "dns" },
+  mailToBackup: { id: "mailToBackup", label: "backup", d: "M648 202 C634 256 596 286 548 294", kind: "backup" },
+  webToBackup: { id: "webToBackup", label: "snapshot", d: "M646 78 C666 190 620 278 548 294", kind: "backup" },
+};
+
+const infraFlows = [
+  { id: "web", label: "Web", detail: "DNS to VPS, proxy split, HTTPS app", paths: ["officeToDns", "dnsToVps", "vpsToProxy", "proxyToWeb"], nodes: ["office", "dns", "vps", "proxy", "web"] },
+  { id: "mail", label: "Mail", detail: "MX, TLS, SMTP/IMAP, auth records", paths: ["officeToDns", "dnsToVps", "vpsToProxy", "proxyToMail", "mailToDns"], nodes: ["office", "dns", "vps", "proxy", "mail"] },
+  { id: "tunnel", label: "Tunnel", detail: "MikroTik through WireGuard to VPS", paths: ["officeToEdge", "edgeToTunnel", "tunnelToVps"], nodes: ["office", "mikrotik", "wireguard", "vps"] },
+  { id: "backup", label: "Backup", detail: "Encrypted service snapshots off site", paths: ["proxyToWeb", "webToBackup", "proxyToMail", "mailToBackup"], nodes: ["web", "mail", "backup", "proxy"] },
 ];
 
 function InfrastructureVisual() {
-  const active = useLoop(infraPaths.length, 1200);
+  const auto = useLoop(infraFlows.length, 2600);
+  const [selectedFlow, setSelectedFlow] = useState(null);
+  const activeFlow = infraFlows.find((flow) => flow.id === selectedFlow) || infraFlows[auto];
+  const activePaths = new Set(activeFlow.paths);
+  const activeNodes = new Set(activeFlow.nodes);
+  const visiblePaths = Object.values(infraPathMap);
+
   return (
     <div className="project-visual-scene infrastructure-demo" data-visual="hybrid-infrastructure" aria-label="Hybrid web and mail infrastructure topology illustration">
-      <svg viewBox="0 0 720 360" aria-hidden="true">
+      <div className="infra-flow-controls" role="group" aria-label="Infrastructure flow selector">
+        {infraFlows.map((flow) => (
+          <button
+            type="button"
+            key={flow.id}
+            className={activeFlow.id === flow.id ? "is-active" : ""}
+            onClick={() => setSelectedFlow(flow.id)}
+          >
+            <strong>{flow.label}</strong>
+            <span>{flow.detail}</span>
+          </button>
+        ))}
+      </div>
+      <svg viewBox="0 0 720 380" aria-hidden="true">
         <defs>
-          <linearGradient id="infra-zone" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0%" stopColor="currentColor" stopOpacity="0.14" />
-            <stop offset="100%" stopColor="currentColor" stopOpacity="0.01" />
+          <linearGradient id="infra-zone-local" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stopColor="#2dd4bf" stopOpacity="0.2" />
+            <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.02" />
+          </linearGradient>
+          <linearGradient id="infra-zone-public" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.2" />
+            <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.03" />
           </linearGradient>
           <filter id="infra-glow" x="-40%" y="-40%" width="180%" height="180%">
             <feGaussianBlur stdDeviation="4" result="blur" />
@@ -187,48 +220,53 @@ function InfrastructureVisual() {
           </filter>
         </defs>
         <g className="infra-zone zone-local">
-          <rect x="26" y="44" width="276" height="270" rx="26" />
-          <text x="48" y="72">LOCAL / OFFICE EDGE</text>
+          <rect x="28" y="42" width="284" height="282" rx="30" />
+          <text x="50" y="72">LOCAL SITE</text>
+          <text x="50" y="302">router, LAN, tunnel origin</text>
         </g>
         <g className="infra-zone zone-cloud">
-          <rect x="386" y="36" width="304" height="286" rx="26" />
-          <text x="410" y="66">PUBLIC VPS / SERVICES</text>
+          <rect x="386" y="34" width="308" height="304" rx="30" />
+          <text x="410" y="64">PUBLIC INFRASTRUCTURE</text>
+          <text x="410" y="316">VPS, proxy, web, mail, backup</text>
         </g>
-        {infraPaths.map((path, index) => (
+        <path className="infra-tunnel-body" d={infraPathMap.edgeToTunnel.d + " " + infraPathMap.tunnelToVps.d.replace("M324 216", "")} />
+        {visiblePaths.map((path) => (
           <motion.path
-            className={`infra-path infra-${path.kind} ${index === active ? "is-active" : ""}`}
+            className={`infra-path infra-${path.kind} ${activePaths.has(path.id) ? "is-active" : ""}`}
             d={path.d}
             key={path.id}
             initial={false}
-            animate={{ pathLength: index <= active ? 1 : 0.55, opacity: index === active ? 0.95 : 0.32 }}
-            transition={{ duration: 0.65 }}
+            animate={{ pathLength: activePaths.has(path.id) ? 1 : 0.62, opacity: activePaths.has(path.id) ? 0.98 : 0.16 }}
+            transition={{ duration: 0.55 }}
           />
         ))}
-        {infraPaths.map((path, index) => (
-          <motion.circle key={`${path.id}-packet`} r={path.kind === "secure" ? "5" : "4"} className={`packet packet-${path.kind}`}>
-            <animateMotion dur={path.kind === "secure" ? "3.7s" : "4.6s"} repeatCount="indefinite" begin={`${index * 0.2}s`} path={path.d} />
-          </motion.circle>
-        ))}
-        {infraNodes.map((node, index) => (
-          <g className={`infra-node node-${index}`} key={node.label}>
-            <rect x={node.x - node.w / 2} y={node.y - 26} width={node.w} height="52" rx="12" />
-            <circle cx={node.x - node.w / 2 + 17} cy={node.y - 7} r="4" />
-            <text className="node-label" x={node.x - node.w / 2 + 30} y={node.y - 4}>{node.label}</text>
-            <text className="node-meta" x={node.x - node.w / 2 + 17} y={node.y + 15}>{node.meta}</text>
-            {index === (active + 1) % infraNodes.length && <circle className="node-halo" cx={node.x} cy={node.y} r="36" />}
+        {activeFlow.paths.map((pathId, index) => {
+          const path = infraPathMap[pathId];
+          return (
+            <motion.circle key={`${activeFlow.id}-${pathId}`} r={path.kind === "secure" ? "5.5" : "4.5"} className={`packet packet-${path.kind}`}>
+              <animateMotion dur={path.kind === "secure" ? "2.8s" : "3.5s"} repeatCount="indefinite" begin={`${index * 0.22}s`} path={path.d} />
+            </motion.circle>
+          );
+        })}
+        {infraNodes.map((node) => (
+          <g className={`infra-node node-${node.zone} ${activeNodes.has(node.id) ? "is-active" : ""}`} key={node.id}>
+            <rect x={node.x - node.w / 2} y={node.y - 27} width={node.w} height="54" rx="12" />
+            <circle cx={node.x - node.w / 2 + 17} cy={node.y - 8} r="4" />
+            <text className="node-label" x={node.x - node.w / 2 + 30} y={node.y - 5}>{node.label}</text>
+            <text className="node-meta" x={node.x - node.w / 2 + 17} y={node.y + 16}>{node.meta}</text>
+            {activeNodes.has(node.id) && <circle className="node-halo" cx={node.x} cy={node.y} r="37" />}
           </g>
         ))}
         <g className="infra-status-rail">
-          <text x="46" y="334">packet flow:</text>
-          {infraPaths.slice(0, 4).map((path, index) => (
-            <text key={path.id} x={142 + index * 122} y="334">{path.label}</text>
-          ))}
+          <text x="48" y="360">active flow:</text>
+          <text x="138" y="360">{activeFlow.label}</text>
+          <text x="214" y="360">{activeFlow.detail}</text>
         </g>
       </svg>
       <div className="infra-legend">
         <span>web request</span>
         <span>mail delivery</span>
-        <span>secure tunnel</span>
+        <span>WireGuard tunnel</span>
         <span>TLS + backup</span>
       </div>
     </div>
