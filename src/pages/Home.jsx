@@ -96,66 +96,73 @@ const homeCopy = {
 const capabilityItems = [
   {
     icon: Server,
+    accent: "cyan",
+    featured: true,
     title: { en: "Infrastructure", fa: "زیرساخت", ar: "البنية التحتية", de: "Infrastruktur" },
     body: {
-      en: "Linux, Windows Server, virtualization, backups, service continuity, and operational documentation.",
-      fa: "لینوکس، Windows Server، مجازی‌سازی، بکاپ، تداوم سرویس و مستندسازی عملیاتی.",
-      ar: "Linux وWindows Server والمحاكاة الافتراضية والنسخ الاحتياطي واستمرارية الخدمة والتوثيق التشغيلي.",
-      de: "Linux, Windows Server, Virtualisierung, Backups, Servicekontinuität und Betriebsdokumentation.",
+      en: "Linux and Windows Server estates, virtualization, and storage built to stay available through failures, patches, and growth.",
+      fa: "سرورهای لینوکس و ویندوز، مجازی‌سازی و ذخیره‌سازی که در برابر خرابی، به‌روزرسانی و رشد، در دسترس می‌مانند.",
+      ar: "بيئات خوادم Linux وWindows والمحاكاة الافتراضية والتخزين، مبنية لتبقى متاحة خلال الأعطال والتحديثات والنمو.",
+      de: "Linux- und Windows-Server-Umgebungen, Virtualisierung und Storage, die durch Ausfälle, Updates und Wachstum verfügbar bleiben.",
     },
-    className: "capability-large capability-infra",
-    chips: ["Linux", "Windows Server", "Backup"],
+    chips: ["Linux", "Windows Server", "Virtualization", "Backup"],
+    highlights: [
+      { en: "Service continuity with tested, repeatable restores", fa: "تداوم سرویس با بازیابی تست‌شده و تکرارپذیر", ar: "استمرارية الخدمة مع استعادة مُختبرة وقابلة للتكرار", de: "Servicekontinuität mit getesteten, wiederholbaren Restores" },
+      { en: "Operational runbooks and clear documentation", fa: "ران‌بوک عملیاتی و مستندسازی روشن", ar: "أدلة تشغيل وتوثيق واضح", de: "Betriebs-Runbooks und klare Dokumentation" },
+      { en: "Proactive monitoring and capacity headroom", fa: "مانیتورینگ پیش‌گیرانه و ظرفیت ذخیره", ar: "مراقبة استباقية وهامش سعة", de: "Proaktives Monitoring und Kapazitätsreserven" },
+    ],
   },
   {
     icon: Network,
+    accent: "teal",
     title: { en: "Networking", fa: "شبکه", ar: "الشبكات", de: "Netzwerke" },
     body: {
-      en: "MikroTik, routing, firewall policy, VLANs, VPNs, NAT, failover, and traffic troubleshooting.",
-      fa: "MikroTik، مسیریابی، سیاست فایروال، VLAN، VPN، NAT، failover و عیب‌یابی ترافیک.",
-      ar: "MikroTik والتوجيه وسياسات الجدار الناري وVLAN وVPN وNAT والتجاوز وتحليل المرور.",
-      de: "MikroTik, Routing, Firewall-Policies, VLANs, VPNs, NAT, Failover und Traffic-Analyse.",
+      en: "MikroTik routing, firewall policy, VLANs, VPNs, NAT, multi-WAN failover, and traffic troubleshooting.",
+      fa: "مسیریابی MikroTik، سیاست فایروال، VLAN، VPN، NAT، failover چند-WAN و عیب‌یابی ترافیک.",
+      ar: "توجيه MikroTik وسياسات الجدار الناري وVLAN وVPN وNAT وتجاوز multi-WAN وتحليل المرور.",
+      de: "MikroTik-Routing, Firewall-Policies, VLANs, VPNs, NAT, Multi-WAN-Failover und Traffic-Analyse.",
     },
-    className: "capability-tall capability-network",
     chips: ["MikroTik", "VPN", "VLAN"],
   },
   {
     icon: Cloud,
+    accent: "violet",
     title: { en: "DevOps and Cloud", fa: "DevOps و ابر", ar: "DevOps والسحابة", de: "DevOps und Cloud" },
     body: {
-      en: "Docker, CI/CD, infrastructure automation, observability, and current cloud engineering growth.",
-      fa: "Docker، CI/CD، اتوماسیون زیرساخت، مشاهده‌پذیری و مسیر رشد فعلی در مهندسی ابر.",
-      ar: "Docker وCI/CD وأتمتة البنية التحتية والمراقبة ومسار نمو حالي في هندسة السحابة.",
-      de: "Docker, CI/CD, Infrastrukturautomatisierung, Observability und laufender Ausbau in Cloud Engineering.",
+      en: "Docker, CI/CD pipelines, infrastructure as code, observability, and an active path into cloud engineering.",
+      fa: "Docker، خط‌لوله CI/CD، Infrastructure as Code، مشاهده‌پذیری و مسیر فعال به سمت مهندسی ابر.",
+      ar: "Docker وخطوط CI/CD والبنية ككود والمراقبة ومسار نشط نحو هندسة السحابة.",
+      de: "Docker, CI/CD-Pipelines, Infrastructure as Code, Observability und ein aktiver Weg ins Cloud Engineering.",
     },
-    className: "capability-cloud",
     chips: ["Docker", "CI/CD", "IaC"],
   },
   {
     icon: Globe2,
+    accent: "sky",
     title: { en: "Web Systems", fa: "سیستم‌های وب", ar: "أنظمة الويب", de: "Web-Systeme" },
     body: {
-      en: "Nginx, Caddy, HAProxy, DNS, SSL/TLS, WordPress, React, and production-facing web delivery.",
-      fa: "Nginx، Caddy، HAProxy، DNS، SSL/TLS، WordPress، React و تحویل وب در محیط واقعی.",
-      ar: "Nginx وCaddy وHAProxy وDNS وSSL/TLS وWordPress وReact وتسليم الويب الإنتاجي.",
-      de: "Nginx, Caddy, HAProxy, DNS, SSL/TLS, WordPress, React und produktionsnahe Web-Auslieferung.",
+      en: "Nginx, Caddy, HAProxy, DNS, SSL/TLS, WordPress, and React delivered to production with TLS that actually validates.",
+      fa: "Nginx، Caddy، HAProxy، DNS، SSL/TLS، WordPress و React که با TLS معتبر در محیط واقعی تحویل می‌شوند.",
+      ar: "Nginx وCaddy وHAProxy وDNS وSSL/TLS وWordPress وReact تُسلَّم للإنتاج بشهادات TLS صالحة فعلاً.",
+      de: "Nginx, Caddy, HAProxy, DNS, SSL/TLS, WordPress und React, in Produktion mit wirklich gültigem TLS.",
     },
-    className: "capability-web",
     chips: ["Nginx", "DNS", "React"],
   },
   {
     icon: Code2,
+    accent: "indigo",
     title: { en: "Programming", fa: "برنامه‌نویسی", ar: "البرمجة", de: "Programmierung" },
     body: {
-      en: "Python, Bash, C#, .NET desktop tools, Unity experiments, and pragmatic scripts.",
-      fa: "Python، Bash، C#، ابزارهای دسکتاپ .NET، تجربه‌های Unity و اسکریپت‌های کاربردی.",
-      ar: "Python وBash وC# وأدوات سطح مكتب .NET وتجارب Unity وسكربتات عملية.",
-      de: "Python, Bash, C#, .NET-Desktop-Tools, Unity-Experimente und pragmatische Skripte.",
+      en: "Python, Bash, and C# / .NET desktop tools, Unity experiments, and pragmatic scripts that pay for themselves.",
+      fa: "ابزارهای دسکتاپ Python، Bash و C# / .NET، تجربه‌های Unity و اسکریپت‌های کاربردی که هزینه‌شان را برمی‌گردانند.",
+      ar: "أدوات سطح مكتب بلغة Python وBash وC# / .NET وتجارب Unity وسكربتات عملية تُغطّي تكلفتها.",
+      de: "Python, Bash und C# / .NET-Desktop-Tools, Unity-Experimente und pragmatische Skripte, die sich auszahlen.",
     },
-    className: "capability-code",
     chips: ["Python", ".NET", "Bash"],
   },
   {
     icon: Bot,
+    accent: "magenta",
     title: { en: "Automation", fa: "اتوماسیون", ar: "الأتمتة", de: "Automatisierung" },
     body: {
       en: "Telegram bots, repeatable scripts, maintenance flows, and small tools that remove manual friction.",
@@ -163,11 +170,11 @@ const capabilityItems = [
       ar: "بوتات Telegram وسكربتات قابلة للتكرار وتدفقات صيانة وأدوات صغيرة تقلل العمل اليدوي.",
       de: "Telegram-Bots, wiederholbare Skripte, Wartungsabläufe und kleine Tools gegen manuelle Reibung.",
     },
-    className: "capability-automation",
     chips: ["Bots", "Scripts", "Ops"],
   },
   {
     icon: ShieldCheck,
+    accent: "emerald",
     title: { en: "IT Operations", fa: "عملیات IT", ar: "عمليات تقنية المعلومات", de: "IT-Betrieb" },
     body: {
       en: "Support, incident response, asset coordination, monitoring, continuity checks, and clear reporting.",
@@ -175,30 +182,29 @@ const capabilityItems = [
       ar: "دعم واستجابة للحوادث وتنسيق الأصول ومراقبة وفحوص استمرارية وتقارير واضحة.",
       de: "Support, Incident Response, Asset-Koordination, Monitoring, Kontinuitätschecks und klare Berichte.",
     },
-    className: "capability-ops",
     chips: ["Support", "Monitoring", "Reports"],
   },
 ];
 
 const operatorSignals = [
-  { key: "web", label: "Web edge", metric: "HTTPS 200", icon: Globe2 },
-  { key: "deploy", label: "Deploy", metric: "green", icon: GitBranch },
-  { key: "net", label: "Network", metric: "24ms", icon: Network },
-  { key: "backup", label: "Backup", metric: "verified", icon: Database },
+  { key: "web", label: { en: "Web edge", fa: "لبه وب", ar: "حافة الويب", de: "Web-Edge" }, metric: "HTTPS 200", icon: Globe2 },
+  { key: "deploy", label: { en: "Deploy", fa: "استقرار", ar: "النشر", de: "Deploy" }, metric: { en: "green", fa: "سالم", ar: "أخضر", de: "grün" }, icon: GitBranch },
+  { key: "net", label: { en: "Network", fa: "شبکه", ar: "الشبكة", de: "Netzwerk" }, metric: "24 ms", icon: Network },
+  { key: "backup", label: { en: "Backup", fa: "بکاپ", ar: "نسخ", de: "Backup" }, metric: { en: "verified", fa: "تأییدشده", ar: "مُتحقَّق", de: "verifiziert" }, icon: Database },
 ];
 
 const consoleRows = [
-  "deploy: ateight.xyz -> stable",
-  "wg0 tunnel handshake 24ms",
-  "haproxy route web:443 healthy",
+  "deploy ateight.xyz → stable",
+  "wg0 handshake 24ms",
+  "haproxy web:443 healthy",
   "mail tls queue clear",
 ];
 
+const dashboardBars = [42, 76, 58, 88, 64];
+
 function HeroCommandDeck({ language }) {
   const reduceMotion = useReducedMotion();
-  const steamMotion = reduceMotion ? undefined : { opacity: [0, 0.85, 0], y: [0, -18, -34], scale: [0.85, 1.08, 1.24] };
-  const glanceMotion = reduceMotion ? undefined : { x: [0, 3, 0, -2, 0] };
-  const typingMotion = reduceMotion ? undefined : { rotate: [0, -3, 1, 0], y: [0, 2, 0, 1, 0] };
+  const steamMotion = reduceMotion ? undefined : { opacity: [0, 0.7, 0], y: [0, -16, -30], scale: [0.8, 1.05, 1.2] };
 
   return (
     <motion.aside
@@ -213,160 +219,241 @@ function HeroCommandDeck({ language }) {
         <Activity size={16} aria-hidden="true" />
       </div>
       <div className="workstation-scene" aria-hidden="true">
-        <svg className="workstation-svg" viewBox="0 0 720 560" role="img">
+        <svg className="workstation-svg" viewBox="0 0 760 600" role="img" preserveAspectRatio="xMidYMid meet">
           <defs>
-            <radialGradient id="hero-monitor-light" cx="50%" cy="42%" r="62%">
-              <stop offset="0%" stopColor="#7dd3fc" stopOpacity="0.46" />
-              <stop offset="48%" stopColor="#22d3ee" stopOpacity="0.16" />
-              <stop offset="100%" stopColor="#020617" stopOpacity="0" />
+            <radialGradient id="ck-roomglow" cx="50%" cy="34%" r="60%">
+              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.36" />
+              <stop offset="46%" stopColor="#6366f1" stopOpacity="0.12" />
+              <stop offset="100%" stopColor="#04070d" stopOpacity="0" />
             </radialGradient>
-            <linearGradient id="hero-screen" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stopColor="#172554" />
-              <stop offset="58%" stopColor="#07111f" />
-              <stop offset="100%" stopColor="#020617" />
+            <linearGradient id="ck-wall" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="#0b1322" />
+              <stop offset="100%" stopColor="#070d18" />
             </linearGradient>
-            <linearGradient id="hero-skin" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stopColor="#f5c9aa" />
-              <stop offset="100%" stopColor="#b7795a" />
+            <linearGradient id="ck-floor" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="#0a1019" />
+              <stop offset="100%" stopColor="#05080e" />
             </linearGradient>
-            <radialGradient id="hero-face-light" cx="42%" cy="34%" r="74%">
-              <stop offset="0%" stopColor="#ffd6b8" stopOpacity="0.95" />
-              <stop offset="100%" stopColor="#b7795a" stopOpacity="0.9" />
+            <linearGradient id="ck-desk" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="#16202f" />
+              <stop offset="100%" stopColor="#0c131e" />
+            </linearGradient>
+            <linearGradient id="ck-screen" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stopColor="#0f2742" />
+              <stop offset="60%" stopColor="#081522" />
+              <stop offset="100%" stopColor="#040a12" />
+            </linearGradient>
+            <linearGradient id="ck-hoodie" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="#243244" />
+              <stop offset="100%" stopColor="#0e1622" />
+            </linearGradient>
+            <radialGradient id="ck-hair" cx="42%" cy="32%" r="74%">
+              <stop offset="0%" stopColor="#3b2c25" />
+              <stop offset="100%" stopColor="#160f0c" />
             </radialGradient>
-            <linearGradient id="hero-shirt" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stopColor="#1f2937" />
-              <stop offset="100%" stopColor="#0b1120" />
+            <linearGradient id="ck-skin" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stopColor="#f0c2a0" />
+              <stop offset="100%" stopColor="#c08a64" />
             </linearGradient>
-            <filter id="hero-soft-glow" x="-40%" y="-40%" width="180%" height="180%">
-              <feGaussianBlur stdDeviation="12" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
+            <linearGradient id="ck-rgb" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="#38bdf8" />
+              <stop offset="50%" stopColor="#8b5cf6" />
+              <stop offset="100%" stopColor="#e879f9" />
+            </linearGradient>
+            <radialGradient id="ck-lamp" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#fcd34d" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="#fcd34d" stopOpacity="0" />
+            </radialGradient>
+            <filter id="ck-glow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="6" result="b" />
+              <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
             </filter>
           </defs>
 
-          <rect x="34" y="30" width="652" height="498" rx="32" fill="#030712" />
-          <ellipse cx="365" cy="248" rx="296" ry="210" fill="url(#hero-monitor-light)" filter="url(#hero-soft-glow)" />
-          <path d="M72 412 C178 368 246 388 338 356 C440 320 548 326 650 380 L650 528 L72 528 Z" fill="#07111f" opacity="0.8" />
-
-          <g className="workstation-bg">
-            <rect x="76" y="70" width="144" height="70" rx="14" />
-            <rect x="520" y="78" width="96" height="152" rx="18" />
-            <path d="M94 166 H196 M544 112 H592 M544 142 H606 M544 172 H586 M544 202 H598" />
+          {/* room */}
+          <rect x="0" y="0" width="760" height="384" fill="url(#ck-wall)" />
+          <path d="M0 384 H760 V600 H0 Z" fill="url(#ck-floor)" />
+          <ellipse cx="384" cy="232" rx="312" ry="206" fill="url(#ck-roomglow)" filter="url(#ck-glow)" />
+          <g className="ck-floorlines">
+            <path d="M150 600 L300 384 M360 600 L380 384 M610 600 L470 384" />
           </g>
 
-          <motion.g
-            className="monitor-cluster"
-            animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <rect x="132" y="96" width="260" height="176" rx="18" className="monitor-shell" />
-            <rect x="147" y="113" width="230" height="134" rx="10" fill="url(#hero-screen)" />
-            <rect x="398" y="130" width="182" height="132" rx="16" className="monitor-shell side" />
-            <rect x="412" y="146" width="154" height="92" rx="9" fill="url(#hero-screen)" />
-            <path d="M268 272 L256 318 H356 L342 272" className="monitor-stand" />
-            <path d="M468 262 L458 306 H532 L520 262" className="monitor-stand" />
+          {/* wall shelf + plant */}
+          <g className="ck-shelf">
+            <rect x="70" y="132" width="150" height="8" rx="3" />
+            <rect x="86" y="98" width="14" height="34" rx="2" />
+            <rect x="104" y="104" width="12" height="28" rx="2" />
+            <rect x="120" y="100" width="13" height="32" rx="2" />
+            <path className="ck-plant" d="M186 132 C182 112 196 104 198 92 C202 106 214 110 206 130" />
+            <rect x="188" y="120" width="20" height="14" rx="3" className="ck-pot" />
+          </g>
 
-            {consoleRows.map((row, index) => (
-              <g key={row} className="code-row" transform={`translate(166 ${138 + index * 24})`}>
-                <circle cx="0" cy="0" r="3.5" />
-                <motion.rect
-                  x="14"
-                  y="-5"
-                  height="8"
-                  rx="4"
-                  animate={reduceMotion ? undefined : { width: [88 + index * 18, 132 + index * 12, 88 + index * 18] }}
-                  transition={{ duration: 3.6 + index * 0.4, repeat: Infinity, ease: "easeInOut" }}
+          {/* wall monitoring panel */}
+          <g className="ck-wallpanel">
+            <rect x="516" y="74" width="170" height="112" rx="10" />
+            <text x="532" y="98" className="ck-panel-label">uptime · 99.98%</text>
+            <path className="ck-panel-line" d="M532 156 L556 140 L580 150 L604 124 L628 134 L652 112 L672 120" />
+            <circle cx="672" cy="120" r="3" className="ck-panel-dot" />
+          </g>
+
+          {/* desk */}
+          <g className="ck-desk">
+            <path className="ck-desk-shadow" d="M70 480 L690 480 L724 540 L40 540 Z" />
+            <path className="ck-desk-top" d="M150 356 L612 356 L674 472 L84 472 Z" />
+            <path className="ck-desk-edge" d="M84 472 L674 472 L674 486 L84 486 Z" />
+          </g>
+
+          {/* left primary monitor */}
+          <g className="ck-monitor">
+            <path className="ck-stand" d="M306 296 H338 L348 356 H296 Z" />
+            <ellipse className="ck-stand-base" cx="322" cy="358" rx="40" ry="7" />
+            <rect className="ck-bezel" x="206" y="148" width="224" height="152" rx="12" />
+            <rect className="ck-screen" x="218" y="160" width="200" height="128" rx="6" />
+            <g className="ck-screen-content" clipPath="none">
+              <circle className="ck-dot dot-r" cx="234" cy="176" r="3" />
+              <circle className="ck-dot dot-y" cx="246" cy="176" r="3" />
+              <circle className="ck-dot dot-g" cx="258" cy="176" r="3" />
+              <text className="ck-screen-title" x="276" y="180">terminal — ops</text>
+              {consoleRows.map((row, index) => (
+                <g key={row} className="ck-code-row" transform={`translate(234 ${204 + index * 19})`}>
+                  <motion.rect
+                    x="0" y="-7" height="6" rx="3"
+                    animate={reduceMotion ? undefined : { width: [54 + index * 14, 96 + index * 9, 54 + index * 14] }}
+                    transition={{ duration: 3.4 + index * 0.4, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                  <text x="0" y="9">{row}</text>
+                </g>
+              ))}
+              <motion.rect
+                className="ck-cursor" x="150" y="274" width="7" height="10" rx="1"
+                animate={reduceMotion ? undefined : { opacity: [0, 1, 1, 0] }}
+                transition={{ duration: 1.05, repeat: Infinity }}
+              />
+            </g>
+          </g>
+
+          {/* right secondary monitor (angled dashboard) */}
+          <g className="ck-monitor ck-monitor-side">
+            <path className="ck-stand" d="M512 286 H532 L540 352 H504 Z" />
+            <ellipse className="ck-stand-base" cx="522" cy="354" rx="34" ry="6" />
+            <path className="ck-bezel" d="M446 158 L598 146 L598 286 L446 296 Z" />
+            <path className="ck-screen" d="M456 168 L588 158 L588 278 L456 286 Z" />
+            <g className="ck-screen-content">
+              <text className="ck-screen-title" x="470" y="184">monitoring</text>
+              {dashboardBars.map((h, index) => {
+                const bh = h * 0.6;
+                return (
+                  <rect
+                    key={index}
+                    className="ck-bar"
+                    x={470 + index * 22}
+                    y={252 - bh}
+                    width="13"
+                    height={bh}
+                    rx="2"
+                    style={{ animationDelay: `${index * 0.26}s` }}
+                  />
+                );
+              })}
+              <path className="ck-spark" d="M468 224 L492 210 L516 218 L540 198 L566 206 L584 192" />
+              <circle className="ck-spark-dot" cx="584" cy="192" r="2.6" />
+            </g>
+          </g>
+
+          {/* lamp */}
+          <g className="ck-lamp">
+            <ellipse cx="208" cy="360" rx="58" ry="14" fill="url(#ck-lamp)" />
+            <path className="ck-lamp-arm" d="M176 356 C178 320 196 312 214 292" />
+            <path className="ck-lamp-head" d="M210 286 L232 296 L222 312 L200 302 Z" />
+            <circle className="ck-lamp-base" cx="176" cy="356" r="7" />
+          </g>
+
+          {/* keyboard + mouse + mug on desk */}
+          <g className="ck-deskprops">
+            <path className="ck-keyboard" d="M286 402 L452 396 L470 432 L300 440 Z" />
+            <g className="ck-keys">
+              <path d="M300 408 L444 403 M303 416 L448 411 M306 424 L452 419" />
+            </g>
+            <path className="ck-mouse" d="M486 410 C498 408 506 416 504 428 C502 438 488 440 482 430 C478 422 480 412 486 410 Z" />
+            <g className="ck-mug">
+              <path className="ck-mug-body" d="M238 396 H274 L270 436 H242 Z" />
+              <path className="ck-mug-handle" d="M274 404 C292 404 292 426 272 424" />
+              <ellipse className="ck-mug-top" cx="256" cy="396" rx="18" ry="4" />
+              {[0, 1, 2].map((index) => (
+                <motion.path
+                  key={index}
+                  className="ck-steam"
+                  d={`M${248 + index * 8} 388 C${242 + index * 9} 372 ${256 + index * 6} 366 ${250 + index * 8} 350`}
+                  animate={steamMotion}
+                  transition={{ duration: 3, repeat: Infinity, delay: index * 0.5, ease: "easeInOut" }}
                 />
-                <text x="14" y="17">{row}</text>
-              </g>
-            ))}
+              ))}
+            </g>
+          </g>
+
+          {/* chair behind operator */}
+          <g className="ck-chair">
+            <path className="ck-chair-back" d="M250 470 C246 410 286 384 360 384 C434 384 474 410 470 470 L470 540 L250 540 Z" />
+            <path className="ck-chair-stripe" d="M276 470 C274 420 304 400 360 400 C416 400 446 420 444 470" />
+            <rect className="ck-armrest" x="234" y="456" width="52" height="20" rx="9" />
+            <rect className="ck-armrest" x="434" y="456" width="52" height="20" rx="9" />
+          </g>
+
+          {/* operator — over-the-shoulder back/profile view */}
+          <motion.g
+            className="ck-operator"
+            animate={reduceMotion ? undefined : { y: [0, -2.5, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <path className="ck-hoodie" d="M252 540 C248 470 268 436 300 424 C322 416 398 416 420 424 C452 436 472 470 468 540 Z" />
+            <path className="ck-hood" d="M312 430 C316 408 404 408 408 430 C400 446 320 446 312 430 Z" />
+            <path className="ck-neck" d="M338 408 H382 L384 426 H336 Z" />
+            <ellipse className="ck-head" cx="360" cy="372" rx="45" ry="50" />
+            <g className="ck-curls">
+              {[330, 348, 368, 388].map((cx, i) => (
+                <circle key={cx} cx={cx} cy={336 + (i % 2) * 7} r={16 - (i % 2) * 3} />
+              ))}
+              {[326, 344, 378, 396].map((cx, i) => (
+                <circle key={cx} cx={cx} cy={360 + (i % 2) * 6} r={13} />
+              ))}
+            </g>
+            {/* profile sliver on the right */}
+            <path className="ck-cheek" d="M398 360 C410 366 410 392 400 402 C396 394 396 372 398 360 Z" />
+            <path className="ck-glasses-temple" d="M392 372 H406" />
+            {/* headphones */}
+            <path className="ck-hp-band" d="M316 360 C322 318 398 318 404 360" />
+            <ellipse className="ck-hp-cup" cx="314" cy="374" rx="10" ry="17" />
+            <ellipse className="ck-hp-cup ck-hp-cup-right" cx="406" cy="374" rx="9" ry="16" />
+            {/* arms reaching to desk */}
+            <motion.g
+              className="ck-arm-right"
+              animate={reduceMotion ? undefined : { y: [0, 2.5, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <path className="ck-arm" d="M420 452 C440 452 452 446 460 430" />
+              <ellipse className="ck-hand" cx="462" cy="426" rx="15" ry="10" transform="rotate(-18 462 426)" />
+            </motion.g>
+            <g className="ck-arm-left">
+              <path className="ck-arm" d="M300 452 C284 452 272 444 264 430" />
+              <ellipse className="ck-hand" cx="262" cy="426" rx="14" ry="10" transform="rotate(16 262 426)" />
+            </g>
+          </motion.g>
+
+          {/* PC tower with RGB */}
+          <g className="ck-tower">
+            <path className="ck-tower-side" d="M714 380 L734 390 L734 580 L714 570 Z" />
+            <rect className="ck-tower-front" x="636" y="380" width="78" height="190" rx="8" />
+            <rect className="ck-tower-glass" x="648" y="394" width="40" height="162" rx="4" />
             <motion.rect
-              className="screen-cursor"
-              x="310"
-              y="223"
-              width="8"
-              height="16"
-              rx="2"
-              animate={reduceMotion ? undefined : { opacity: [0, 1, 1, 0] }}
-              transition={{ duration: 1, repeat: Infinity }}
+              className="ck-tower-rgb"
+              x="694" y="396" width="6" height="158" rx="3"
+              fill="url(#ck-rgb)"
+              animate={reduceMotion ? undefined : { opacity: [0.55, 1, 0.55] }}
+              transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
             />
-
-            <path className="network-line" d="M430 176 C466 154 494 168 536 154" />
-            <path className="network-line network-mail" d="M430 206 C462 226 506 210 546 222" />
-            {[0, 1, 2].map((index) => (
-              <motion.circle
-                key={index}
-                className="network-packet"
-                r="4"
-                animate={reduceMotion ? undefined : { cx: [432, 538], cy: index === 1 ? [206, 222] : [176, 154] }}
-                transition={{ duration: 2.8, repeat: Infinity, delay: index * 0.65, ease: "easeInOut" }}
-              />
-            ))}
-          </motion.g>
-
-          <g className="operator-chair">
-            <path d="M286 316 C270 282 286 244 332 234 H406 C448 238 464 278 448 320 L430 420 H306 Z" />
-            <path d="M306 420 H434 L462 506 H418 L374 446 L328 506 H286 Z" />
-          </g>
-
-          <motion.g className="operator-person" animate={glanceMotion} transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}>
-            <path className="operator-neck" d="M352 247 H386 L394 289 H342 Z" />
-            <path className="operator-torso" d="M302 298 C322 270 420 268 442 302 C456 344 448 398 430 430 H314 C296 388 288 340 302 298 Z" />
-            <path className="operator-leg left-leg" d="M322 424 C306 452 294 476 286 504 H332 C342 474 356 450 376 424" />
-            <path className="operator-leg right-leg" d="M412 424 C438 452 454 476 464 504 H418 C404 474 388 450 366 424" />
-            <ellipse className="operator-face" cx="370" cy="210" rx="42" ry="50" />
-            <g className="operator-curls">
-              {[328, 346, 366, 386, 406].map((cx, index) => (
-                <circle key={cx} cx={cx} cy={178 + (index % 2) * 6} r={18 - (index % 2) * 3} />
-              ))}
-              {[332, 352, 392, 414].map((cx, index) => (
-                <circle key={cx} cx={cx} cy={204 + index * 2} r={14} />
-              ))}
-            </g>
-            <path className="operator-hair" d="M326 210 C322 162 354 138 394 150 C426 160 434 196 412 230 C406 196 380 190 352 184 C340 194 334 204 326 210 Z" />
-            <g className="operator-glasses">
-              <rect x="346" y="202" width="25" height="19" rx="4" />
-              <rect x="383" y="202" width="25" height="19" rx="4" />
-              <path d="M371 211 H383" />
-            </g>
-            <motion.g animate={reduceMotion ? undefined : { x: [0, 2, 0, -1, 0] }} transition={{ duration: 5.4, repeat: Infinity, ease: "easeInOut" }}>
-              <path className="operator-eye" d="M356 212 H364 M391 212 H399" />
-            </motion.g>
-            <path className="operator-nose" d="M378 216 C374 228 376 232 384 235" />
-            <path className="operator-mouth" d="M360 242 C368 248 382 248 390 241" />
-            <motion.g animate={typingMotion} transition={{ duration: 1.9, repeat: Infinity, ease: "easeInOut" }}>
-              <path className="operator-arm left" d="M318 318 C276 338 250 366 224 410" />
-              <ellipse className="operator-hand" cx="222" cy="411" rx="17" ry="10" />
-            </motion.g>
-            <motion.g animate={reduceMotion ? undefined : { rotate: [0, 2, -2, 0], y: [0, 1, 0, 2, 0] }} transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: 0.24 }}>
-              <path className="operator-arm right" d="M424 318 C456 346 482 366 522 392" />
-              <ellipse className="operator-hand" cx="524" cy="394" rx="17" ry="10" />
-            </motion.g>
-          </motion.g>
-
-          <g className="desk-layer">
-            <path d="M104 414 C248 400 426 400 616 414 L652 496 H70 Z" />
-            <rect x="234" y="406" width="214" height="34" rx="10" />
-            <path d="M260 423 H424 M278 434 H406" />
-            <rect x="462" y="400" width="82" height="22" rx="8" />
-            <path d="M134 435 C154 420 184 422 204 438" />
-          </g>
-
-          <g className="coffee-group">
-            <path d="M548 382 H606 L596 438 H558 Z" />
-            <path d="M604 392 C636 392 636 426 600 423" />
-            <rect x="546" y="438" width="58" height="9" rx="5" />
-            {[0, 1, 2].map((index) => (
-              <motion.path
-                key={index}
-                className="steam-path"
-                d={`M${562 + index * 13} 372 C${548 + index * 15} 350 ${578 + index * 7} 342 ${566 + index * 11} 320`}
-                animate={steamMotion}
-                transition={{ duration: 2.8, repeat: Infinity, delay: index * 0.42, ease: "easeInOut" }}
-              />
-            ))}
+            <path className="ck-tower-vents" d="M650 404 H678 M650 412 H678 M650 420 H672" />
+            <circle className="ck-tower-fan" cx="668" cy="475" r="20" />
+            <circle className="ck-tower-fan-core" cx="668" cy="475" r="5" />
           </g>
         </svg>
 
@@ -381,8 +468,8 @@ function HeroCommandDeck({ language }) {
                 transition={{ duration: 3.8 + index * 0.28, repeat: Infinity, ease: "easeInOut" }}
               >
                 <Icon size={14} aria-hidden="true" />
-                <span>{item.label}</span>
-                <strong>{item.metric}</strong>
+                <span>{localize(item.label, language)}</span>
+                <strong>{localize(item.metric, language)}</strong>
               </motion.div>
             );
           })}
@@ -395,19 +482,34 @@ function HeroCommandDeck({ language }) {
 function CapabilityCard({ item, language, index }) {
   const Icon = item.icon;
   return (
-    <Reveal className={`capability-card ${item.className}`} delay={index * 0.025}>
+    <Reveal
+      className={`capability-card cap-${item.accent} ${item.featured ? "is-featured" : ""}`}
+      delay={index * 0.025}
+    >
       <div className="capability-visual" aria-hidden="true">
         <span />
         <span />
         <span />
       </div>
       <div className="capability-content">
-        <div className="capability-icon"><Icon size={20} /></div>
-        <h3>{localize(item.title, language)}</h3>
-        <p>{localize(item.body, language)}</p>
-        <div className="capability-chips">
-          {item.chips.map((chip) => <span key={chip}>{chip}</span>)}
+        <div className="capability-main">
+          <div className="capability-icon"><Icon size={20} /></div>
+          <h3>{localize(item.title, language)}</h3>
+          <p>{localize(item.body, language)}</p>
+          <div className="capability-chips">
+            {item.chips.map((chip) => <span key={chip}>{chip}</span>)}
+          </div>
         </div>
+        {item.highlights && (
+          <ul className="capability-highlights">
+            {item.highlights.map((point) => (
+              <li key={localize(point, "en")}>
+                <CheckCircle2 size={15} aria-hidden="true" />
+                <span>{localize(point, language)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </Reveal>
   );

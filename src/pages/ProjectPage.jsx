@@ -197,7 +197,7 @@ export default function ProjectPage({ project, language, t }) {
             <div className="visual-demo-card">
               <VisualBoundary label={`${project.title} visual demonstration`}>
                 <Suspense fallback={<div className="visual-fallback" aria-hidden="true" />}>
-                  <ProjectVisual slug={project.slug} />
+                  <ProjectVisual slug={project.slug} language={language} />
                 </Suspense>
               </VisualBoundary>
               <span className="visual-demo-label">{localize(pageText.visual, language)}</span>

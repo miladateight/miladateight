@@ -273,7 +273,9 @@ export default function SeoManager({ language }) {
     upsertMeta('meta[property="og:title"]', { property: "og:title", content: seo.title });
     upsertMeta('meta[property="og:description"]', { property: "og:description", content: seo.description });
     upsertMeta('meta[property="og:image"]', { property: "og:image", content: ogImage });
+    upsertMeta('meta[property="og:image:alt"]', { property: "og:image:alt", content: `${seo.title}` });
     upsertMeta('meta[property="og:site_name"]', { property: "og:site_name", content: "AT8 Portfolio" });
+    upsertMeta('meta[property="og:locale"]', { property: "og:locale", content: language === "fa" ? "fa_IR" : language === "ar" ? "ar" : language === "de" ? "de_DE" : "en_US" });
     upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: "summary_large_image" });
     upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: seo.title });
     upsertMeta('meta[name="twitter:description"]', { name: "twitter:description", content: seo.description });
