@@ -118,6 +118,17 @@
       @media (prefers-reduced-motion: reduce) {
         .loader-mark, .loader-bar-fill { animation: none; }
       }
+      .loader-root.is-timeout {
+        background: #080d15;
+      }
+      .loader-root.is-timeout .loader-text {
+        max-width: 280px;
+        color: #dbeafe;
+        line-height: 1.6;
+        letter-spacing: 0;
+        text-align: center;
+        text-transform: none;
+      }
     </style>
   </head>
   <body>
@@ -128,6 +139,15 @@
         <div class="loader-text">Loading</div>
       </div>
     </div>
+    <script>
+      window.setTimeout(function () {
+        var loader = document.getElementById("loader");
+        if (!loader) return;
+        loader.classList.add("is-timeout");
+        var text = loader.querySelector(".loader-text");
+        if (text) text.textContent = "Still loading. If this does not change, use the navigation after refreshing the page.";
+      }, 5000);
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

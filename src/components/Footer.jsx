@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowUp, AtSign, Github, Send } from "lucide-react";
 import { projects } from "../data/projects";
 import { profile } from "../data/profile";
+import logoUrl from "../assets/at8-logo.png";
 import { localize } from "../utils/localize";
 
 const footerText = {
@@ -65,8 +66,13 @@ export default function Footer({ t, language }) {
         <div className="footer-grid">
           <motion.div className="footer-brand-col" variants={fadeUp}>
             <Link to="/" className="footer-mark" aria-label="AT8 home">
-              <span>AT8</span>
-              <small>Ateight</small>
+              <span className="footer-mark-image" aria-hidden="true">
+                <img src={logoUrl} alt="" width="54" height="54" />
+              </span>
+              <span className="footer-mark-copy">
+                <strong>Milad Ateight</strong>
+                <small>AT8 · Ateight</small>
+              </span>
             </Link>
             <p>{localize(footerText.tagline, language)}</p>
           </motion.div>

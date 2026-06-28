@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Languages, Menu, X } from "lucide-react";
 import { projects } from "../data/projects";
+import logoUrl from "../assets/at8-logo.png";
 import { localize } from "../utils/localize";
 
 const languages = [
@@ -75,10 +76,19 @@ export default function Header({ t, language, setLanguage, isRtl }) {
   ], [normalizedPath, t.nav]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 18);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const sentinel = document.createElement("span");
+    sentinel.setAttribute("aria-hidden", "true");
+    sentinel.style.cssText = "position:absolute;top:18px;left:0;width:1px;height:1px;pointer-events:none;";
+    document.body.prepend(sentinel);
+    const observer = new IntersectionObserver(([entry]) => setScrolled(!entry.isIntersecting), {
+      rootMargin: "0px 0px 0px 0px",
+      threshold: 0,
+    });
+    observer.observe(sentinel);
+    return () => {
+      observer.disconnect();
+      sentinel.remove();
+    };
   }, []);
 
   useEffect(() => {
@@ -153,12 +163,12 @@ export default function Header({ t, language, setLanguage, isRtl }) {
       <header className={`at8-header ${scrolled ? "is-scrolled" : ""} ${isRtl ? "rtl" : ""}`}>
         <div className="header-inner">
           <Link to="/" className="header-brand" aria-label="AT8 home">
-            <span className="brand-orbit" aria-hidden="true">
-              <span />
+            <span className="brand-mark-shell" aria-hidden="true">
+              <img src={logoUrl} alt="" width="44" height="44" />
             </span>
             <span className="header-brand-copy">
-              <strong>AT8</strong>
-              <small>Ateight</small>
+              <strong>Milad Ateight</strong>
+              <small>AT8 · Ateight</small>
             </span>
           </Link>
 
@@ -284,6 +294,13 @@ export default function Header({ t, language, setLanguage, isRtl }) {
                 transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
               >
                 <nav className="header-drawer-links" aria-label="Mobile navigation">
+                  <div className="drawer-brand-lockup" aria-hidden="true">
+                    <img src={logoUrl} alt="" width="52" height="52" />
+                    <span>
+                      <strong>Milad Ateight</strong>
+                      <small>AT8 · Ateight</small>
+                    </span>
+                  </div>
                   <Link ref={mobileFirstLinkRef} to="/">{t.nav[0]}</Link>
                   <Link to="/about/">{t.nav[1]}</Link>
                   <Link to="/contact/">{t.nav[3]}</Link>

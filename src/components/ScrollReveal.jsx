@@ -39,7 +39,7 @@ export function TextReveal({ children, delay = 0 }) {
     <motion.span
       initial={reduce ? false : { opacity: 0, y: 8, filter: "blur(6px)" }}
       animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      transition={{ ...springReveal, delay }}
+      transition={{ duration: 0.36, ease: [0.16, 1, 0.3, 1], delay }}
     >
       {children}
     </motion.span>
