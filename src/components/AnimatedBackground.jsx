@@ -13,17 +13,19 @@ function makeNode(index, total) {
 }
 
 function makeShootingStar() {
-  const angle = Math.PI / 4;
-  const length = 50 + Math.random() * 100;
-  const speed = 5 + Math.random() * 10;
-  const alpha = 0.3 + Math.random() * 0.5;
+  const angle = (Math.PI / 2) - 0.35 + Math.random() * 0.7;
+  const length = 80 + Math.random() * 100;
+  const speed = 0.6 + Math.random() * 0.9;
+  const alpha = 0.55 + Math.random() * 0.35;
+  const headR = 1.1 + Math.random() * 0.7;
   return {
     x: Math.random(),
-    y: 0,
+    y: -0.05 - Math.random() * 0.15,
     length,
     speed,
     alpha,
     angle,
+    headR,
     tailX: 0,
     tailY: 0,
   };
@@ -87,7 +89,8 @@ export default function AnimatedBackground() {
         speed: 0.08 + (index % 5) * 0.02,
         progress: (index * 0.17) % 1,
       }));
-      shooters = Array.from({ length: 3 }, () => {
+      const starCount = isMobile ? 6 : 12;
+      shooters = Array.from({ length: starCount }, () => {
         const m = makeShootingStar();
         m.tailX = m.x - Math.cos(m.angle) * (m.length / w);
         m.tailY = m.y - Math.sin(m.angle) * (m.length / h);
@@ -126,21 +129,34 @@ export default function AnimatedBackground() {
     const drawShooter = (m) => {
       const headX = m.x * w;
       const headY = m.y * h;
+      const tailX = m.tailX * w;
+      const tailY = m.tailY * h;
+      const grad = ctx.createLinearGradient(tailX, tailY, headX, headY);
+      grad.addColorStop(0, `rgba(255, 255, 255, 0)`);
+      grad.addColorStop(0.55, `rgba(255, 255, 255, ${(m.alpha * 0.35).toFixed(3)})`);
+      grad.addColorStop(0.92, `rgba(255, 255, 255, ${(m.alpha * 0.85).toFixed(3)})`);
+      grad.addColorStop(1, `rgba(255, 255, 255, ${m.alpha.toFixed(3)})`);
       ctx.beginPath();
-      ctx.moveTo(headX, headY);
-      ctx.lineTo(m.tailX * w, m.tailY * h);
-      ctx.strokeStyle = `rgba(255, 255, 255, ${m.alpha.toFixed(3)})`;
-      ctx.lineWidth = 1;
+      ctx.moveTo(tailX, tailY);
+      ctx.lineTo(headX, headY);
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 1.2;
+      ctx.lineCap = "round";
       ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(headX, headY, m.headR, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${m.alpha.toFixed(3)})`;
+      ctx.fill();
     };
 
     const resetShooter = (m) => {
       m.x = Math.random();
-      m.y = 0;
-      m.length = 50 + Math.random() * 100;
-      m.speed = 5 + Math.random() * 10;
-      m.alpha = 0.3 + Math.random() * 0.5;
-      m.angle = Math.PI / 4;
+      m.y = -0.05 - Math.random() * 0.15;
+      m.length = 80 + Math.random() * 100;
+      m.speed = 0.6 + Math.random() * 0.9;
+      m.alpha = 0.55 + Math.random() * 0.35;
+      m.headR = 1.1 + Math.random() * 0.7;
+      m.angle = (Math.PI / 2) - 0.35 + Math.random() * 0.7;
     };
 
     const updateShooter = (m, dt) => {
@@ -148,7 +164,7 @@ export default function AnimatedBackground() {
       m.y += Math.sin(m.angle) * m.speed * dt * 60;
       m.tailX = m.x - Math.cos(m.angle) * (m.length / w);
       m.tailY = m.y - Math.sin(m.angle) * (m.length / h);
-      if (m.x * w > w || m.y * h > h) {
+      if (m.y * h > h || m.x * w > 1.05 || m.x * w < -0.05) {
         resetShooter(m);
         m.tailX = m.x - Math.cos(m.angle) * (m.length / w);
         m.tailY = m.y - Math.sin(m.angle) * (m.length / h);
