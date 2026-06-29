@@ -12,19 +12,31 @@ function makeNode(index, total) {
   };
 }
 
+// Shooting star: idle until `wait` elapses, then streaks across in ~1.5-3s
+// with a long, gradually fading tail. Staggered so a pass shows every ~6-12s.
 function makeComet(index) {
-  const angle = 0.16 + (index % 3) * 0.03;
   return {
-    x: -0.32 - index * 0.46,
-    y: 0.06 + ((index * 0.37) % 0.52),
-    speed: 0.0000135 + (index % 3) * 0.0000038,
-    length: 150 + index * 30,
-    thickness: 0.7 + (index % 3) * 0.22,
-    alpha: 0.26 + (index % 3) * 0.06,
-    gap: 0.6 + (index % 4) * 0.45,
-    angle,
-    delay: index * 0.5,
+    active: false,
+    wait: 1.6 + index * 2.6,
+    x: -0.18,
+    y: 0.1,
+    speed: 0.58 + (index % 3) * 0.14,
+    length: 160 + (index % 3) * 60,
+    thickness: 1 + (index % 3) * 0.3,
+    alpha: 0.5 + (index % 3) * 0.12,
+    angle: 0.3 + (index % 3) * 0.06,
   };
+}
+
+function spawnComet(comet) {
+  comet.active = true;
+  comet.x = -0.16;
+  comet.y = 0.04 + Math.random() * 0.44;
+  comet.speed = 0.5 + Math.random() * 0.42;
+  comet.length = 150 + Math.random() * 130;
+  comet.thickness = 1 + Math.random() * 0.6;
+  comet.alpha = 0.5 + Math.random() * 0.2;
+  comet.angle = 0.26 + Math.random() * 0.14;
 }
 
 function drawGrid(ctx, w, h) {
@@ -71,6 +83,7 @@ export default function AnimatedBackground() {
     let nodes = [];
     let pulses = [];
     let comets = [];
+    let lastT = 0;
 
     const seed = () => {
       const count = isMobile ? 22 : 46;
@@ -126,6 +139,8 @@ export default function AnimatedBackground() {
       }
 
       const t = time * 0.001;
+      const dt = lastT ? Math.min(0.05, t - lastT) : 0.016;
+      lastT = t;
       ctx.clearRect(0, 0, w, h);
       drawGrid(ctx, w, h);
 
@@ -175,33 +190,49 @@ export default function AnimatedBackground() {
         ctx.fill();
       });
 
-      comets.forEach((comet, index) => {
-        comet.x += comet.speed * 9;
-        if (comet.x > 1.28 + comet.gap) {
-          comet.x = -0.32 - comet.gap;
-          comet.y = 0.05 + (((index + Math.floor(t * 0.31)) * 0.37) % 0.56);
+      comets.forEach((comet) => {
+        if (!comet.active) {
+          comet.wait -= dt;
+          if (comet.wait <= 0) spawnComet(comet);
+          return;
         }
-        if (comet.x < -0.18) return;
+        comet.x += comet.speed * dt;
+        comet.y += comet.speed * dt * 0.16;
+        if (comet.x > 1.26) {
+          comet.active = false;
+          comet.wait = 6 + Math.random() * 6;
+          return;
+        }
         const x = comet.x * w;
         const y = comet.y * h;
         const tail = comet.length * (isMobile ? 0.72 : 1);
         const drift = tail * Math.tan(comet.angle);
-        const twinkle = 0.78 + Math.sin(t * 1.4 + index * 2.1) * 0.22;
-        const gradient = ctx.createLinearGradient(x - tail, y + drift, x, y);
-        gradient.addColorStop(0, "rgba(56, 189, 248, 0)");
-        gradient.addColorStop(0.62, index % 2 ? "rgba(139, 92, 246, 0.05)" : "rgba(45, 212, 191, 0.05)");
-        gradient.addColorStop(0.88, `rgba(125, 211, 252, ${comet.alpha * 0.34})`);
-        gradient.addColorStop(1, `rgba(226, 245, 255, ${comet.alpha * twinkle})`);
+        // long tail trailing up-left, fading gradually to full transparency
+        const gradient = ctx.createLinearGradient(x - tail, y - drift, x, y);
+        gradient.addColorStop(0, "rgba(125, 211, 252, 0)");
+        gradient.addColorStop(0.4, `rgba(125, 211, 252, ${comet.alpha * 0.07})`);
+        gradient.addColorStop(0.68, `rgba(125, 211, 252, ${comet.alpha * 0.22})`);
+        gradient.addColorStop(0.86, `rgba(186, 230, 253, ${comet.alpha * 0.5})`);
+        gradient.addColorStop(0.96, `rgba(224, 242, 254, ${comet.alpha * 0.82})`);
+        gradient.addColorStop(1, `rgba(240, 250, 255, ${comet.alpha})`);
         ctx.beginPath();
-        ctx.moveTo(x - tail, y + drift);
+        ctx.moveTo(x - tail, y - drift);
         ctx.lineTo(x, y);
         ctx.strokeStyle = gradient;
-        ctx.lineWidth = comet.thickness * (isMobile ? 0.78 : 1);
+        ctx.lineWidth = comet.thickness * (isMobile ? 0.8 : 1);
         ctx.lineCap = "round";
         ctx.stroke();
+        const headR = isMobile ? 2.1 : 3;
+        const halo = ctx.createRadialGradient(x, y, 0, x, y, headR * 3);
+        halo.addColorStop(0, `rgba(224, 242, 254, ${comet.alpha * 0.7})`);
+        halo.addColorStop(1, "rgba(224, 242, 254, 0)");
         ctx.beginPath();
-        ctx.arc(x, y, (isMobile ? 1.05 : 1.5) + index * 0.08, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(226, 245, 255, ${(comet.alpha + 0.1) * twinkle})`;
+        ctx.arc(x, y, headR * 3, 0, Math.PI * 2);
+        ctx.fillStyle = halo;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x, y, headR, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(240, 250, 255, ${comet.alpha})`;
         ctx.fill();
       });
 

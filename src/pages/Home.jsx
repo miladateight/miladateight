@@ -193,14 +193,35 @@ const operatorSignals = [
   { key: "backup", label: { en: "Backup", fa: "بکاپ", ar: "نسخ", de: "Backup" }, metric: { en: "verified", fa: "تأییدشده", ar: "مُتحقَّق", de: "verifiziert" }, icon: Database },
 ];
 
-const consoleRows = [
-  "deploy ateight.xyz → stable",
-  "wg0 handshake 24ms",
-  "haproxy web:443 healthy",
-  "mail tls queue clear",
+const dashboardBars = [42, 76, 58, 88, 64];
+
+// Terminal / dev-server output for the right monitor.
+const terminalRows = [
+  "$ npm run build",
+  "vite v7 · building",
+  "✓ 1971 modules",
+  "deploy · pages green",
 ];
 
-const dashboardBars = [42, 76, 58, 88, 64];
+// Decorative string-light positions (along the top of the wall).
+const stringLights = [60, 118, 176, 234, 292, 350, 408, 466, 524, 582, 640, 698];
+
+// Syntax-highlighted source for the editor monitor.
+// Each line: [indentLevel, [[tokenWidthPx, tokenType], ...], typeLast?]
+// types: kw=keyword fn=function id=identifier pn=punctuation st=string vl=value tg=tag at=attribute
+const codeLines = [
+  [0, [[16, "kw"], [28, "id"], [6, "pn"], [22, "id"], [6, "pn"], [36, "st"]]],
+  [0, []],
+  [0, [[22, "kw"], [30, "fn"], [7, "pn"], [7, "pn"]]],
+  [1, [[20, "kw"], [38, "id"], [22, "fn"], [18, "vl"]], true],
+  [1, [[22, "kw"], [7, "pn"]]],
+  [2, [[11, "tg"], [34, "at"], [20, "st"], [6, "tg"]]],
+  [3, [[7, "tg"], [6, "pn"], [24, "id"], [6, "pn"], [9, "tg"]], true],
+  [3, [[7, "tg"], [40, "id"], [9, "tg"]]],
+  [2, [[15, "tg"]]],
+  [1, [[6, "pn"]]],
+  [0, [[6, "pn"]]],
+];
 
 function HeroCommandDeck({ language }) {
   const reduceMotion = useReducedMotion();
@@ -268,6 +289,8 @@ function HeroCommandDeck({ language }) {
               <feGaussianBlur stdDeviation="6" result="b" />
               <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
             </filter>
+            <clipPath id="ck-clip-left"><rect x="218" y="160" width="200" height="128" rx="6" /></clipPath>
+            <clipPath id="ck-clip-right"><polygon points="456,168 588,158 588,278 456,286" /></clipPath>
           </defs>
 
           {/* room */}
@@ -276,6 +299,30 @@ function HeroCommandDeck({ language }) {
           <ellipse cx="384" cy="232" rx="312" ry="206" fill="url(#ck-roomglow)" filter="url(#ck-glow)" />
           <g className="ck-floorlines">
             <path d="M150 600 L300 384 M360 600 L380 384 M610 600 L470 384" />
+          </g>
+
+          {/* decorative string lights along the wall */}
+          <g className="ck-string">
+            <path
+              className="ck-string-wire"
+              d={`M16 50 ${stringLights
+                .map((x) => `L${x} ${(44 + ((1 - Math.cos(((x % 250) / 250) * Math.PI * 2)) / 2) * 20).toFixed(1)}`)
+                .join(" ")} L742 48`}
+            />
+            {stringLights.map((x, i) => {
+              const y = 44 + ((1 - Math.cos(((x % 250) / 250) * Math.PI * 2)) / 2) * 20 + 3.4;
+              return (
+                <motion.circle
+                  key={x}
+                  className={`ck-bulb bulb-${i % 3}`}
+                  cx={x}
+                  cy={y}
+                  r="3"
+                  animate={reduceMotion ? undefined : { opacity: [0.45, 1, 0.55] }}
+                  transition={{ duration: 2.4 + (i % 4) * 0.5, repeat: Infinity, ease: "easeInOut", delay: (i % 5) * 0.3 }}
+                />
+              );
+            })}
           </g>
 
           {/* wall shelf + plant */}
@@ -309,26 +356,56 @@ function HeroCommandDeck({ language }) {
             <ellipse className="ck-stand-base" cx="322" cy="358" rx="40" ry="7" />
             <rect className="ck-bezel" x="206" y="148" width="224" height="152" rx="12" />
             <rect className="ck-screen" x="218" y="160" width="200" height="128" rx="6" />
-            <g className="ck-screen-content" clipPath="none">
+            <g className="ck-screen-content" clipPath="url(#ck-clip-left)">
               <circle className="ck-dot dot-r" cx="234" cy="176" r="3" />
               <circle className="ck-dot dot-y" cx="246" cy="176" r="3" />
               <circle className="ck-dot dot-g" cx="258" cy="176" r="3" />
-              <text className="ck-screen-title" x="276" y="180">terminal — ops</text>
-              {consoleRows.map((row, index) => (
-                <g key={row} className="ck-code-row" transform={`translate(234 ${204 + index * 19})`}>
-                  <motion.rect
-                    x="0" y="-7" height="6" rx="3"
-                    animate={reduceMotion ? undefined : { width: [54 + index * 14, 96 + index * 9, 54 + index * 14] }}
-                    transition={{ duration: 3.4 + index * 0.4, repeat: Infinity, ease: "easeInOut" }}
-                  />
-                  <text x="0" y="9">{row}</text>
-                </g>
-              ))}
-              <motion.rect
-                className="ck-cursor" x="150" y="274" width="7" height="10" rx="1"
-                animate={reduceMotion ? undefined : { opacity: [0, 1, 1, 0] }}
-                transition={{ duration: 1.05, repeat: Infinity }}
-              />
+              <text className="ck-screen-title" x="276" y="180">Hero.jsx</text>
+              <g className="ck-code">
+                {codeLines.map((line, li) => {
+                  const indent = line[0];
+                  const tokens = line[1];
+                  const typeLast = line[2];
+                  const y = 191 + li * 8.8;
+                  let cx = 236 + indent * 8;
+                  return (
+                    <g key={li}>
+                      <text className="ck-gutter" x="228" y={y + 3}>{li + 1}</text>
+                      {tokens.map((tk, ti) => {
+                        const w = tk[0];
+                        const type = tk[1];
+                        const x = cx;
+                        cx += w + 4;
+                        if (typeLast && ti === tokens.length - 1 && !reduceMotion) {
+                          return (
+                            <motion.rect
+                              key={ti}
+                              className={`tok tok-${type}`}
+                              x={x}
+                              y={y}
+                              height="4.4"
+                              rx="1.5"
+                              animate={{ width: [Math.max(4, w * 0.25), w, Math.max(4, w * 0.25)] }}
+                              transition={{ duration: 3.8 + li * 0.4, repeat: Infinity, ease: "easeInOut" }}
+                            />
+                          );
+                        }
+                        return <rect key={ti} className={`tok tok-${type}`} x={x} y={y} width={w} height="4.4" rx="1.5" />;
+                      })}
+                    </g>
+                  );
+                })}
+                <motion.rect
+                  className="ck-cursor"
+                  x="332"
+                  y="244"
+                  width="6"
+                  height="8.4"
+                  rx="1"
+                  animate={reduceMotion ? undefined : { opacity: [0, 1, 1, 0] }}
+                  transition={{ duration: 1.05, repeat: Infinity }}
+                />
+              </g>
             </g>
           </g>
 
@@ -338,25 +415,28 @@ function HeroCommandDeck({ language }) {
             <ellipse className="ck-stand-base" cx="522" cy="354" rx="34" ry="6" />
             <path className="ck-bezel" d="M446 158 L598 146 L598 286 L446 296 Z" />
             <path className="ck-screen" d="M456 168 L588 158 L588 278 L456 286 Z" />
-            <g className="ck-screen-content">
-              <text className="ck-screen-title" x="470" y="184">monitoring</text>
+            <g className="ck-screen-content" clipPath="url(#ck-clip-right)">
+              <text className="ck-screen-title" x="470" y="178">vite · dev server</text>
+              {terminalRows.slice(0, 4).map((row, i) => (
+                <text key={row} className={`ck-term ${i === 3 ? "ck-term-ok" : ""}`} x="470" y={191 + i * 9.4}>{row}</text>
+              ))}
+              <path className="ck-spark" d="M470 244 L490 236 L510 240 L530 230 L550 235 L570 226 L586 231" />
+              <circle className="ck-spark-dot" cx="586" cy="231" r="2.4" />
               {dashboardBars.map((h, index) => {
-                const bh = h * 0.6;
+                const bh = h * 0.26;
                 return (
                   <rect
                     key={index}
                     className="ck-bar"
-                    x={470 + index * 22}
-                    y={252 - bh}
-                    width="13"
+                    x={472 + index * 20}
+                    y={274 - bh}
+                    width="12"
                     height={bh}
                     rx="2"
                     style={{ animationDelay: `${index * 0.26}s` }}
                   />
                 );
               })}
-              <path className="ck-spark" d="M468 224 L492 210 L516 218 L540 198 L566 206 L584 192" />
-              <circle className="ck-spark-dot" cx="584" cy="192" r="2.6" />
             </g>
           </g>
 

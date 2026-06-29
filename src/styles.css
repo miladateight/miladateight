@@ -1082,16 +1082,45 @@ p {
   font-weight: 800;
 }
 
-.ck-code-row rect {
-  fill: rgba(125, 211, 252, 0.42);
+/* code editor tokens (syntax highlighting) */
+.ck-code .tok { opacity: 0.9; }
+.tok-kw { fill: #c4b5fd; }
+.tok-fn { fill: #67e8f9; }
+.tok-id { fill: #94a3b8; }
+.tok-pn { fill: #475569; }
+.tok-st { fill: #5eead4; }
+.tok-vl { fill: #fbbf24; }
+.tok-tg { fill: #7dd3fc; }
+.tok-at { fill: #f0abfc; }
+
+.ck-gutter {
+  fill: rgba(100, 116, 139, 0.5);
+  font-family: var(--font-mono);
+  font-size: 6px;
+  font-weight: 700;
+  text-anchor: end;
 }
 
-.ck-code-row text {
-  fill: rgba(226, 244, 255, 0.6);
+.ck-term {
+  fill: rgba(186, 230, 253, 0.66);
   font-family: var(--font-mono);
-  font-size: 8px;
+  font-size: 7px;
   font-weight: 700;
 }
+
+.ck-term-ok { fill: #5eead4; }
+
+/* string lights */
+.ck-string-wire {
+  fill: none;
+  stroke: rgba(148, 163, 184, 0.32);
+  stroke-width: 1.2;
+}
+
+.ck-bulb { filter: drop-shadow(0 0 5px currentColor); }
+.bulb-0 { fill: #fcd34d; color: rgba(252, 211, 77, 0.85); }
+.bulb-1 { fill: #7dd3fc; color: rgba(125, 211, 252, 0.85); }
+.bulb-2 { fill: #f0abfc; color: rgba(240, 171, 252, 0.85); }
 
 .ck-cursor {
   fill: #67e8f9;
