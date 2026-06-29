@@ -27,6 +27,7 @@ import { projects, specialties } from "../data/projects";
 import { Reveal, RevealGroup, TextReveal } from "../components/ScrollReveal";
 import ProjectCard from "../components/ProjectCard";
 import HeroBackground from "../components/hero/HeroBackground";
+import HeroStars from "../components/hero/HeroStars";
 import { fadeUp, springFast, stagger } from "../utils/motion";
 import { localize } from "../utils/localize";
 
@@ -247,6 +248,11 @@ function HeroCommandDeck({ language }) {
               <stop offset="0%" stopColor="#243244" />
               <stop offset="100%" stopColor="#0e1622" />
             </linearGradient>
+            <linearGradient id="ck-tee" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="#3a4f73" />
+              <stop offset="55%" stopColor="#1f2c4a" />
+              <stop offset="100%" stopColor="#0f1830" />
+            </linearGradient>
             <radialGradient id="ck-hair" cx="42%" cy="32%" r="74%">
               <stop offset="0%" stopColor="#3b2c25" />
               <stop offset="100%" stopColor="#160f0c" />
@@ -393,51 +399,109 @@ function HeroCommandDeck({ language }) {
 
           {/* chair behind operator */}
           <g className="ck-chair">
-            <path className="ck-chair-back" d="M250 470 C246 410 286 384 360 384 C434 384 474 410 470 470 L470 540 L250 540 Z" />
-            <path className="ck-chair-stripe" d="M276 470 C274 420 304 400 360 400 C416 400 446 420 444 470" />
-            <rect className="ck-armrest" x="234" y="456" width="52" height="20" rx="9" />
-            <rect className="ck-armrest" x="434" y="456" width="52" height="20" rx="9" />
+            <path className="ck-chair-back" d="M236 478 C232 408 286 396 360 396 C434 396 488 408 484 478 L488 542 L232 542 Z" />
+            <path className="ck-chair-stripe" d="M268 478 C266 432 304 416 360 414 C416 416 454 432 452 478" />
+            <path className="ck-chair-top" d="M250 410 C264 400 296 396 360 396 C424 396 456 400 470 410" />
+            <rect className="ck-armrest" x="220" y="460" width="60" height="22" rx="10" />
+            <rect className="ck-armrest" x="440" y="460" width="60" height="22" rx="10" />
           </g>
 
-          {/* operator — over-the-shoulder back/profile view */}
-          <motion.g
-            className="ck-operator"
-            animate={reduceMotion ? undefined : { y: [0, -2.5, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <path className="ck-hoodie" d="M252 540 C248 470 268 436 300 424 C322 416 398 416 420 424 C452 436 472 470 468 540 Z" />
-            <path className="ck-hood" d="M312 430 C316 408 404 408 408 430 C400 446 320 446 312 430 Z" />
-            <path className="ck-neck" d="M338 408 H382 L384 426 H336 Z" />
-            <ellipse className="ck-head" cx="360" cy="372" rx="45" ry="50" />
-            <g className="ck-curls">
-              {[330, 348, 368, 388].map((cx, i) => (
-                <circle key={cx} cx={cx} cy={336 + (i % 2) * 7} r={16 - (i % 2) * 3} />
-              ))}
-              {[326, 344, 378, 396].map((cx, i) => (
-                <circle key={cx} cx={cx} cy={360 + (i % 2) * 6} r={13} />
-              ))}
-            </g>
-            {/* profile sliver on the right */}
-            <path className="ck-cheek" d="M398 360 C410 366 410 392 400 402 C396 394 396 372 398 360 Z" />
-            <path className="ck-glasses-temple" d="M392 372 H406" />
-            {/* headphones */}
-            <path className="ck-hp-band" d="M316 360 C322 318 398 318 404 360" />
-            <ellipse className="ck-hp-cup" cx="314" cy="374" rx="10" ry="17" />
-            <ellipse className="ck-hp-cup ck-hp-cup-right" cx="406" cy="374" rx="9" ry="16" />
-            {/* arms reaching to desk */}
+          {/* operator — over-the-shoulder back/profile view, subtle recline */}
+          <g transform="rotate(1.6 360 470)">
             <motion.g
-              className="ck-arm-right"
-              animate={reduceMotion ? undefined : { y: [0, 2.5, 0] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              className="ck-operator"
+              animate={reduceMotion ? undefined : { y: [0, -2.2, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             >
-              <path className="ck-arm" d="M420 452 C440 452 452 446 460 430" />
-              <ellipse className="ck-hand" cx="462" cy="426" rx="15" ry="10" transform="rotate(-18 462 426)" />
+              {/* t-shirt torso */}
+              <path
+                className="ck-tee"
+                d="M276 446
+                   C268 444 256 452 252 462
+                   L240 478
+                   C242 484 252 488 264 484
+                   L282 478
+                   L286 540
+                   L434 540
+                   L438 478
+                   L456 484
+                   C468 488 478 484 480 478
+                   L468 462
+                   C464 452 452 444 444 446
+                   L424 444
+                   C422 446 416 448 410 448
+                   C402 450 396 450 390 448
+                   C384 446 378 446 372 448
+                   C366 450 360 450 354 448
+                   C348 446 342 446 336 448
+                   C330 450 324 450 318 448
+                   C312 446 304 446 296 444 Z"
+              />
+              {/* short sleeves — drawn as subtle bumps on the shoulders */}
+              <path
+                className="ck-tee-sleeve"
+                d="M252 462 C246 466 240 474 240 480 C242 484 252 486 264 484 L282 478 L286 466 Z"
+              />
+              <path
+                className="ck-tee-sleeve"
+                d="M468 462 C474 466 480 474 480 480 C478 484 468 486 456 484 L438 478 L434 466 Z"
+              />
+              {/* collar */}
+              <path
+                className="ck-tee-collar"
+                d="M338 446 C346 456 354 460 360 460 C366 460 374 456 382 446 L378 446 C372 450 366 452 360 452 C354 452 348 450 342 446 Z"
+              />
+              {/* neck (slightly raised to read as reclined) */}
+              <path className="ck-neck" d="M340 408 H380 L382 428 H338 Z" />
+              {/* head */}
+              <ellipse className="ck-head" cx="360" cy="372" rx="44" ry="50" />
+              {/* hair — single clean shape behind head */}
+              <path
+                className="ck-hair-back"
+                d="M314 376
+                   C310 348 322 326 342 320
+                   C356 316 376 318 388 328
+                   C402 340 408 358 406 378
+                   C406 392 402 402 396 410
+                   L390 400
+                   C392 388 388 378 380 372
+                   C368 364 348 366 340 376
+                   C332 386 326 400 326 414
+                   L320 416
+                   C314 408 312 392 314 376 Z"
+              />
+              {/* front hair fringe */}
+              <path
+                className="ck-hair-front"
+                d="M324 360
+                   C328 344 344 332 360 332
+                   C376 332 390 344 394 360
+                   C390 354 380 350 370 352
+                   C360 354 354 360 348 364
+                   C342 368 334 368 328 364 Z"
+              />
+              {/* profile sliver on the right */}
+              <path className="ck-cheek" d="M398 360 C410 366 410 392 400 402 C396 394 396 372 398 360 Z" />
+              <path className="ck-glasses-temple" d="M392 372 H406" />
+              {/* headphones */}
+              <path className="ck-hp-band" d="M316 360 C322 318 398 318 404 360" />
+              <ellipse className="ck-hp-cup" cx="314" cy="374" rx="10" ry="17" />
+              <ellipse className="ck-hp-cup ck-hp-cup-right" cx="406" cy="374" rx="9" ry="16" />
+              {/* arms reaching to desk */}
+              <motion.g
+                className="ck-arm-right"
+                animate={reduceMotion ? undefined : { y: [0, 2.5, 0] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <path className="ck-arm" d="M420 452 C440 452 452 446 460 430" />
+                <ellipse className="ck-hand" cx="462" cy="426" rx="15" ry="10" transform="rotate(-18 462 426)" />
+              </motion.g>
+              <g className="ck-arm-left">
+                <path className="ck-arm" d="M300 452 C284 452 272 444 264 430" />
+                <ellipse className="ck-hand" cx="262" cy="426" rx="14" ry="10" transform="rotate(16 262 426)" />
+              </g>
             </motion.g>
-            <g className="ck-arm-left">
-              <path className="ck-arm" d="M300 452 C284 452 272 444 264 430" />
-              <ellipse className="ck-hand" cx="262" cy="426" rx="14" ry="10" transform="rotate(16 262 426)" />
-            </g>
-          </motion.g>
+          </g>
 
           {/* PC tower with RGB */}
           <g className="ck-tower">
@@ -527,6 +591,7 @@ export default function Home({ t, language }) {
     <>
       <section className="hero">
         <HeroBackground />
+        <HeroStars />
         <div className="hero-inner">
           <motion.div className="hero-copy" initial="hidden" animate="visible" variants={stagger}>
             <motion.p className="hero-eyebrow" variants={fadeUp}>
