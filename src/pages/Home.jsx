@@ -221,152 +221,133 @@ function HeroCommandDeck({ language }) {
       <div className="workstation-scene" aria-hidden="true">
         <svg className="workstation-svg" viewBox="0 0 760 600" role="img" preserveAspectRatio="xMidYMid meet">
           <defs>
-            <radialGradient id="ck-roomglow" cx="54%" cy="36%" r="64%">
-              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.34" />
-              <stop offset="42%" stopColor="#2dd4bf" stopOpacity="0.13" />
-              <stop offset="72%" stopColor="#8b5cf6" stopOpacity="0.08" />
+            <radialGradient id="ck-roomglow" cx="50%" cy="34%" r="60%">
+              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.36" />
+              <stop offset="46%" stopColor="#6366f1" stopOpacity="0.12" />
               <stop offset="100%" stopColor="#04070d" stopOpacity="0" />
             </radialGradient>
-            <linearGradient id="ck-wall" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stopColor="#101a2b" />
-              <stop offset="58%" stopColor="#0a1220" />
-              <stop offset="100%" stopColor="#050a12" />
+            <linearGradient id="ck-wall" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="#0b1322" />
+              <stop offset="100%" stopColor="#070d18" />
             </linearGradient>
-            <linearGradient id="ck-floor" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stopColor="#0c1624" />
-              <stop offset="55%" stopColor="#08101b" />
-              <stop offset="100%" stopColor="#04070d" />
+            <linearGradient id="ck-floor" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="#0a1019" />
+              <stop offset="100%" stopColor="#05080e" />
             </linearGradient>
-            <linearGradient id="ck-desk" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stopColor="#263247" />
-              <stop offset="48%" stopColor="#172338" />
-              <stop offset="100%" stopColor="#0b1220" />
-            </linearGradient>
-            <linearGradient id="ck-deskfront" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stopColor="#111a2a" />
-              <stop offset="100%" stopColor="#050914" />
+            <linearGradient id="ck-desk" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="#16202f" />
+              <stop offset="100%" stopColor="#0c131e" />
             </linearGradient>
             <linearGradient id="ck-screen" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stopColor="#12365a" />
-              <stop offset="54%" stopColor="#071b2f" />
-              <stop offset="100%" stopColor="#030812" />
+              <stop offset="0%" stopColor="#0f2742" />
+              <stop offset="60%" stopColor="#081522" />
+              <stop offset="100%" stopColor="#040a12" />
             </linearGradient>
-            <linearGradient id="ck-shirt" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stopColor="#2a425d" />
-              <stop offset="48%" stopColor="#17263a" />
-              <stop offset="100%" stopColor="#0b1322" />
+            <linearGradient id="ck-hoodie" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="#243244" />
+              <stop offset="100%" stopColor="#0e1622" />
             </linearGradient>
-            <radialGradient id="ck-hair" cx="42%" cy="30%" r="76%">
-              <stop offset="0%" stopColor="#4c362a" />
-              <stop offset="42%" stopColor="#2a1b14" />
-              <stop offset="100%" stopColor="#0d0806" />
+            <radialGradient id="ck-hair" cx="42%" cy="32%" r="74%">
+              <stop offset="0%" stopColor="#3b2c25" />
+              <stop offset="100%" stopColor="#160f0c" />
             </radialGradient>
             <linearGradient id="ck-skin" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stopColor="#ffd5b8" />
-              <stop offset="48%" stopColor="#f0b58f" />
-              <stop offset="100%" stopColor="#bd7d58" />
+              <stop offset="0%" stopColor="#f0c2a0" />
+              <stop offset="100%" stopColor="#c08a64" />
             </linearGradient>
             <linearGradient id="ck-rgb" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stopColor="#67e8f9" />
-              <stop offset="52%" stopColor="#8b5cf6" />
-              <stop offset="100%" stopColor="#f59e0b" />
+              <stop offset="0%" stopColor="#38bdf8" />
+              <stop offset="50%" stopColor="#8b5cf6" />
+              <stop offset="100%" stopColor="#e879f9" />
             </linearGradient>
             <radialGradient id="ck-lamp" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#fcd34d" stopOpacity="0.52" />
+              <stop offset="0%" stopColor="#fcd34d" stopOpacity="0.5" />
               <stop offset="100%" stopColor="#fcd34d" stopOpacity="0" />
             </radialGradient>
             <filter id="ck-glow" x="-40%" y="-40%" width="180%" height="180%">
               <feGaussianBlur stdDeviation="6" result="b" />
               <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
             </filter>
-            <filter id="ck-soft-shadow" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur stdDeviation="4" />
-            </filter>
           </defs>
 
-          {/* semi-isometric room */}
-          <rect className="ck-room-wall" x="0" y="0" width="760" height="346" fill="url(#ck-wall)" />
-          <path className="ck-room-floor" d="M0 346 L760 318 L760 600 H0 Z" fill="url(#ck-floor)" />
-          <ellipse className="ck-room-glow" cx="410" cy="236" rx="332" ry="218" fill="url(#ck-roomglow)" filter="url(#ck-glow)" />
+          {/* room */}
+          <rect x="0" y="0" width="760" height="384" fill="url(#ck-wall)" />
+          <path d="M0 384 H760 V600 H0 Z" fill="url(#ck-floor)" />
+          <ellipse cx="384" cy="232" rx="312" ry="206" fill="url(#ck-roomglow)" filter="url(#ck-glow)" />
           <g className="ck-floorlines">
-            <path d="M92 600 L318 344 M272 600 L378 338 M492 600 L454 332 M708 600 L548 326" />
-            <path d="M0 438 L760 410 M0 520 L760 476" />
+            <path d="M150 600 L300 384 M360 600 L380 384 M610 600 L470 384" />
           </g>
 
-          <g className="ck-room-detail">
-            <path className="ck-wall-seam" d="M92 0 L132 346 M640 0 L594 324" />
-            <g className="ck-shelf">
-              <path d="M70 132 L220 118 L220 126 L70 140 Z" />
-              <rect className="ck-book" x="90" y="92" width="12" height="37" rx="2" />
-              <rect className="ck-book" x="108" y="98" width="12" height="29" rx="2" />
-              <rect className="ck-book" x="126" y="88" width="14" height="37" rx="2" />
-              <path className="ck-plant" d="M182 126 C176 104 194 96 198 82 C204 100 222 104 210 126 M194 126 C192 110 204 104 212 94" />
-              <path className="ck-pot" d="M184 120 L212 118 L208 138 L188 140 Z" />
-            </g>
-            <g className="ck-wallpanel">
-              <path d="M520 72 L688 58 L688 178 L520 190 Z" />
-              <text x="536" y="96" className="ck-panel-label">uptime · 99.98%</text>
-              <path className="ck-panel-line" d="M536 156 L560 138 L584 148 L608 122 L632 132 L656 108 L676 116" />
-              <circle cx="676" cy="116" r="3" className="ck-panel-dot" />
-            </g>
+          {/* wall shelf + plant */}
+          <g className="ck-shelf">
+            <rect x="70" y="132" width="150" height="8" rx="3" />
+            <rect x="86" y="98" width="14" height="34" rx="2" />
+            <rect x="104" y="104" width="12" height="28" rx="2" />
+            <rect x="120" y="100" width="13" height="32" rx="2" />
+            <path className="ck-plant" d="M186 132 C182 112 196 104 198 92 C202 106 214 110 206 130" />
+            <rect x="188" y="120" width="20" height="14" rx="3" className="ck-pot" />
           </g>
 
-          {/* perspective desk */}
+          {/* wall monitoring panel */}
+          <g className="ck-wallpanel">
+            <rect x="516" y="74" width="170" height="112" rx="10" />
+            <text x="532" y="98" className="ck-panel-label">uptime · 99.98%</text>
+            <path className="ck-panel-line" d="M532 156 L556 140 L580 150 L604 124 L628 134 L652 112 L672 120" />
+            <circle cx="672" cy="120" r="3" className="ck-panel-dot" />
+          </g>
+
+          {/* desk */}
           <g className="ck-desk">
-            <path className="ck-desk-shadow" d="M70 500 L670 472 L724 548 L48 572 Z" />
-            <path className="ck-desk-top" d="M118 344 L596 318 L688 454 L70 486 Z" />
-            <path className="ck-desk-front" d="M70 486 L688 454 L688 488 L76 522 Z" />
-            <path className="ck-desk-side" d="M596 318 L688 454 L688 488 L606 356 Z" />
-            <path className="ck-desk-rim" d="M124 350 L596 324 L680 450" />
+            <path className="ck-desk-shadow" d="M70 480 L690 480 L724 540 L40 540 Z" />
+            <path className="ck-desk-top" d="M150 356 L612 356 L674 472 L84 472 Z" />
+            <path className="ck-desk-edge" d="M84 472 L674 472 L674 486 L84 486 Z" />
           </g>
 
-          {/* angled displays */}
-          <g className="ck-monitor ck-monitor-primary">
-            <ellipse className="ck-monitor-glow" cx="280" cy="218" rx="156" ry="112" />
-            <path className="ck-stand" d="M300 298 L338 294 L352 354 L286 360 Z" />
-            <ellipse className="ck-stand-base" cx="318" cy="360" rx="45" ry="8" />
-            <path className="ck-bezel" d="M164 144 L394 126 L408 300 L176 318 Z" />
-            <path className="ck-screen" d="M178 158 L378 143 L390 286 L190 302 Z" />
-            <path className="ck-screen-shine" d="M188 164 L378 150 L378 178 L190 196 Z" />
-            <g className="ck-screen-content">
-              <circle className="ck-dot dot-r" cx="196" cy="177" r="3" />
-              <circle className="ck-dot dot-y" cx="208" cy="176" r="3" />
-              <circle className="ck-dot dot-g" cx="220" cy="175" r="3" />
-              <text className="ck-screen-title" x="238" y="176">terminal — ops</text>
+          {/* left primary monitor */}
+          <g className="ck-monitor">
+            <path className="ck-stand" d="M306 296 H338 L348 356 H296 Z" />
+            <ellipse className="ck-stand-base" cx="322" cy="358" rx="40" ry="7" />
+            <rect className="ck-bezel" x="206" y="148" width="224" height="152" rx="12" />
+            <rect className="ck-screen" x="218" y="160" width="200" height="128" rx="6" />
+            <g className="ck-screen-content" clipPath="none">
+              <circle className="ck-dot dot-r" cx="234" cy="176" r="3" />
+              <circle className="ck-dot dot-y" cx="246" cy="176" r="3" />
+              <circle className="ck-dot dot-g" cx="258" cy="176" r="3" />
+              <text className="ck-screen-title" x="276" y="180">terminal — ops</text>
               {consoleRows.map((row, index) => (
-                <g key={row} className="ck-code-row" transform={`translate(198 ${204 + index * 19})`}>
+                <g key={row} className="ck-code-row" transform={`translate(234 ${204 + index * 19})`}>
                   <motion.rect
-                    x="0" y="-8" width={72 + index * 12} height="6" rx="3"
-                    animate={reduceMotion ? undefined : { opacity: [0.42, 0.84, 0.42], scaleX: [0.72, 1, 0.72] }}
-                    transition={{ duration: 3.2 + index * 0.36, repeat: Infinity, ease: "easeInOut" }}
+                    x="0" y="-7" height="6" rx="3"
+                    animate={reduceMotion ? undefined : { width: [54 + index * 14, 96 + index * 9, 54 + index * 14] }}
+                    transition={{ duration: 3.4 + index * 0.4, repeat: Infinity, ease: "easeInOut" }}
                   />
                   <text x="0" y="9">{row}</text>
                 </g>
               ))}
               <motion.rect
-                className="ck-cursor" x="160" y="272" width="7" height="11" rx="1"
-                animate={reduceMotion ? undefined : { opacity: [0, 1, 1, 0], x: [0, 6, 6, 0] }}
-                transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+                className="ck-cursor" x="150" y="274" width="7" height="10" rx="1"
+                animate={reduceMotion ? undefined : { opacity: [0, 1, 1, 0] }}
+                transition={{ duration: 1.05, repeat: Infinity }}
               />
             </g>
           </g>
 
+          {/* right secondary monitor (angled dashboard) */}
           <g className="ck-monitor ck-monitor-side">
-            <ellipse className="ck-monitor-glow" cx="520" cy="214" rx="136" ry="102" />
-            <path className="ck-stand" d="M502 292 L532 292 L546 354 L492 358 Z" />
-            <ellipse className="ck-stand-base" cx="520" cy="358" rx="38" ry="7" />
-            <path className="ck-bezel" d="M414 138 L608 122 L616 286 L424 308 Z" />
-            <path className="ck-screen" d="M428 153 L594 139 L600 272 L436 292 Z" />
+            <path className="ck-stand" d="M512 286 H532 L540 352 H504 Z" />
+            <ellipse className="ck-stand-base" cx="522" cy="354" rx="34" ry="6" />
+            <path className="ck-bezel" d="M446 158 L598 146 L598 286 L446 296 Z" />
+            <path className="ck-screen" d="M456 168 L588 158 L588 278 L456 286 Z" />
             <g className="ck-screen-content">
-              <text className="ck-screen-title" x="446" y="176">monitoring</text>
+              <text className="ck-screen-title" x="470" y="184">monitoring</text>
               {dashboardBars.map((h, index) => {
                 const bh = h * 0.6;
                 return (
                   <rect
                     key={index}
                     className="ck-bar"
-                    x={448 + index * 22}
-                    y={256 - bh}
+                    x={470 + index * 22}
+                    y={252 - bh}
                     width="13"
                     height={bh}
                     rx="2"
@@ -374,53 +355,37 @@ function HeroCommandDeck({ language }) {
                   />
                 );
               })}
-              <path className="ck-spark" d="M446 228 L470 214 L494 222 L518 198 L544 208 L568 190" />
-              <circle className="ck-spark-dot" cx="568" cy="190" r="2.8" />
+              <path className="ck-spark" d="M468 224 L492 210 L516 218 L540 198 L566 206 L584 192" />
+              <circle className="ck-spark-dot" cx="584" cy="192" r="2.6" />
             </g>
           </g>
 
-          {/* room hardware and desk lighting */}
-          <g className="ck-tower">
-            <path className="ck-tower-side" d="M652 354 L718 374 L718 540 L652 512 Z" />
-            <path className="ck-tower-front" d="M592 378 L652 354 L652 512 L592 546 Z" />
-            <path className="ck-tower-glass" d="M606 392 L640 380 L640 500 L606 518 Z" />
-            <motion.path
-              className="ck-tower-rgb"
-              d="M646 382 L646 506"
-              animate={reduceMotion ? undefined : { opacity: [0.45, 1, 0.45] }}
-              transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <path className="ck-tower-vents" d="M610 404 L636 394 M610 414 L636 404 M610 424 L632 416" />
-            <circle className="ck-tower-fan" cx="624" cy="466" r="19" />
-            <circle className="ck-tower-fan-core" cx="624" cy="466" r="5" />
-          </g>
-
+          {/* lamp */}
           <g className="ck-lamp">
-            <ellipse className="ck-lamp-glow" cx="176" cy="370" rx="86" ry="32" fill="url(#ck-lamp)" />
-            <path className="ck-lamp-arm" d="M156 384 C160 342 184 326 218 304" />
-            <path className="ck-lamp-head" d="M212 294 L244 306 L232 326 L198 312 Z" />
-            <circle className="ck-lamp-base" cx="154" cy="386" r="10" />
+            <ellipse cx="208" cy="360" rx="58" ry="14" fill="url(#ck-lamp)" />
+            <path className="ck-lamp-arm" d="M176 356 C178 320 196 312 214 292" />
+            <path className="ck-lamp-head" d="M210 286 L232 296 L222 312 L200 302 Z" />
+            <circle className="ck-lamp-base" cx="176" cy="356" r="7" />
           </g>
 
+          {/* keyboard + mouse + mug on desk */}
           <g className="ck-deskprops">
-            <path className="ck-keyboard" d="M270 402 L456 390 L488 426 L294 444 Z" />
+            <path className="ck-keyboard" d="M286 402 L452 396 L470 432 L300 440 Z" />
             <g className="ck-keys">
-              <path d="M292 410 L450 400 M298 420 L462 410 M306 430 L470 420" />
-              <path d="M330 406 L344 436 M374 402 L388 432 M418 398 L432 426" />
+              <path d="M300 408 L444 403 M303 416 L448 411 M306 424 L452 419" />
             </g>
-            <ellipse className="ck-key-glow" cx="390" cy="418" rx="96" ry="20" />
-            <path className="ck-mouse" d="M506 402 C522 398 534 408 532 424 C530 438 512 442 504 430 C498 420 498 406 506 402 Z" />
+            <path className="ck-mouse" d="M486 410 C498 408 506 416 504 428 C502 438 488 440 482 430 C478 422 480 412 486 410 Z" />
             <g className="ck-mug">
-              <path className="ck-mug-body" d="M226 390 L266 386 L262 432 L230 436 Z" />
-              <path className="ck-mug-handle" d="M266 396 C288 396 288 424 264 422" />
-              <ellipse className="ck-mug-top" cx="246" cy="389" rx="20" ry="5" />
+              <path className="ck-mug-body" d="M238 396 H274 L270 436 H242 Z" />
+              <path className="ck-mug-handle" d="M274 404 C292 404 292 426 272 424" />
+              <ellipse className="ck-mug-top" cx="256" cy="396" rx="18" ry="4" />
               {[0, 1, 2].map((index) => (
                 <motion.path
                   key={index}
                   className="ck-steam"
-                  d={`M${238 + index * 10} 380 C${228 + index * 11} 360 ${252 + index * 7} 354 ${244 + index * 10} 332`}
+                  d={`M${248 + index * 8} 388 C${242 + index * 9} 372 ${256 + index * 6} 366 ${250 + index * 8} 350`}
                   animate={steamMotion}
-                  transition={{ duration: 3.2, repeat: Infinity, delay: index * 0.48, ease: "easeInOut" }}
+                  transition={{ duration: 3, repeat: Infinity, delay: index * 0.5, ease: "easeInOut" }}
                 />
               ))}
             </g>
@@ -428,74 +393,68 @@ function HeroCommandDeck({ language }) {
 
           {/* chair behind operator */}
           <g className="ck-chair">
-            <path className="ck-chair-shadow" d="M226 526 C262 486 438 484 490 530 C446 560 272 562 226 526 Z" />
-            <path className="ck-chair-back" d="M260 468 C262 412 302 382 372 382 C434 382 470 412 476 468 L458 546 L270 546 Z" />
-            <path className="ck-chair-stripe" d="M294 468 C296 424 324 404 374 402 C422 402 446 424 446 468" />
-            <path className="ck-chair-seat" d="M252 486 C304 466 430 464 490 490 C462 526 286 532 252 486 Z" />
-            <path className="ck-armrest" d="M230 462 C264 456 286 466 294 484 L238 494 C228 486 224 474 230 462 Z" />
-            <path className="ck-armrest" d="M452 462 C484 456 510 466 514 482 L456 496 C448 486 444 472 452 462 Z" />
+            <path className="ck-chair-back" d="M250 470 C246 410 286 384 360 384 C434 384 474 410 470 470 L470 540 L250 540 Z" />
+            <path className="ck-chair-stripe" d="M276 470 C274 420 304 400 360 400 C416 400 446 420 444 470" />
+            <rect className="ck-armrest" x="234" y="456" width="52" height="20" rx="9" />
+            <rect className="ck-armrest" x="434" y="456" width="52" height="20" rx="9" />
           </g>
 
-          {/* operator in three-quarter profile, facing the displays */}
+          {/* operator — over-the-shoulder back/profile view */}
           <motion.g
             className="ck-operator"
-            animate={reduceMotion ? undefined : { y: [0, -2.2, 0] }}
-            transition={{ duration: 6.4, repeat: Infinity, ease: "easeInOut" }}
+            animate={reduceMotion ? undefined : { y: [0, -2.5, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           >
-            <path className="ck-shirt" d="M266 548 C270 494 292 446 326 424 C344 414 390 412 414 424 C448 442 466 492 462 548 Z" />
-            <path className="ck-shirt-collar" d="M332 426 C350 442 382 442 402 426 C394 452 344 452 332 426 Z" />
-            <path className="ck-neck" d="M344 392 C358 404 384 404 398 392 L400 426 C384 438 352 438 338 426 Z" />
-
-            <g className="ck-head-group">
-              <path className="ck-ear" d="M326 348 C314 352 314 376 328 382 C336 370 336 358 326 348 Z" />
-              <path className="ck-face" d="M330 318 C350 294 392 300 408 332 C424 362 408 394 376 404 C346 414 318 392 316 360 C314 342 320 328 330 318 Z" />
-              <path className="ck-face-shadow" d="M386 322 C408 336 416 364 402 388 C418 380 426 352 410 330 C402 320 394 316 386 322 Z" />
-              <path className="ck-cheek-light" d="M392 350 C404 356 406 374 394 384 C390 374 388 360 392 350 Z" />
-              <path className="ck-nose" d="M398 350 C410 354 410 364 398 366" />
-
-              <path className="ck-hair-base" d="M314 344 C306 312 328 284 366 278 C404 272 428 296 424 326 C420 340 408 348 394 344 C378 350 354 350 336 344 C328 350 320 350 314 344 Z" />
-              <g className="ck-curls">
-                {[
-                  "M324 338 C304 324 316 294 344 294 C336 306 346 316 334 330",
-                  "M342 314 C338 286 374 278 388 296 C370 296 370 314 354 318",
-                  "M376 302 C396 280 426 300 420 328 C410 316 392 324 388 306",
-                  "M314 360 C300 344 312 322 334 328 C326 342 338 354 326 366",
-                  "M352 348 C340 330 358 310 382 318 C368 330 374 344 356 354",
-                  "M398 342 C420 338 430 366 410 382 C410 366 392 362 398 342",
-                  "M330 388 C314 378 318 356 342 354 C336 370 350 378 330 388",
-                  "M370 382 C356 366 372 346 396 354 C384 366 392 378 370 382"
-                ].map((d) => (
-                  <path key={d} className="ck-curl-lock" d={d} />
-                ))}
-                <path className="ck-curl-shadow" d="M318 348 C350 366 388 362 416 342 C408 386 332 404 318 348 Z" />
-                <path className="ck-curl-highlight" d="M342 304 C362 292 394 296 408 314 M326 348 C348 360 382 360 402 346" />
-              </g>
-
-              <g className="ck-glasses">
-                <path className="ck-glasses-lens" d="M354 342 L380 340 L382 362 L356 364 Z" />
-                <path className="ck-glasses-lens" d="M390 342 L412 346 L410 366 L388 362 Z" />
-                <path className="ck-glasses-bridge" d="M382 352 L390 352" />
-                <path className="ck-glasses-temple" d="M354 350 L334 344" />
-              </g>
+            <path className="ck-hoodie" d="M252 540 C248 470 268 436 300 424 C322 416 398 416 420 424 C452 436 472 470 468 540 Z" />
+            <path className="ck-hood" d="M312 430 C316 408 404 408 408 430 C400 446 320 446 312 430 Z" />
+            <path className="ck-neck" d="M338 408 H382 L384 426 H336 Z" />
+            <ellipse className="ck-head" cx="360" cy="372" rx="45" ry="50" />
+            <g className="ck-curls">
+              {[330, 348, 368, 388].map((cx, i) => (
+                <circle key={cx} cx={cx} cy={336 + (i % 2) * 7} r={16 - (i % 2) * 3} />
+              ))}
+              {[326, 344, 378, 396].map((cx, i) => (
+                <circle key={cx} cx={cx} cy={360 + (i % 2) * 6} r={13} />
+              ))}
             </g>
-
+            {/* profile sliver on the right */}
+            <path className="ck-cheek" d="M398 360 C410 366 410 392 400 402 C396 394 396 372 398 360 Z" />
+            <path className="ck-glasses-temple" d="M392 372 H406" />
+            {/* headphones */}
+            <path className="ck-hp-band" d="M316 360 C322 318 398 318 404 360" />
+            <ellipse className="ck-hp-cup" cx="314" cy="374" rx="10" ry="17" />
+            <ellipse className="ck-hp-cup ck-hp-cup-right" cx="406" cy="374" rx="9" ry="16" />
+            {/* arms reaching to desk */}
             <motion.g
               className="ck-arm-right"
-              animate={reduceMotion ? undefined : { y: [0, 2, 0] }}
-              transition={{ duration: 1.9, repeat: Infinity, ease: "easeInOut" }}
+              animate={reduceMotion ? undefined : { y: [0, 2.5, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
             >
-              <path className="ck-sleeve" d="M416 440 C444 444 462 460 470 482 L438 492 C430 472 416 460 398 452 Z" />
-              <path className="ck-forearm" d="M438 484 C462 472 488 448 514 426" />
-              <path className="ck-hand" d="M506 422 C526 416 540 424 538 438 C526 446 508 440 500 430 Z" />
-              <path className="ck-fingers" d="M512 432 L532 434 M512 438 L528 442" />
+              <path className="ck-arm" d="M420 452 C440 452 452 446 460 430" />
+              <ellipse className="ck-hand" cx="462" cy="426" rx="15" ry="10" transform="rotate(-18 462 426)" />
             </motion.g>
             <g className="ck-arm-left">
-              <path className="ck-sleeve" d="M310 438 C286 446 272 464 262 486 L296 496 C306 474 324 462 344 452 Z" />
-              <path className="ck-forearm" d="M294 486 C314 468 334 448 356 430" />
-              <path className="ck-hand" d="M348 426 C366 420 382 428 382 440 C370 448 350 442 342 432 Z" />
-              <path className="ck-fingers" d="M350 436 L372 438 M354 442 L368 446" />
+              <path className="ck-arm" d="M300 452 C284 452 272 444 264 430" />
+              <ellipse className="ck-hand" cx="262" cy="426" rx="14" ry="10" transform="rotate(16 262 426)" />
             </g>
           </motion.g>
+
+          {/* PC tower with RGB */}
+          <g className="ck-tower">
+            <path className="ck-tower-side" d="M714 380 L734 390 L734 580 L714 570 Z" />
+            <rect className="ck-tower-front" x="636" y="380" width="78" height="190" rx="8" />
+            <rect className="ck-tower-glass" x="648" y="394" width="40" height="162" rx="4" />
+            <motion.rect
+              className="ck-tower-rgb"
+              x="694" y="396" width="6" height="158" rx="3"
+              fill="url(#ck-rgb)"
+              animate={reduceMotion ? undefined : { opacity: [0.55, 1, 0.55] }}
+              transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <path className="ck-tower-vents" d="M650 404 H678 M650 412 H678 M650 420 H672" />
+            <circle className="ck-tower-fan" cx="668" cy="475" r="20" />
+            <circle className="ck-tower-fan-core" cx="668" cy="475" r="5" />
+          </g>
         </svg>
 
         <div className="workbench-telemetry">
