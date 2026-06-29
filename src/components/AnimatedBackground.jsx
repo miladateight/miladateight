@@ -13,19 +13,15 @@ function makeNode(index, total) {
 }
 
 function makeShootingStar() {
-  const angle = (Math.PI / 2) - 0.35 + Math.random() * 0.7;
-  const length = 80 + Math.random() * 100;
-  const speed = 0.6 + Math.random() * 0.9;
-  const alpha = 0.55 + Math.random() * 0.35;
-  const headR = 1.1 + Math.random() * 0.7;
+  const angle = (Math.PI / 2) - 0.22 + Math.random() * 0.44;
   return {
     x: Math.random(),
-    y: -0.05 - Math.random() * 0.15,
-    length,
-    speed,
-    alpha,
+    y: -0.22 + Math.random() * 1.2,
+    length: 86 + Math.random() * 94,
+    speed: 26 + Math.random() * 32,
+    alpha: 0.38 + Math.random() * 0.34,
     angle,
-    headR,
+    width: 0.45 + Math.random() * 0.45,
     tailX: 0,
     tailY: 0,
   };
@@ -89,7 +85,7 @@ export default function AnimatedBackground() {
         speed: 0.08 + (index % 5) * 0.02,
         progress: (index * 0.17) % 1,
       }));
-      const starCount = isMobile ? 6 : 12;
+      const starCount = isMobile ? 9 : 18;
       shooters = Array.from({ length: starCount }, () => {
         const m = makeShootingStar();
         m.tailX = m.x - Math.cos(m.angle) * (m.length / w);
@@ -131,40 +127,50 @@ export default function AnimatedBackground() {
       const headY = m.y * h;
       const tailX = m.tailX * w;
       const tailY = m.tailY * h;
+      const coreTailX = headX - Math.cos(m.angle) * m.length * 0.42;
+      const coreTailY = headY - Math.sin(m.angle) * m.length * 0.42;
       const grad = ctx.createLinearGradient(tailX, tailY, headX, headY);
       grad.addColorStop(0, `rgba(255, 255, 255, 0)`);
-      grad.addColorStop(0.55, `rgba(255, 255, 255, ${(m.alpha * 0.35).toFixed(3)})`);
-      grad.addColorStop(0.92, `rgba(255, 255, 255, ${(m.alpha * 0.85).toFixed(3)})`);
-      grad.addColorStop(1, `rgba(255, 255, 255, ${m.alpha.toFixed(3)})`);
+      grad.addColorStop(0.42, `rgba(110, 231, 255, ${(m.alpha * 0.08).toFixed(3)})`);
+      grad.addColorStop(0.78, `rgba(190, 244, 255, ${(m.alpha * 0.34).toFixed(3)})`);
+      grad.addColorStop(1, `rgba(255, 255, 255, ${(m.alpha * 0.68).toFixed(3)})`);
       ctx.beginPath();
       ctx.moveTo(tailX, tailY);
       ctx.lineTo(headX, headY);
       ctx.strokeStyle = grad;
-      ctx.lineWidth = 1.2;
+      ctx.lineWidth = m.width;
+      ctx.lineCap = "butt";
+      ctx.stroke();
+
+      const core = ctx.createLinearGradient(coreTailX, coreTailY, headX, headY);
+      core.addColorStop(0, "rgba(255, 255, 255, 0)");
+      core.addColorStop(0.72, `rgba(255, 255, 255, ${(m.alpha * 0.34).toFixed(3)})`);
+      core.addColorStop(1, `rgba(255, 255, 255, ${m.alpha.toFixed(3)})`);
+      ctx.beginPath();
+      ctx.moveTo(coreTailX, coreTailY);
+      ctx.lineTo(headX, headY);
+      ctx.strokeStyle = core;
+      ctx.lineWidth = m.width * 0.72;
       ctx.lineCap = "round";
       ctx.stroke();
-      ctx.beginPath();
-      ctx.arc(headX, headY, m.headR, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 255, 255, ${m.alpha.toFixed(3)})`;
-      ctx.fill();
     };
 
     const resetShooter = (m) => {
       m.x = Math.random();
       m.y = -0.05 - Math.random() * 0.15;
-      m.length = 80 + Math.random() * 100;
-      m.speed = 0.6 + Math.random() * 0.9;
-      m.alpha = 0.55 + Math.random() * 0.35;
-      m.headR = 1.1 + Math.random() * 0.7;
-      m.angle = (Math.PI / 2) - 0.35 + Math.random() * 0.7;
+      m.length = 86 + Math.random() * 94;
+      m.speed = 26 + Math.random() * 32;
+      m.alpha = 0.38 + Math.random() * 0.34;
+      m.width = 0.45 + Math.random() * 0.45;
+      m.angle = (Math.PI / 2) - 0.22 + Math.random() * 0.44;
     };
 
     const updateShooter = (m, dt) => {
-      m.x += Math.cos(m.angle) * m.speed * dt * 60;
-      m.y += Math.sin(m.angle) * m.speed * dt * 60;
+      m.x += (Math.cos(m.angle) * m.speed * dt) / w;
+      m.y += (Math.sin(m.angle) * m.speed * dt) / h;
       m.tailX = m.x - Math.cos(m.angle) * (m.length / w);
       m.tailY = m.y - Math.sin(m.angle) * (m.length / h);
-      if (m.y * h > h || m.x * w > 1.05 || m.x * w < -0.05) {
+      if (m.y * h > h + m.length || m.x * w > w + m.length || m.x * w < -m.length) {
         resetShooter(m);
         m.tailX = m.x - Math.cos(m.angle) * (m.length / w);
         m.tailY = m.y - Math.sin(m.angle) * (m.length / h);
