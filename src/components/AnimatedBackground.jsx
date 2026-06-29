@@ -17,17 +17,17 @@ function makeShootingStar(index, isMobile) {
   return {
     x: -0.18 - Math.random() * 0.12,
     y: 0.04 + Math.random() * 0.46,
-    vx: (isMobile ? 0.18 : 0.26) + Math.random() * 0.12,
-    length: (isMobile ? 130 : 180) + Math.random() * 120,
-    thickness: 1.1 + Math.random() * 0.7,
-    headAlpha: 0.7 + Math.random() * 0.2,
+    vx: (isMobile ? 0.22 : 0.32) + Math.random() * 0.16,
+    length: (isMobile ? 220 : 320) + Math.random() * 100,
+    thickness: 2.5 + Math.random() * 1.5,
+    headAlpha: 0.95 + Math.random() * 0.05,
     angle,
     cosA: Math.cos(angle),
     sinA: Math.sin(angle),
     life: 0,
-    maxLife: 1.1 + Math.random() * 0.6,
-    cooldown: index * (isMobile ? 3 : 1.8) + Math.random() * 2,
-    maxCooldown: (isMobile ? 6 : 3.5) + Math.random() * (isMobile ? 9 : 7),
+    maxLife: 1.4 + Math.random() * 0.6,
+    cooldown: index === 0 ? Math.random() * 0.5 : index * (isMobile ? 2.5 : 1.2) + Math.random() * 1.5, // First star appears quickly
+    maxCooldown: (isMobile ? 4 : 2.5) + Math.random() * (isMobile ? 5 : 3),
     active: false,
   };
 }
@@ -90,6 +90,7 @@ export default function AnimatedBackground() {
         speed: 0.08 + (index % 5) * 0.02,
         progress: (index * 0.17) % 1,
       }));
+      // Always use 4-5 shooting stars for better visibility
       const shooterCount = isMobile ? 2 : 5;
       shooters = Array.from({ length: shooterCount }, (_, index) => makeShootingStar(index, isMobile));
     };
@@ -131,15 +132,15 @@ export default function AnimatedBackground() {
       const fadeIn = Math.min(1, lifeT / 0.16);
       const fadeOut = Math.min(1, (1 - lifeT) / 0.3);
       const fade = Math.min(fadeIn, fadeOut);
-      const headColor = "226, 245, 255";
-      const trailColor = "125, 211, 252";
-      const midColor = "190, 242, 255";
+      const headColor = "250, 250, 255"; // Brighter near-white head
+      const trailColor = "100, 200, 255"; // Brighter cyan-blue trail
+      const midColor = "180, 235, 255"; // Brighter intermediate color
       const gradient = ctx.createLinearGradient(tailX, tailY, headX, headY);
       gradient.addColorStop(0, `rgba(${trailColor}, 0)`);
-      gradient.addColorStop(0.5, `rgba(${trailColor}, ${(0.05 * fade).toFixed(3)})`);
-      gradient.addColorStop(0.82, `rgba(${midColor}, ${(0.28 * fade * m.headAlpha).toFixed(3)})`);
-      gradient.addColorStop(0.96, `rgba(${headColor}, ${(0.85 * fade * m.headAlpha).toFixed(3)})`);
-      gradient.addColorStop(1, `rgba(${headColor}, ${(0.98 * fade * m.headAlpha).toFixed(3)})`);
+      gradient.addColorStop(0.5, `rgba(${trailColor}, ${(0.15 * fade).toFixed(3)})`); // Increased trail opacity
+      gradient.addColorStop(0.82, `rgba(${midColor}, ${(0.45 * fade * m.headAlpha).toFixed(3)})`); // Increased mid opacity
+      gradient.addColorStop(0.96, `rgba(${headColor}, ${(0.95 * fade * m.headAlpha).toFixed(3)})`); // Increased head opacity
+      gradient.addColorStop(1, `rgba(${headColor}, ${(1.0 * fade * m.headAlpha).toFixed(3)})`); // Maximum head opacity
       ctx.beginPath();
       ctx.moveTo(tailX, tailY);
       ctx.lineTo(headX, headY);
@@ -148,10 +149,10 @@ export default function AnimatedBackground() {
       ctx.lineCap = "round";
       ctx.stroke();
       ctx.beginPath();
-      ctx.arc(headX, headY, m.thickness * 1.7, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${headColor}, ${(0.9 * fade * m.headAlpha).toFixed(3)})`;
-      ctx.shadowBlur = 8;
-      ctx.shadowColor = `rgba(${midColor}, ${(0.7 * fade).toFixed(3)})`;
+      ctx.arc(headX, headY, m.thickness * 2.2, 0, Math.PI * 2); // Larger head
+      ctx.fillStyle = `rgba(${headColor}, ${(0.98 * fade * m.headAlpha).toFixed(3)})`;
+      ctx.shadowBlur = 12; // Increased glow
+      ctx.shadowColor = `rgba(${midColor}, ${(0.85 * fade).toFixed(3)})`; // Brighter glow
       ctx.fill();
       ctx.shadowBlur = 0;
     };
@@ -273,9 +274,9 @@ export default function AnimatedBackground() {
       });
 
       const shade = ctx.createLinearGradient(0, 0, 0, h);
-      shade.addColorStop(0, "rgba(6, 8, 13, 0.76)");
-      shade.addColorStop(0.46, "rgba(6, 8, 13, 0.22)");
-      shade.addColorStop(1, "rgba(6, 8, 13, 0.58)");
+      shade.addColorStop(0, "rgba(6, 8, 13, 0.42)"); // Reduced opacity
+      shade.addColorStop(0.46, "rgba(6, 8, 13, 0.12)"); // Reduced opacity
+      shade.addColorStop(1, "rgba(6, 8, 13, 0.32)"); // Reduced opacity
       ctx.fillStyle = shade;
       ctx.fillRect(0, 0, w, h);
 
