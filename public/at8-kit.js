@@ -175,7 +175,7 @@
     return (
       '<header class="at8-topbar">' +
       '<a class="at8-brand" href="/">' +
-      '<span class="at8-brand-mark"><img src="https://ateight.xyz/at8-logo.png" alt="" aria-hidden="true" /></span>' +
+      '<span class="at8-brand-mark"><img src="https://ateight.xyz/brand/at8-logo-header.png" alt="" aria-hidden="true" /></span>' +
       '<span class="at8-brand-text"><strong>Milad</strong><small>AT8</small></span>' +
       "</a>" +
       '<nav class="at8-nav" aria-label="Main navigation">' +

@@ -14,3 +14,10 @@ hybrid-*-check*.png
 hybrid-mail-*-check*.png
 KeyFix.html
 NetDoctor.html
+Old/browser-profiles/
+Old/generated/
+Old/legacy-pages/
+Old/logs/
+Old/root-assets/
+Old/tooling/
+Old/verification/
