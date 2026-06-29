@@ -12,23 +12,20 @@ function makeNode(index, total) {
   };
 }
 
-function makeShootingStar(index, isMobile) {
-  const angle = -0.62 + Math.random() * 0.5;
+function makeShootingStar() {
+  const angle = Math.PI / 4;
+  const length = 50 + Math.random() * 100;
+  const speed = 5 + Math.random() * 10;
+  const alpha = 0.3 + Math.random() * 0.5;
   return {
-    x: -0.18 - Math.random() * 0.12,
-    y: 0.04 + Math.random() * 0.46,
-    vx: (isMobile ? 0.22 : 0.32) + Math.random() * 0.16,
-    length: (isMobile ? 220 : 320) + Math.random() * 100,
-    thickness: 2.5 + Math.random() * 1.5,
-    headAlpha: 0.95 + Math.random() * 0.05,
+    x: Math.random(),
+    y: 0,
+    length,
+    speed,
+    alpha,
     angle,
-    cosA: Math.cos(angle),
-    sinA: Math.sin(angle),
-    life: 0,
-    maxLife: 1.4 + Math.random() * 0.6,
-    cooldown: index === 0 ? Math.random() * 0.5 : index * (isMobile ? 2.5 : 1.2) + Math.random() * 1.5, // First star appears quickly
-    maxCooldown: (isMobile ? 4 : 2.5) + Math.random() * (isMobile ? 5 : 3),
-    active: false,
+    tailX: 0,
+    tailY: 0,
   };
 }
 
@@ -90,9 +87,12 @@ export default function AnimatedBackground() {
         speed: 0.08 + (index % 5) * 0.02,
         progress: (index * 0.17) % 1,
       }));
-      // Always use 4-5 shooting stars for better visibility
-      const shooterCount = isMobile ? 2 : 5;
-      shooters = Array.from({ length: shooterCount }, (_, index) => makeShootingStar(index, isMobile));
+      shooters = Array.from({ length: 3 }, () => {
+        const m = makeShootingStar();
+        m.tailX = m.x - Math.cos(m.angle) * (m.length / w);
+        m.tailY = m.y - Math.sin(m.angle) * (m.length / h);
+        return m;
+      });
     };
 
     const resize = () => {
@@ -126,62 +126,32 @@ export default function AnimatedBackground() {
     const drawShooter = (m) => {
       const headX = m.x * w;
       const headY = m.y * h;
-      const tailX = headX - m.cosA * m.length;
-      const tailY = headY - m.sinA * m.length;
-      const lifeT = m.life / m.maxLife;
-      const fadeIn = Math.min(1, lifeT / 0.16);
-      const fadeOut = Math.min(1, (1 - lifeT) / 0.3);
-      const fade = Math.min(fadeIn, fadeOut);
-      const headColor = "250, 250, 255"; // Brighter near-white head
-      const trailColor = "100, 200, 255"; // Brighter cyan-blue trail
-      const midColor = "180, 235, 255"; // Brighter intermediate color
-      const gradient = ctx.createLinearGradient(tailX, tailY, headX, headY);
-      gradient.addColorStop(0, `rgba(${trailColor}, 0)`);
-      gradient.addColorStop(0.5, `rgba(${trailColor}, ${(0.15 * fade).toFixed(3)})`); // Increased trail opacity
-      gradient.addColorStop(0.82, `rgba(${midColor}, ${(0.45 * fade * m.headAlpha).toFixed(3)})`); // Increased mid opacity
-      gradient.addColorStop(0.96, `rgba(${headColor}, ${(0.95 * fade * m.headAlpha).toFixed(3)})`); // Increased head opacity
-      gradient.addColorStop(1, `rgba(${headColor}, ${(1.0 * fade * m.headAlpha).toFixed(3)})`); // Maximum head opacity
       ctx.beginPath();
-      ctx.moveTo(tailX, tailY);
-      ctx.lineTo(headX, headY);
-      ctx.strokeStyle = gradient;
-      ctx.lineWidth = m.thickness;
-      ctx.lineCap = "round";
+      ctx.moveTo(headX, headY);
+      ctx.lineTo(m.tailX * w, m.tailY * h);
+      ctx.strokeStyle = `rgba(255, 255, 255, ${m.alpha.toFixed(3)})`;
+      ctx.lineWidth = 1;
       ctx.stroke();
-      ctx.beginPath();
-      ctx.arc(headX, headY, m.thickness * 2.2, 0, Math.PI * 2); // Larger head
-      ctx.fillStyle = `rgba(${headColor}, ${(0.98 * fade * m.headAlpha).toFixed(3)})`;
-      ctx.shadowBlur = 12; // Increased glow
-      ctx.shadowColor = `rgba(${midColor}, ${(0.85 * fade).toFixed(3)})`; // Brighter glow
-      ctx.fill();
-      ctx.shadowBlur = 0;
+    };
+
+    const resetShooter = (m) => {
+      m.x = Math.random();
+      m.y = 0;
+      m.length = 50 + Math.random() * 100;
+      m.speed = 5 + Math.random() * 10;
+      m.alpha = 0.3 + Math.random() * 0.5;
+      m.angle = Math.PI / 4;
     };
 
     const updateShooter = (m, dt) => {
-      if (m.active) {
-        m.life += dt;
-        m.x += m.vx * dt;
-        m.y += m.sinA * m.vx * dt;
-        if (m.life >= m.maxLife || m.x > 1.22) {
-          m.active = false;
-          m.cooldown = 0;
-          m.maxCooldown = (isMobile ? 6 : 3.5) + Math.random() * (isMobile ? 9 : 7);
-        }
-      } else {
-        m.cooldown += dt;
-        if (m.cooldown >= m.maxCooldown) {
-          m.active = true;
-          m.life = 0;
-          m.maxLife = 1.1 + Math.random() * 0.6;
-          m.x = -0.18 - Math.random() * 0.12;
-          m.y = 0.04 + Math.random() * 0.46;
-          m.vx = (isMobile ? 0.18 : 0.26) + Math.random() * 0.12;
-          m.angle = -0.62 + Math.random() * 0.5;
-          m.cosA = Math.cos(m.angle);
-          m.sinA = Math.sin(m.angle);
-          m.length = (isMobile ? 130 : 180) + Math.random() * 120;
-          m.thickness = 1.1 + Math.random() * 0.7;
-        }
+      m.x += Math.cos(m.angle) * m.speed * dt * 60;
+      m.y += Math.sin(m.angle) * m.speed * dt * 60;
+      m.tailX = m.x - Math.cos(m.angle) * (m.length / w);
+      m.tailY = m.y - Math.sin(m.angle) * (m.length / h);
+      if (m.x * w > w || m.y * h > h) {
+        resetShooter(m);
+        m.tailX = m.x - Math.cos(m.angle) * (m.length / w);
+        m.tailY = m.y - Math.sin(m.angle) * (m.length / h);
       }
     };
 
@@ -262,7 +232,7 @@ export default function AnimatedBackground() {
       for (let i = 0; i < shooters.length; i += 1) {
         const m = shooters[i];
         updateShooter(m, delta);
-        if (m.active) drawShooter(m);
+        drawShooter(m);
       }
 
       nodes.forEach((node) => {
@@ -328,8 +298,8 @@ export default function AnimatedBackground() {
       if (!inViewport) stop();
     }, { threshold: 0 });
 
-    seed();
     resize();
+    seed();
     if (reduce) staticFrame();
     else start();
 
