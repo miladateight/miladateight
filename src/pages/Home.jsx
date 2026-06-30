@@ -26,8 +26,6 @@ import { profile } from "../data/profile";
 import { projects, specialties } from "../data/projects";
 import { Reveal, RevealGroup, TextReveal } from "../components/ScrollReveal";
 import ProjectCard from "../components/ProjectCard";
-import HeroBackground from "../components/hero/HeroBackground";
-import HeroStars from "../components/hero/HeroStars";
 
 const Cockpit3D = lazy(() => import("../components/hero/Cockpit3D"));
 import { fadeUp, springFast, stagger } from "../utils/motion";
@@ -285,8 +283,6 @@ export default function Home({ t, language }) {
   return (
     <>
       <section className="hero">
-        <HeroBackground />
-        <HeroStars />
         <div className="hero-inner">
           <motion.div className="hero-copy" initial="hidden" animate="visible" variants={stagger}>
             <motion.p className="hero-eyebrow" variants={fadeUp}>
