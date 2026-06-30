@@ -987,366 +987,58 @@ p {
   overflow: visible;
 }
 
-/* Cockpit scene — over-the-shoulder workspace */
-.ck-floorlines path {
-  fill: none;
-  stroke: rgba(125, 211, 252, 0.07);
-  stroke-width: 1;
+/* Cockpit scene — interactive 3D diorama (React Three Fiber) */
+.cockpit3d {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-height: 408px;
+  height: min(60vw, 470px);
+  border-radius: calc(var(--radius-xl) - 14px);
+  overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
 }
 
-.ck-shelf rect {
-  fill: rgba(125, 211, 252, 0.12);
-  stroke: rgba(125, 211, 252, 0.2);
+.cockpit3d:active {
+  cursor: grabbing;
 }
 
-.ck-shelf rect:first-child {
-  fill: rgba(15, 23, 42, 0.8);
+.cockpit3d-loading {
+  cursor: default;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(56, 189, 248, 0.12), transparent 60%),
+    linear-gradient(180deg, rgba(8, 13, 24, 0.6), rgba(6, 10, 18, 0.9));
+  animation: cockpitPulse 1.6s var(--ease-out) infinite;
 }
 
-.ck-plant {
-  fill: none;
-  stroke: rgba(45, 212, 191, 0.6);
-  stroke-width: 2.4;
-  stroke-linecap: round;
+@keyframes cockpitPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
 }
 
-.ck-pot {
-  fill: rgba(45, 212, 191, 0.18);
-  stroke: rgba(45, 212, 191, 0.42);
+.cockpit3d canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
 }
 
-.ck-wallpanel rect {
-  fill: rgba(8, 14, 24, 0.7);
-  stroke: rgba(125, 211, 252, 0.22);
-}
-
-.ck-panel-label {
-  fill: var(--text-3);
+.cockpit3d-hint {
+  position: absolute;
+  z-index: 3;
+  inset-block-start: 12px;
+  inset-inline-end: 14px;
+  padding: 4px 10px;
+  border: 1px solid rgba(125, 211, 252, 0.22);
+  border-radius: var(--radius-pill);
+  background: rgba(4, 8, 14, 0.55);
+  backdrop-filter: blur(8px);
+  color: var(--text-3);
   font-family: var(--font-mono);
-  font-size: 9px;
-  font-weight: 800;
-}
-
-.ck-panel-line {
-  fill: none;
-  stroke: #38bdf8;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.5));
-}
-
-.ck-panel-dot {
-  fill: #38bdf8;
-  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.7));
-}
-
-.ck-desk-shadow {
-  fill: rgba(0, 0, 0, 0.34);
-  filter: blur(2px);
-}
-
-.ck-desk-top {
-  fill: url(#ck-desk);
-  stroke: rgba(125, 211, 252, 0.16);
-  stroke-width: 1;
-}
-
-.ck-desk-edge {
-  fill: rgba(5, 9, 16, 0.95);
-}
-
-.ck-stand {
-  fill: rgba(15, 23, 42, 0.9);
-  stroke: rgba(148, 163, 184, 0.16);
-}
-
-.ck-stand-base {
-  fill: rgba(7, 12, 20, 0.95);
-}
-
-.ck-bezel {
-  fill: rgba(4, 8, 16, 0.96);
-  stroke: rgba(125, 211, 252, 0.34);
-  stroke-width: 1.3;
-  filter: drop-shadow(0 18px 36px rgba(0, 0, 0, 0.46));
-}
-
-.ck-monitor-side .ck-bezel {
-  stroke: rgba(196, 181, 253, 0.34);
-}
-
-.ck-screen {
-  fill: url(#ck-screen);
-}
-
-.ck-dot {
-  filter: drop-shadow(0 0 4px currentColor);
-}
-
-.dot-r { fill: #f87171; }
-.dot-y { fill: #fbbf24; }
-.dot-g { fill: #34d399; }
-
-.ck-screen-title {
-  fill: rgba(148, 197, 253, 0.7);
-  font-family: var(--font-mono);
-  font-size: 8.5px;
-  font-weight: 800;
-}
-
-.ck-code-row rect {
-  fill: rgba(125, 211, 252, 0.42);
-}
-
-.ck-code-row text {
-  fill: rgba(226, 244, 255, 0.6);
-  font-family: var(--font-mono);
-  font-size: 8px;
-  font-weight: 700;
-}
-
-.ck-cursor {
-  fill: #67e8f9;
-  filter: drop-shadow(0 0 8px rgba(103, 232, 249, 0.7));
-}
-
-.ck-bar {
-  fill: #38bdf8;
-  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.4));
-  transform-box: fill-box;
-  transform-origin: center bottom;
-  animation: ckBar 2.8s var(--ease-out) infinite;
-}
-
-.ck-bar:nth-child(3) { fill: #2dd4bf; }
-.ck-bar:nth-child(5) { fill: #8b5cf6; }
-
-@keyframes ckBar {
-  0%, 100% { transform: scaleY(0.74); }
-  50% { transform: scaleY(1); }
-}
-
-.ck-spark {
-  fill: none;
-  stroke: #2dd4bf;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 0 5px rgba(45, 212, 191, 0.55));
-}
-
-.ck-spark-dot {
-  fill: #5eead4;
-}
-
-.ck-lamp-arm {
-  fill: none;
-  stroke: rgba(148, 163, 184, 0.5);
-  stroke-width: 3.4;
-  stroke-linecap: round;
-}
-
-.ck-lamp-head {
-  fill: rgba(251, 191, 36, 0.32);
-  stroke: rgba(251, 191, 36, 0.6);
-}
-
-.ck-lamp-base {
-  fill: rgba(15, 23, 42, 0.95);
-  stroke: rgba(148, 163, 184, 0.3);
-}
-
-.ck-keyboard {
-  fill: rgba(10, 16, 26, 0.96);
-  stroke: rgba(125, 211, 252, 0.3);
-  stroke-width: 1;
-  filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.18));
-}
-
-.ck-keys path {
-  fill: none;
-  stroke: rgba(125, 211, 252, 0.4);
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-
-.ck-mouse {
-  fill: rgba(12, 18, 28, 0.96);
-  stroke: rgba(125, 211, 252, 0.3);
-}
-
-.ck-mug-body {
-  fill: rgba(56, 189, 248, 0.14);
-  stroke: rgba(125, 211, 252, 0.55);
-}
-
-.ck-mug-handle {
-  fill: none;
-  stroke: rgba(125, 211, 252, 0.55);
-  stroke-width: 2.4;
-}
-
-.ck-mug-top {
-  fill: rgba(125, 211, 252, 0.28);
-  stroke: rgba(125, 211, 252, 0.55);
-}
-
-.ck-steam {
-  fill: none;
-  stroke: rgba(226, 244, 255, 0.55);
-  stroke-width: 2.6;
-  stroke-linecap: round;
-  filter: drop-shadow(0 0 8px rgba(125, 211, 252, 0.3));
-}
-
-.ck-chair-back {
-  fill: rgba(9, 14, 23, 0.97);
-  stroke: rgba(148, 163, 184, 0.18);
-}
-
-.ck-chair-stripe {
-  fill: none;
-  stroke: rgba(56, 189, 248, 0.34);
-  stroke-width: 3;
-}
-
-.ck-armrest {
-  fill: rgba(13, 20, 31, 0.98);
-  stroke: rgba(148, 163, 184, 0.18);
-}
-
-.ck-neck {
-  fill: url(#ck-skin);
-}
-
-.ck-head {
-  fill: url(#ck-hair);
-}
-
-.ck-curls circle {
-  fill: #1c140f;
-  stroke: rgba(60, 44, 32, 0.7);
-  stroke-width: 1;
-}
-
-.ck-cheek {
-  fill: url(#ck-skin);
-  opacity: 0.95;
-}
-
-.ck-glasses-temple {
-  stroke: rgba(125, 211, 252, 0.7);
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-
-.ck-hp-band {
-  fill: none;
-  stroke: rgba(226, 244, 255, 0.6);
-  stroke-width: 5;
-  stroke-linecap: round;
-}
-
-.ck-hp-cup {
-  fill: rgba(15, 23, 42, 0.98);
-  stroke: rgba(56, 189, 248, 0.7);
-  stroke-width: 2;
-}
-
-.ck-hp-cup-right {
-  stroke: rgba(56, 189, 248, 0.45);
-}
-
-.ck-arm {
-  fill: none;
-  stroke: url(#ck-tee);
-  stroke-width: 17;
-  stroke-linecap: round;
-}
-
-.ck-hand {
-  fill: url(#ck-skin);
-}
-
-.ck-tee {
-  fill: url(#ck-tee);
-  stroke: rgba(125, 211, 252, 0.32);
-  stroke-width: 1.4;
-  stroke-linejoin: round;
-}
-
-.ck-tee-collar {
-  fill: rgba(8, 12, 20, 0.92);
-  stroke: rgba(125, 211, 252, 0.22);
-  stroke-width: 0.8;
-}
-
-.ck-tee-sleeve {
-  fill: url(#ck-tee);
-  stroke: rgba(125, 211, 252, 0.32);
-  stroke-width: 1.4;
-  stroke-linejoin: round;
-}
-
-.ck-hair-cap {
-  fill: url(#ck-hair);
-  stroke: rgba(60, 44, 32, 0.55);
-  stroke-width: 1;
-}
-
-.ck-hair-front {
-  fill: #1a120e;
-}
-
-.ck-chair-back {
-  fill: rgba(6, 10, 17, 0.98);
-  stroke: rgba(148, 163, 184, 0.38);
-  stroke-width: 1.6;
-}
-
-.ck-chair-top {
-  fill: none;
-  stroke: rgba(125, 211, 252, 0.34);
-  stroke-width: 1.6;
-  stroke-linecap: round;
-}
-
-.ck-tower-side {
-  fill: rgba(6, 10, 17, 0.96);
-}
-
-.ck-tower-front {
-  fill: rgba(10, 15, 24, 0.96);
-  stroke: rgba(125, 211, 252, 0.26);
-  stroke-width: 1;
-  filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.4));
-}
-
-.ck-tower-glass {
-  fill: rgba(56, 189, 248, 0.05);
-  stroke: rgba(125, 211, 252, 0.16);
-}
-
-.ck-tower-rgb {
-  filter: drop-shadow(0 0 9px rgba(139, 92, 246, 0.6));
-}
-
-.ck-tower-vents {
-  fill: none;
-  stroke: rgba(125, 211, 252, 0.3);
-  stroke-width: 1.6;
-  stroke-linecap: round;
-}
-
-.ck-tower-fan {
-  fill: none;
-  stroke: rgba(56, 189, 248, 0.4);
-  stroke-width: 2;
-}
-
-.ck-tower-fan-core {
-  fill: rgba(56, 189, 248, 0.5);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+  opacity: 0.85;
 }
 
 .workbench-telemetry {

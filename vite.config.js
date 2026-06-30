@@ -15,6 +15,7 @@ export default defineConfig({
           if (!id.includes("node_modules")) return undefined;
           if (id.includes("framer-motion")) return "motion";
           if (id.includes("lucide-react")) return "icons";
+          if (id.includes("/three/") || id.includes("@react-three") || id.includes("/three-stdlib") || id.includes("postprocessing")) return "three3d";
           if (id.includes("react")) return "vendor";
           return undefined;
         }
