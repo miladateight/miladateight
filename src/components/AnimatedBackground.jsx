@@ -13,15 +13,15 @@ function makeNode(index, total) {
 }
 
 function makeShootingStar() {
-  const angle = (Math.PI / 2) - 0.08 + Math.random() * 0.16;
+  const angle = (Math.PI / 2) - (0.22 + Math.random() * 0.07);
   return {
     x: Math.random(),
     y: -0.22 + Math.random() * 1.2,
-    length: 112 + Math.random() * 118,
-    speed: 26 + Math.random() * 32,
-    alpha: 0.48 + Math.random() * 0.34,
+    length: 168 + Math.random() * 128,
+    speed: 30 + Math.random() * 26,
+    alpha: 0.54 + Math.random() * 0.34,
     angle,
-    width: 0.7 + Math.random() * 0.55,
+    width: 1 + Math.random() * 0.7,
     tailX: 0,
     tailY: 0,
   };
@@ -158,11 +158,11 @@ export default function AnimatedBackground() {
     const resetShooter = (m) => {
       m.x = Math.random();
       m.y = -0.05 - Math.random() * 0.15;
-      m.length = 112 + Math.random() * 118;
-      m.speed = 26 + Math.random() * 32;
-      m.alpha = 0.48 + Math.random() * 0.34;
-      m.width = 0.7 + Math.random() * 0.55;
-      m.angle = (Math.PI / 2) - 0.08 + Math.random() * 0.16;
+      m.length = 168 + Math.random() * 128;
+      m.speed = 30 + Math.random() * 26;
+      m.alpha = 0.54 + Math.random() * 0.34;
+      m.width = 1 + Math.random() * 0.7;
+      m.angle = (Math.PI / 2) - (0.22 + Math.random() * 0.07);
     };
 
     const updateShooter = (m, dt) => {
