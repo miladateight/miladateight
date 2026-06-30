@@ -115,9 +115,9 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   background:
-    linear-gradient(180deg, rgba(12, 18, 32, 0.2), transparent 540px),
-    radial-gradient(circle at 50% -10%, rgba(56, 189, 248, 0.13), transparent 34rem),
-    var(--bg);
+    radial-gradient(circle at 82% 36%, rgba(45, 212, 191, 0.14), transparent 34rem),
+    linear-gradient(90deg, rgba(2, 6, 12, 0.78), rgba(6, 16, 20, 0.96) 48%, rgba(7, 35, 39, 0.92)),
+    #061014;
   color: var(--text);
   font-family: var(--font-body);
   font-size: 16px;
@@ -790,7 +790,7 @@ p {
 }
 
 .hero::after {
-  content: "";
+  content: none;
   position: absolute;
   inset-inline: 0;
   inset-block-end: 0;
