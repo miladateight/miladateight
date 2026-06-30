@@ -366,8 +366,8 @@ function Person() {
   const reduce = useReducedMotion();
 
   // rest / drink poses for the right (drinking) arm
-  const DRINK_RS = useMemo(() => new THREE.Euler(-1.25, -0.15, 0.3), []);
-  const DRINK_RE = useMemo(() => new THREE.Euler(-1.6, 0, 0), []);
+  const DRINK_RS = useMemo(() => new THREE.Euler(-0.35, 0.6, 0.2), []);
+  const DRINK_RE = useMemo(() => new THREE.Euler(1.2, 0, 0), []);
   const canRest = useMemo(() => new THREE.Vector3(0.95, 1.65, -0.3), []);
   const tmp = useMemo(() => new THREE.Vector3(), []);
 
@@ -516,7 +516,7 @@ function Person() {
               <boxGeometry args={[0.095, 0.045, 0.1]} />
               <meshStandardMaterial color={SKIN} roughness={0.75} />
             </mesh>
-            <mesh position={[0.02, 0.06, -0.36]} rotation={[0.55, 0, 0]} castShadow>
+            <mesh position={[0.02, 0.11, -0.36]} rotation={[0.55, 0, 0]} castShadow>
               <boxGeometry args={[0.09, 0.025, 0.07]} />
               <meshStandardMaterial color={SKIN} roughness={0.75} />
             </mesh>
@@ -539,7 +539,7 @@ function Person() {
                   <boxGeometry args={[0.095, 0.045, 0.1]} />
                   <meshStandardMaterial color={SKIN} roughness={0.75} />
                 </mesh>
-                <mesh position={[0, -0.07, -0.09]} rotation={[0.55, 0, 0]} castShadow>
+                <mesh position={[0, -0.02, -0.09]} rotation={[0.55, 0, 0]} castShadow>
                   <boxGeometry args={[0.09, 0.025, 0.07]} />
                   <meshStandardMaterial color={SKIN} roughness={0.75} />
                 </mesh>
