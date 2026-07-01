@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { lazy, Suspense, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import {
@@ -26,7 +26,8 @@ import { profile } from "../data/profile";
 import { projects, specialties } from "../data/projects";
 import { Reveal, RevealGroup, TextReveal } from "../components/ScrollReveal";
 import ProjectCard from "../components/ProjectCard";
-import HeroBackground from "../components/hero/HeroBackground";
+
+const Cockpit3D = lazy(() => import("../components/hero/Cockpit3D"));
 import { fadeUp, springFast, stagger } from "../utils/motion";
 import { localize } from "../utils/localize";
 
@@ -96,66 +97,73 @@ const homeCopy = {
 const capabilityItems = [
   {
     icon: Server,
+    accent: "cyan",
+    featured: true,
     title: { en: "Infrastructure", fa: "زیرساخت", ar: "البنية التحتية", de: "Infrastruktur" },
     body: {
-      en: "Linux, Windows Server, virtualization, backups, service continuity, and operational documentation.",
-      fa: "لینوکس، Windows Server، مجازی‌سازی، بکاپ، تداوم سرویس و مستندسازی عملیاتی.",
-      ar: "Linux وWindows Server والمحاكاة الافتراضية والنسخ الاحتياطي واستمرارية الخدمة والتوثيق التشغيلي.",
-      de: "Linux, Windows Server, Virtualisierung, Backups, Servicekontinuität und Betriebsdokumentation.",
+      en: "Linux and Windows Server estates, virtualization, and storage built to stay available through failures, patches, and growth.",
+      fa: "سرورهای لینوکس و ویندوز، مجازی‌سازی و ذخیره‌سازی که در برابر خرابی، به‌روزرسانی و رشد، در دسترس می‌مانند.",
+      ar: "بيئات خوادم Linux وWindows والمحاكاة الافتراضية والتخزين، مبنية لتبقى متاحة خلال الأعطال والتحديثات والنمو.",
+      de: "Linux- und Windows-Server-Umgebungen, Virtualisierung und Storage, die durch Ausfälle, Updates und Wachstum verfügbar bleiben.",
     },
-    className: "capability-large capability-infra",
-    chips: ["Linux", "Windows Server", "Backup"],
+    chips: ["Linux", "Windows Server", "Virtualization", "Backup"],
+    highlights: [
+      { en: "Service continuity with tested, repeatable restores", fa: "تداوم سرویس با بازیابی تست‌شده و تکرارپذیر", ar: "استمرارية الخدمة مع استعادة مُختبرة وقابلة للتكرار", de: "Servicekontinuität mit getesteten, wiederholbaren Restores" },
+      { en: "Operational runbooks and clear documentation", fa: "ران‌بوک عملیاتی و مستندسازی روشن", ar: "أدلة تشغيل وتوثيق واضح", de: "Betriebs-Runbooks und klare Dokumentation" },
+      { en: "Proactive monitoring and capacity headroom", fa: "مانیتورینگ پیش‌گیرانه و ظرفیت ذخیره", ar: "مراقبة استباقية وهامش سعة", de: "Proaktives Monitoring und Kapazitätsreserven" },
+    ],
   },
   {
     icon: Network,
+    accent: "teal",
     title: { en: "Networking", fa: "شبکه", ar: "الشبكات", de: "Netzwerke" },
     body: {
-      en: "MikroTik, routing, firewall policy, VLANs, VPNs, NAT, failover, and traffic troubleshooting.",
-      fa: "MikroTik، مسیریابی، سیاست فایروال، VLAN، VPN، NAT، failover و عیب‌یابی ترافیک.",
-      ar: "MikroTik والتوجيه وسياسات الجدار الناري وVLAN وVPN وNAT والتجاوز وتحليل المرور.",
-      de: "MikroTik, Routing, Firewall-Policies, VLANs, VPNs, NAT, Failover und Traffic-Analyse.",
+      en: "MikroTik routing, firewall policy, VLANs, VPNs, NAT, multi-WAN failover, and traffic troubleshooting.",
+      fa: "مسیریابی MikroTik، سیاست فایروال، VLAN، VPN، NAT، failover چند-WAN و عیب‌یابی ترافیک.",
+      ar: "توجيه MikroTik وسياسات الجدار الناري وVLAN وVPN وNAT وتجاوز multi-WAN وتحليل المرور.",
+      de: "MikroTik-Routing, Firewall-Policies, VLANs, VPNs, NAT, Multi-WAN-Failover und Traffic-Analyse.",
     },
-    className: "capability-tall capability-network",
     chips: ["MikroTik", "VPN", "VLAN"],
   },
   {
     icon: Cloud,
+    accent: "violet",
     title: { en: "DevOps and Cloud", fa: "DevOps و ابر", ar: "DevOps والسحابة", de: "DevOps und Cloud" },
     body: {
-      en: "Docker, CI/CD, infrastructure automation, observability, and current cloud engineering growth.",
-      fa: "Docker، CI/CD، اتوماسیون زیرساخت، مشاهده‌پذیری و مسیر رشد فعلی در مهندسی ابر.",
-      ar: "Docker وCI/CD وأتمتة البنية التحتية والمراقبة ومسار نمو حالي في هندسة السحابة.",
-      de: "Docker, CI/CD, Infrastrukturautomatisierung, Observability und laufender Ausbau in Cloud Engineering.",
+      en: "Docker, CI/CD pipelines, infrastructure as code, observability, and an active path into cloud engineering.",
+      fa: "Docker، خط‌لوله CI/CD، Infrastructure as Code، مشاهده‌پذیری و مسیر فعال به سمت مهندسی ابر.",
+      ar: "Docker وخطوط CI/CD والبنية ككود والمراقبة ومسار نشط نحو هندسة السحابة.",
+      de: "Docker, CI/CD-Pipelines, Infrastructure as Code, Observability und ein aktiver Weg ins Cloud Engineering.",
     },
-    className: "capability-cloud",
     chips: ["Docker", "CI/CD", "IaC"],
   },
   {
     icon: Globe2,
+    accent: "sky",
     title: { en: "Web Systems", fa: "سیستم‌های وب", ar: "أنظمة الويب", de: "Web-Systeme" },
     body: {
-      en: "Nginx, Caddy, HAProxy, DNS, SSL/TLS, WordPress, React, and production-facing web delivery.",
-      fa: "Nginx، Caddy، HAProxy، DNS، SSL/TLS، WordPress، React و تحویل وب در محیط واقعی.",
-      ar: "Nginx وCaddy وHAProxy وDNS وSSL/TLS وWordPress وReact وتسليم الويب الإنتاجي.",
-      de: "Nginx, Caddy, HAProxy, DNS, SSL/TLS, WordPress, React und produktionsnahe Web-Auslieferung.",
+      en: "Nginx, Caddy, HAProxy, DNS, SSL/TLS, WordPress, and React delivered to production with TLS that actually validates.",
+      fa: "Nginx، Caddy، HAProxy، DNS، SSL/TLS، WordPress و React که با TLS معتبر در محیط واقعی تحویل می‌شوند.",
+      ar: "Nginx وCaddy وHAProxy وDNS وSSL/TLS وWordPress وReact تُسلَّم للإنتاج بشهادات TLS صالحة فعلاً.",
+      de: "Nginx, Caddy, HAProxy, DNS, SSL/TLS, WordPress und React, in Produktion mit wirklich gültigem TLS.",
     },
-    className: "capability-web",
     chips: ["Nginx", "DNS", "React"],
   },
   {
     icon: Code2,
+    accent: "indigo",
     title: { en: "Programming", fa: "برنامه‌نویسی", ar: "البرمجة", de: "Programmierung" },
     body: {
-      en: "Python, Bash, C#, .NET desktop tools, Unity experiments, and pragmatic scripts.",
-      fa: "Python، Bash، C#، ابزارهای دسکتاپ .NET، تجربه‌های Unity و اسکریپت‌های کاربردی.",
-      ar: "Python وBash وC# وأدوات سطح مكتب .NET وتجارب Unity وسكربتات عملية.",
-      de: "Python, Bash, C#, .NET-Desktop-Tools, Unity-Experimente und pragmatische Skripte.",
+      en: "Python, Bash, and C# / .NET desktop tools, Unity experiments, and pragmatic scripts that pay for themselves.",
+      fa: "ابزارهای دسکتاپ Python، Bash و C# / .NET، تجربه‌های Unity و اسکریپت‌های کاربردی که هزینه‌شان را برمی‌گردانند.",
+      ar: "أدوات سطح مكتب بلغة Python وBash وC# / .NET وتجارب Unity وسكربتات عملية تُغطّي تكلفتها.",
+      de: "Python, Bash und C# / .NET-Desktop-Tools, Unity-Experimente und pragmatische Skripte, die sich auszahlen.",
     },
-    className: "capability-code",
     chips: ["Python", ".NET", "Bash"],
   },
   {
     icon: Bot,
+    accent: "magenta",
     title: { en: "Automation", fa: "اتوماسیون", ar: "الأتمتة", de: "Automatisierung" },
     body: {
       en: "Telegram bots, repeatable scripts, maintenance flows, and small tools that remove manual friction.",
@@ -163,11 +171,11 @@ const capabilityItems = [
       ar: "بوتات Telegram وسكربتات قابلة للتكرار وتدفقات صيانة وأدوات صغيرة تقلل العمل اليدوي.",
       de: "Telegram-Bots, wiederholbare Skripte, Wartungsabläufe und kleine Tools gegen manuelle Reibung.",
     },
-    className: "capability-automation",
     chips: ["Bots", "Scripts", "Ops"],
   },
   {
     icon: ShieldCheck,
+    accent: "emerald",
     title: { en: "IT Operations", fa: "عملیات IT", ar: "عمليات تقنية المعلومات", de: "IT-Betrieb" },
     body: {
       en: "Support, incident response, asset coordination, monitoring, continuity checks, and clear reporting.",
@@ -175,30 +183,19 @@ const capabilityItems = [
       ar: "دعم واستجابة للحوادث وتنسيق الأصول ومراقبة وفحوص استمرارية وتقارير واضحة.",
       de: "Support, Incident Response, Asset-Koordination, Monitoring, Kontinuitätschecks und klare Berichte.",
     },
-    className: "capability-ops",
     chips: ["Support", "Monitoring", "Reports"],
   },
 ];
 
 const operatorSignals = [
-  { key: "web", label: "Web edge", metric: "HTTPS 200", icon: Globe2 },
-  { key: "deploy", label: "Deploy", metric: "green", icon: GitBranch },
-  { key: "net", label: "Network", metric: "24ms", icon: Network },
-  { key: "backup", label: "Backup", metric: "verified", icon: Database },
-];
-
-const consoleRows = [
-  "deploy: ateight.xyz -> stable",
-  "wg0 tunnel handshake 24ms",
-  "haproxy route web:443 healthy",
-  "mail tls queue clear",
+  { key: "web", label: { en: "Web edge", fa: "لبه وب", ar: "حافة الويب", de: "Web-Edge" }, metric: "HTTPS 200", icon: Globe2 },
+  { key: "deploy", label: { en: "Deploy", fa: "استقرار", ar: "النشر", de: "Deploy" }, metric: { en: "green", fa: "سالم", ar: "أخضر", de: "grün" }, icon: GitBranch },
+  { key: "net", label: { en: "Network", fa: "شبکه", ar: "الشبكة", de: "Netzwerk" }, metric: "24 ms", icon: Network },
+  { key: "backup", label: { en: "Backup", fa: "بکاپ", ar: "نسخ", de: "Backup" }, metric: { en: "verified", fa: "تأییدشده", ar: "مُتحقَّق", de: "verifiziert" }, icon: Database },
 ];
 
 function HeroCommandDeck({ language }) {
   const reduceMotion = useReducedMotion();
-  const steamMotion = reduceMotion ? undefined : { opacity: [0, 0.85, 0], y: [0, -18, -34], scale: [0.85, 1.08, 1.24] };
-  const glanceMotion = reduceMotion ? undefined : { x: [0, 3, 0, -2, 0] };
-  const typingMotion = reduceMotion ? undefined : { rotate: [0, -3, 1, 0], y: [0, 2, 0, 1, 0] };
 
   return (
     <motion.aside
@@ -213,162 +210,9 @@ function HeroCommandDeck({ language }) {
         <Activity size={16} aria-hidden="true" />
       </div>
       <div className="workstation-scene" aria-hidden="true">
-        <svg className="workstation-svg" viewBox="0 0 720 560" role="img">
-          <defs>
-            <radialGradient id="hero-monitor-light" cx="50%" cy="42%" r="62%">
-              <stop offset="0%" stopColor="#7dd3fc" stopOpacity="0.46" />
-              <stop offset="48%" stopColor="#22d3ee" stopOpacity="0.16" />
-              <stop offset="100%" stopColor="#020617" stopOpacity="0" />
-            </radialGradient>
-            <linearGradient id="hero-screen" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stopColor="#172554" />
-              <stop offset="58%" stopColor="#07111f" />
-              <stop offset="100%" stopColor="#020617" />
-            </linearGradient>
-            <linearGradient id="hero-skin" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stopColor="#f5c9aa" />
-              <stop offset="100%" stopColor="#b7795a" />
-            </linearGradient>
-            <radialGradient id="hero-face-light" cx="42%" cy="34%" r="74%">
-              <stop offset="0%" stopColor="#ffd6b8" stopOpacity="0.95" />
-              <stop offset="100%" stopColor="#b7795a" stopOpacity="0.9" />
-            </radialGradient>
-            <linearGradient id="hero-shirt" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stopColor="#1f2937" />
-              <stop offset="100%" stopColor="#0b1120" />
-            </linearGradient>
-            <filter id="hero-soft-glow" x="-40%" y="-40%" width="180%" height="180%">
-              <feGaussianBlur stdDeviation="12" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-
-          <rect x="34" y="30" width="652" height="498" rx="32" fill="#030712" />
-          <ellipse cx="365" cy="248" rx="296" ry="210" fill="url(#hero-monitor-light)" filter="url(#hero-soft-glow)" />
-          <path d="M72 412 C178 368 246 388 338 356 C440 320 548 326 650 380 L650 528 L72 528 Z" fill="#07111f" opacity="0.8" />
-
-          <g className="workstation-bg">
-            <rect x="76" y="70" width="144" height="70" rx="14" />
-            <rect x="520" y="78" width="96" height="152" rx="18" />
-            <path d="M94 166 H196 M544 112 H592 M544 142 H606 M544 172 H586 M544 202 H598" />
-          </g>
-
-          <motion.g
-            className="monitor-cluster"
-            animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <rect x="132" y="96" width="260" height="176" rx="18" className="monitor-shell" />
-            <rect x="147" y="113" width="230" height="134" rx="10" fill="url(#hero-screen)" />
-            <rect x="398" y="130" width="182" height="132" rx="16" className="monitor-shell side" />
-            <rect x="412" y="146" width="154" height="92" rx="9" fill="url(#hero-screen)" />
-            <path d="M268 272 L256 318 H356 L342 272" className="monitor-stand" />
-            <path d="M468 262 L458 306 H532 L520 262" className="monitor-stand" />
-
-            {consoleRows.map((row, index) => (
-              <g key={row} className="code-row" transform={`translate(166 ${138 + index * 24})`}>
-                <circle cx="0" cy="0" r="3.5" />
-                <motion.rect
-                  x="14"
-                  y="-5"
-                  height="8"
-                  rx="4"
-                  animate={reduceMotion ? undefined : { width: [88 + index * 18, 132 + index * 12, 88 + index * 18] }}
-                  transition={{ duration: 3.6 + index * 0.4, repeat: Infinity, ease: "easeInOut" }}
-                />
-                <text x="14" y="17">{row}</text>
-              </g>
-            ))}
-            <motion.rect
-              className="screen-cursor"
-              x="310"
-              y="223"
-              width="8"
-              height="16"
-              rx="2"
-              animate={reduceMotion ? undefined : { opacity: [0, 1, 1, 0] }}
-              transition={{ duration: 1, repeat: Infinity }}
-            />
-
-            <path className="network-line" d="M430 176 C466 154 494 168 536 154" />
-            <path className="network-line network-mail" d="M430 206 C462 226 506 210 546 222" />
-            {[0, 1, 2].map((index) => (
-              <motion.circle
-                key={index}
-                className="network-packet"
-                r="4"
-                animate={reduceMotion ? undefined : { cx: [432, 538], cy: index === 1 ? [206, 222] : [176, 154] }}
-                transition={{ duration: 2.8, repeat: Infinity, delay: index * 0.65, ease: "easeInOut" }}
-              />
-            ))}
-          </motion.g>
-
-          <g className="operator-chair">
-            <path d="M286 316 C270 282 286 244 332 234 H406 C448 238 464 278 448 320 L430 420 H306 Z" />
-            <path d="M306 420 H434 L462 506 H418 L374 446 L328 506 H286 Z" />
-          </g>
-
-          <motion.g className="operator-person" animate={glanceMotion} transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}>
-            <path className="operator-neck" d="M352 247 H386 L394 289 H342 Z" />
-            <path className="operator-torso" d="M302 298 C322 270 420 268 442 302 C456 344 448 398 430 430 H314 C296 388 288 340 302 298 Z" />
-            <path className="operator-leg left-leg" d="M322 424 C306 452 294 476 286 504 H332 C342 474 356 450 376 424" />
-            <path className="operator-leg right-leg" d="M412 424 C438 452 454 476 464 504 H418 C404 474 388 450 366 424" />
-            <ellipse className="operator-face" cx="370" cy="210" rx="42" ry="50" />
-            <g className="operator-curls">
-              {[328, 346, 366, 386, 406].map((cx, index) => (
-                <circle key={cx} cx={cx} cy={178 + (index % 2) * 6} r={18 - (index % 2) * 3} />
-              ))}
-              {[332, 352, 392, 414].map((cx, index) => (
-                <circle key={cx} cx={cx} cy={204 + index * 2} r={14} />
-              ))}
-            </g>
-            <path className="operator-hair" d="M326 210 C322 162 354 138 394 150 C426 160 434 196 412 230 C406 196 380 190 352 184 C340 194 334 204 326 210 Z" />
-            <g className="operator-glasses">
-              <rect x="346" y="202" width="25" height="19" rx="4" />
-              <rect x="383" y="202" width="25" height="19" rx="4" />
-              <path d="M371 211 H383" />
-            </g>
-            <motion.g animate={reduceMotion ? undefined : { x: [0, 2, 0, -1, 0] }} transition={{ duration: 5.4, repeat: Infinity, ease: "easeInOut" }}>
-              <path className="operator-eye" d="M356 212 H364 M391 212 H399" />
-            </motion.g>
-            <path className="operator-nose" d="M378 216 C374 228 376 232 384 235" />
-            <path className="operator-mouth" d="M360 242 C368 248 382 248 390 241" />
-            <motion.g animate={typingMotion} transition={{ duration: 1.9, repeat: Infinity, ease: "easeInOut" }}>
-              <path className="operator-arm left" d="M318 318 C276 338 250 366 224 410" />
-              <ellipse className="operator-hand" cx="222" cy="411" rx="17" ry="10" />
-            </motion.g>
-            <motion.g animate={reduceMotion ? undefined : { rotate: [0, 2, -2, 0], y: [0, 1, 0, 2, 0] }} transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: 0.24 }}>
-              <path className="operator-arm right" d="M424 318 C456 346 482 366 522 392" />
-              <ellipse className="operator-hand" cx="524" cy="394" rx="17" ry="10" />
-            </motion.g>
-          </motion.g>
-
-          <g className="desk-layer">
-            <path d="M104 414 C248 400 426 400 616 414 L652 496 H70 Z" />
-            <rect x="234" y="406" width="214" height="34" rx="10" />
-            <path d="M260 423 H424 M278 434 H406" />
-            <rect x="462" y="400" width="82" height="22" rx="8" />
-            <path d="M134 435 C154 420 184 422 204 438" />
-          </g>
-
-          <g className="coffee-group">
-            <path d="M548 382 H606 L596 438 H558 Z" />
-            <path d="M604 392 C636 392 636 426 600 423" />
-            <rect x="546" y="438" width="58" height="9" rx="5" />
-            {[0, 1, 2].map((index) => (
-              <motion.path
-                key={index}
-                className="steam-path"
-                d={`M${562 + index * 13} 372 C${548 + index * 15} 350 ${578 + index * 7} 342 ${566 + index * 11} 320`}
-                animate={steamMotion}
-                transition={{ duration: 2.8, repeat: Infinity, delay: index * 0.42, ease: "easeInOut" }}
-              />
-            ))}
-          </g>
-        </svg>
+        <Suspense fallback={<div className="cockpit3d cockpit3d-loading" />}>
+          <Cockpit3D />
+        </Suspense>
 
         <div className="workbench-telemetry">
           {operatorSignals.map((item, index) => {
@@ -381,8 +225,8 @@ function HeroCommandDeck({ language }) {
                 transition={{ duration: 3.8 + index * 0.28, repeat: Infinity, ease: "easeInOut" }}
               >
                 <Icon size={14} aria-hidden="true" />
-                <span>{item.label}</span>
-                <strong>{item.metric}</strong>
+                <span>{localize(item.label, language)}</span>
+                <strong>{localize(item.metric, language)}</strong>
               </motion.div>
             );
           })}
@@ -395,19 +239,34 @@ function HeroCommandDeck({ language }) {
 function CapabilityCard({ item, language, index }) {
   const Icon = item.icon;
   return (
-    <Reveal className={`capability-card ${item.className}`} delay={index * 0.025}>
+    <Reveal
+      className={`capability-card cap-${item.accent} ${item.featured ? "is-featured" : ""}`}
+      delay={index * 0.025}
+    >
       <div className="capability-visual" aria-hidden="true">
         <span />
         <span />
         <span />
       </div>
       <div className="capability-content">
-        <div className="capability-icon"><Icon size={20} /></div>
-        <h3>{localize(item.title, language)}</h3>
-        <p>{localize(item.body, language)}</p>
-        <div className="capability-chips">
-          {item.chips.map((chip) => <span key={chip}>{chip}</span>)}
+        <div className="capability-main">
+          <div className="capability-icon"><Icon size={20} /></div>
+          <h3>{localize(item.title, language)}</h3>
+          <p>{localize(item.body, language)}</p>
+          <div className="capability-chips">
+            {item.chips.map((chip) => <span key={chip}>{chip}</span>)}
+          </div>
         </div>
+        {item.highlights && (
+          <ul className="capability-highlights">
+            {item.highlights.map((point) => (
+              <li key={localize(point, "en")}>
+                <CheckCircle2 size={15} aria-hidden="true" />
+                <span>{localize(point, language)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </Reveal>
   );
@@ -424,7 +283,6 @@ export default function Home({ t, language }) {
   return (
     <>
       <section className="hero">
-        <HeroBackground />
         <div className="hero-inner">
           <motion.div className="hero-copy" initial="hidden" animate="visible" variants={stagger}>
             <motion.p className="hero-eyebrow" variants={fadeUp}>
