@@ -5,24 +5,25 @@ function makeNode(index, total) {
   return {
     x: 0.12 + ((index * 0.137) % 0.76),
     y: 0.1 + ((index * 0.223) % 0.78),
-    vx: (Math.sin(index * 1.7) * 0.000075),
-    vy: (Math.cos(index * 1.3) * 0.000065),
+    vx: Math.sin(index * 1.7) * 0.000034,
+    vy: Math.cos(index * 1.3) * 0.00003,
     r: 1.35 + (index % 4) * 0.38,
     phase: ring * Math.PI * 2,
   };
 }
 
-function makeComet(index) {
-  const angle = 0.18 + (index % 3) * 0.035;
+function makeShootingStar() {
+  const angle = (Math.PI / 2) - (0.22 + Math.random() * 0.07);
   return {
-    x: -0.24 - index * 0.28,
-    y: 0.1 + ((index * 0.29) % 0.6),
-    speed: 0.000022 + (index % 4) * 0.000006,
-    length: 135 + index * 26,
-    thickness: 0.85 + (index % 3) * 0.32,
-    alpha: 0.36 + (index % 4) * 0.08,
+    x: Math.random(),
+    y: -0.22 + Math.random() * 1.2,
+    length: 168 + Math.random() * 128,
+    speed: 30 + Math.random() * 26,
+    alpha: 0.54 + Math.random() * 0.34,
     angle,
-    delay: index * 0.27,
+    width: 1 + Math.random() * 0.7,
+    tailX: 0,
+    tailY: 0,
   };
 }
 
@@ -47,6 +48,9 @@ function drawGrid(ctx, w, h) {
   ctx.restore();
 }
 
+const MAX_DELTA = 0.05;
+const NODE_VMAX = 0.00006;
+
 export default function AnimatedBackground() {
   const canvasRef = useRef(null);
 
@@ -63,24 +67,31 @@ export default function AnimatedBackground() {
     let running = false;
     let inViewport = true;
     let frameId = 0;
+    let lastTime = 0;
     let w = 0;
     let h = 0;
     let dpr = 1;
     let pointer = { x: 0.62, y: 0.24, active: false };
     let nodes = [];
     let pulses = [];
-    let comets = [];
+    let shooters = [];
 
     const seed = () => {
       const count = isMobile ? 22 : 46;
       nodes = Array.from({ length: count }, (_, index) => makeNode(index, count));
-      pulses = Array.from({ length: isMobile ? 8 : 16 }, (_, index) => ({
+      pulses = Array.from({ length: isMobile ? 6 : 12 }, (_, index) => ({
         from: index % count,
         to: (index * 5 + 7) % count,
-        speed: 0.00015 + (index % 5) * 0.000035,
+        speed: 0.08 + (index % 5) * 0.02,
         progress: (index * 0.17) % 1,
       }));
-      comets = Array.from({ length: isMobile ? 2 : 5 }, (_, index) => makeComet(index));
+      const starCount = isMobile ? 9 : 18;
+      shooters = Array.from({ length: starCount }, () => {
+        const m = makeShootingStar();
+        m.tailX = m.x - Math.cos(m.angle) * (m.length / w);
+        m.tailY = m.y - Math.sin(m.angle) * (m.length / h);
+        return m;
+      });
     };
 
     const resize = () => {
@@ -111,10 +122,64 @@ export default function AnimatedBackground() {
       });
     };
 
-    const draw = (time = 0) => {
+    const drawShooter = (m) => {
+      const headX = m.x * w;
+      const headY = m.y * h;
+      const tailX = m.tailX * w;
+      const tailY = m.tailY * h;
+      const coreTailX = headX - Math.cos(m.angle) * m.length * 0.42;
+      const coreTailY = headY - Math.sin(m.angle) * m.length * 0.42;
+      const grad = ctx.createLinearGradient(tailX, tailY, headX, headY);
+      grad.addColorStop(0, `rgba(255, 255, 255, 0)`);
+      grad.addColorStop(0.42, `rgba(110, 231, 255, ${(m.alpha * 0.08).toFixed(3)})`);
+      grad.addColorStop(0.78, `rgba(190, 244, 255, ${(m.alpha * 0.34).toFixed(3)})`);
+      grad.addColorStop(1, `rgba(255, 255, 255, ${(m.alpha * 0.68).toFixed(3)})`);
+      ctx.beginPath();
+      ctx.moveTo(tailX, tailY);
+      ctx.lineTo(headX, headY);
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = m.width;
+      ctx.lineCap = "butt";
+      ctx.stroke();
+
+      const core = ctx.createLinearGradient(coreTailX, coreTailY, headX, headY);
+      core.addColorStop(0, "rgba(255, 255, 255, 0)");
+      core.addColorStop(0.72, `rgba(255, 255, 255, ${(m.alpha * 0.34).toFixed(3)})`);
+      core.addColorStop(1, `rgba(255, 255, 255, ${m.alpha.toFixed(3)})`);
+      ctx.beginPath();
+      ctx.moveTo(coreTailX, coreTailY);
+      ctx.lineTo(headX, headY);
+      ctx.strokeStyle = core;
+      ctx.lineWidth = m.width * 0.72;
+      ctx.lineCap = "round";
+      ctx.stroke();
+    };
+
+    const resetShooter = (m) => {
+      m.x = Math.random();
+      m.y = -0.05 - Math.random() * 0.15;
+      m.length = 168 + Math.random() * 128;
+      m.speed = 30 + Math.random() * 26;
+      m.alpha = 0.54 + Math.random() * 0.34;
+      m.width = 1 + Math.random() * 0.7;
+      m.angle = (Math.PI / 2) - (0.22 + Math.random() * 0.07);
+    };
+
+    const updateShooter = (m, dt) => {
+      m.x += (Math.cos(m.angle) * m.speed * dt) / w;
+      m.y += (Math.sin(m.angle) * m.speed * dt) / h;
+      m.tailX = m.x - Math.cos(m.angle) * (m.length / w);
+      m.tailY = m.y - Math.sin(m.angle) * (m.length / h);
+      if (m.y * h > h + m.length || m.x * w > w + m.length || m.x * w < -m.length) {
+        resetShooter(m);
+        m.tailX = m.x - Math.cos(m.angle) * (m.length / w);
+        m.tailY = m.y - Math.sin(m.angle) * (m.length / h);
+      }
+    };
+
+    const draw = (time) => {
       if (!running) return;
       if (document.hidden || !inViewport) {
-        frameId = window.requestAnimationFrame(draw);
         return;
       }
 
@@ -124,7 +189,11 @@ export default function AnimatedBackground() {
         return;
       }
 
+      const rawDelta = lastTime === 0 ? 0.016 : (time - lastTime) / 1000;
+      const delta = Math.min(Math.max(rawDelta, 0), MAX_DELTA);
+      lastTime = time;
       const t = time * 0.001;
+
       ctx.clearRect(0, 0, w, h);
       drawGrid(ctx, w, h);
 
@@ -138,8 +207,16 @@ export default function AnimatedBackground() {
       ctx.fillRect(0, 0, w, h);
 
       nodes.forEach((node) => {
-        node.x += node.vx;
-        node.y += node.vy;
+        let nvx = node.vx + 0;
+        let nvy = node.vy + 0;
+        if (nvx > NODE_VMAX) nvx = NODE_VMAX;
+        if (nvx < -NODE_VMAX) nvx = -NODE_VMAX;
+        if (nvy > NODE_VMAX) nvy = NODE_VMAX;
+        if (nvy < -NODE_VMAX) nvy = -NODE_VMAX;
+        node.vx = nvx;
+        node.vy = nvy;
+        node.x += nvx * delta * 60;
+        node.y += nvy * delta * 60;
         if (node.x < 0.04 || node.x > 0.96) node.vx *= -1;
         if (node.y < 0.05 || node.y > 0.94) node.vy *= -1;
       });
@@ -165,7 +242,7 @@ export default function AnimatedBackground() {
       pulses.forEach((pulse, index) => {
         const from = nodes[pulse.from];
         const to = nodes[pulse.to];
-        pulse.progress = (pulse.progress + pulse.speed * 16) % 1;
+        pulse.progress = (pulse.progress + pulse.speed * delta) % 1;
         const x = (from.x + (to.x - from.x) * pulse.progress) * w;
         const y = (from.y + (to.y - from.y) * pulse.progress) * h;
         ctx.beginPath();
@@ -174,35 +251,14 @@ export default function AnimatedBackground() {
         ctx.fill();
       });
 
-      comets.forEach((comet, index) => {
-        comet.x += comet.speed * 16;
-        if (comet.x > 1.22) {
-          comet.x = -0.24 - comet.delay;
-          comet.y = 0.1 + (((index + Math.floor(t * 0.38)) * 0.29) % 0.62);
-        }
-        const x = comet.x * w;
-        const y = comet.y * h;
-        const tail = comet.length * (isMobile ? 0.72 : 1);
-        const drift = tail * Math.tan(comet.angle);
-        const gradient = ctx.createLinearGradient(x - tail, y + drift, x, y);
-        gradient.addColorStop(0, "rgba(56, 189, 248, 0)");
-        gradient.addColorStop(0.54, index % 2 ? "rgba(139, 92, 246, 0.08)" : "rgba(45, 212, 191, 0.08)");
-        gradient.addColorStop(0.86, `rgba(125, 211, 252, ${comet.alpha * 0.42})`);
-        gradient.addColorStop(1, `rgba(226, 245, 255, ${comet.alpha})`);
-        ctx.beginPath();
-        ctx.moveTo(x - tail, y + drift);
-        ctx.lineTo(x, y);
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = comet.thickness * (isMobile ? 0.78 : 1);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(x, y, (isMobile ? 1.2 : 1.7) + index * 0.1, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(226, 245, 255, ${comet.alpha + 0.12})`;
-        ctx.fill();
-      });
+      for (let i = 0; i < shooters.length; i += 1) {
+        const m = shooters[i];
+        updateShooter(m, delta);
+        drawShooter(m);
+      }
 
       nodes.forEach((node) => {
-        const pulse = 0.75 + Math.sin(t * 1.2 + node.phase) * 0.25;
+        const pulse = 0.78 + Math.sin(t * 0.8 + node.phase) * 0.22;
         ctx.beginPath();
         ctx.arc(node.x * w, node.y * h, node.r * pulse, 0, Math.PI * 2);
         ctx.fillStyle = "rgba(226, 245, 255, 0.38)";
@@ -210,9 +266,9 @@ export default function AnimatedBackground() {
       });
 
       const shade = ctx.createLinearGradient(0, 0, 0, h);
-      shade.addColorStop(0, "rgba(6, 8, 13, 0.76)");
-      shade.addColorStop(0.46, "rgba(6, 8, 13, 0.22)");
-      shade.addColorStop(1, "rgba(6, 8, 13, 0.58)");
+      shade.addColorStop(0, "rgba(6, 8, 13, 0.42)"); // Reduced opacity
+      shade.addColorStop(0.46, "rgba(6, 8, 13, 0.12)"); // Reduced opacity
+      shade.addColorStop(1, "rgba(6, 8, 13, 0.32)"); // Reduced opacity
       ctx.fillStyle = shade;
       ctx.fillRect(0, 0, w, h);
 
@@ -221,13 +277,19 @@ export default function AnimatedBackground() {
 
     const start = () => {
       if (running) return;
+      if (reduce) {
+        staticFrame();
+        return;
+      }
       running = true;
+      lastTime = 0;
       frameId = window.requestAnimationFrame(draw);
     };
 
     const stop = () => {
       running = false;
       window.cancelAnimationFrame(frameId);
+      frameId = 0;
     };
 
     const onPointerMove = (event) => {
@@ -248,7 +310,7 @@ export default function AnimatedBackground() {
       isMobile = mobileMedia.matches;
       seed();
       resize();
-      if (reduce) staticFrame();
+      if (reduce) { stop(); staticFrame(); }
       else start();
     };
 
@@ -258,8 +320,8 @@ export default function AnimatedBackground() {
       if (!inViewport) stop();
     }, { threshold: 0 });
 
-    seed();
     resize();
+    seed();
     if (reduce) staticFrame();
     else start();
 

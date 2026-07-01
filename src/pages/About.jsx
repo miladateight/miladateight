@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import {
   Activity,
   BookOpen,
+  CheckCircle2,
   Cloud,
   Code2,
   Database,
@@ -60,16 +61,24 @@ const aboutCopy = {
 const focusAreas = [
   {
     icon: Server,
+    accent: "cyan",
+    featured: true,
     title: { en: "Systems administration", fa: "مدیریت سیستم", ar: "إدارة الأنظمة", de: "Systemadministration" },
     body: {
-      en: "Linux, Ubuntu Server, Windows Server, virtualization, backup integrity, monitoring, service management, SSH, and hardening basics.",
-      fa: "Linux، Ubuntu Server، Windows Server، مجازی‌سازی، صحت بکاپ، مانیتورینگ، مدیریت سرویس، SSH و اصول سخت‌سازی.",
-      ar: "Linux وUbuntu Server وWindows Server والمحاكاة الافتراضية وسلامة النسخ الاحتياطي والمراقبة وإدارة الخدمات وSSH وأساسيات التحصين.",
-      de: "Linux, Ubuntu Server, Windows Server, Virtualisierung, Backup-Integrität, Monitoring, Service Management, SSH und Hardening-Grundlagen.",
+      en: "Linux, Ubuntu Server, and Windows Server estates kept available through virtualization, backups, monitoring, and disciplined hardening.",
+      fa: "سرورهای Linux، Ubuntu و Windows که با مجازی‌سازی، بکاپ، مانیتورینگ و سخت‌سازی منظم در دسترس می‌مانند.",
+      ar: "بيئات Linux وUbuntu Server وWindows Server تبقى متاحة عبر المحاكاة الافتراضية والنسخ الاحتياطي والمراقبة والتحصين المنضبط.",
+      de: "Linux-, Ubuntu- und Windows-Server, durch Virtualisierung, Backups, Monitoring und konsequentes Hardening verfügbar gehalten.",
     },
+    highlights: [
+      { en: "Backup integrity proven with restore drills", fa: "صحت بکاپ با تمرین بازیابی اثبات می‌شود", ar: "سلامة النسخ مثبتة بتدريبات الاستعادة", de: "Backup-Integrität durch Restore-Übungen belegt" },
+      { en: "SSH, least-privilege access, and hardening", fa: "SSH، دسترسی کمینه و سخت‌سازی", ar: "SSH وصلاحيات الحد الأدنى والتحصين", de: "SSH, Least-Privilege-Zugriff und Hardening" },
+      { en: "Service health and uptime monitoring", fa: "پایش سلامت سرویس و آپتایم", ar: "مراقبة صحة الخدمة ووقت التشغيل", de: "Service-Health- und Uptime-Monitoring" },
+    ],
   },
   {
     icon: Network,
+    accent: "teal",
     title: { en: "Network infrastructure", fa: "زیرساخت شبکه", ar: "بنية الشبكات", de: "Netzwerkinfrastruktur" },
     body: {
       en: "MikroTik RouterOS, routing, NAT, firewalling, VLANs, multi-WAN, failover, WireGuard, OpenVPN, L2TP, and connectivity diagnosis.",
@@ -80,6 +89,7 @@ const focusAreas = [
   },
   {
     icon: Database,
+    accent: "sky",
     title: { en: "Web and mail infrastructure", fa: "زیرساخت وب و ایمیل", ar: "بنية الويب والبريد", de: "Web- und Mail-Infrastruktur" },
     body: {
       en: "Nginx, Caddy, HAProxy, HestiaCP, DNS, SSL/TLS, reverse proxies, SMTP relays, delivery troubleshooting, and migrations.",
@@ -90,6 +100,7 @@ const focusAreas = [
   },
   {
     icon: Code2,
+    accent: "indigo",
     title: { en: "Programming and automation", fa: "برنامه‌نویسی و اتوماسیون", ar: "البرمجة والأتمتة", de: "Programmierung und Automatisierung" },
     body: {
       en: "Python, Bash, C#, Unity, Git, GitHub, reusable tooling, infrastructure scripts, and operational automation.",
@@ -100,6 +111,7 @@ const focusAreas = [
   },
   {
     icon: Activity,
+    accent: "violet",
     title: { en: "Business IT operations", fa: "عملیات IT سازمانی", ar: "عمليات تقنية معلومات الأعمال", de: "Business-IT-Betrieb" },
     body: {
       en: "Equipment, permissions, technical assets, attendance systems, VoIP, continuity checks, user support, and cross-department coordination.",
@@ -110,6 +122,7 @@ const focusAreas = [
   },
   {
     icon: BookOpen,
+    accent: "magenta",
     title: { en: "Technical communication", fa: "ارتباط فنی", ar: "التواصل التقني", de: "Technische Kommunikation" },
     body: {
       en: "Presentations, diagrams, documentation, reports, architecture explanation, visual communication, and clearer handoff material.",
@@ -144,13 +157,28 @@ export default function About({ t, language }) {
 
       <section className="section compact-section">
         <RevealGroup className="about-focus-grid">
-          {focusAreas.map((item, index) => {
+          {focusAreas.map((item) => {
             const Icon = item.icon;
             return (
-              <Reveal className={index === 0 ? "about-focus-card large" : "about-focus-card"} key={localize(item.title, "en")}>
-                <div className="about-focus-icon"><Icon size={20} aria-hidden="true" /></div>
-                <h2>{localize(item.title, language)}</h2>
-                <p>{localize(item.body, language)}</p>
+              <Reveal
+                className={`about-focus-card cap-${item.accent}${item.featured ? " is-featured" : ""}`}
+                key={localize(item.title, "en")}
+              >
+                <div className="about-focus-main">
+                  <div className="about-focus-icon"><Icon size={20} aria-hidden="true" /></div>
+                  <h2>{localize(item.title, language)}</h2>
+                  <p>{localize(item.body, language)}</p>
+                </div>
+                {item.highlights && (
+                  <ul className="about-focus-highlights">
+                    {item.highlights.map((point) => (
+                      <li key={localize(point, "en")}>
+                        <CheckCircle2 size={15} aria-hidden="true" />
+                        <span>{localize(point, language)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </Reveal>
             );
           })}

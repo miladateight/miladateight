@@ -1,11 +1,11 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const distDir = fileURLToPath(new URL("../dist/", import.meta.url));
 const indexPath = join(distDir, "index.html");
 const fallbackPath = join(distDir, "404.html");
-const rootPreviewPath = fileURLToPath(new URL("../Milad-Portfolio.html", import.meta.url));
+const rootPreviewPath = fileURLToPath(new URL("../Old/generated/Milad-Portfolio.html", import.meta.url));
 
 const html = await readFile(indexPath, "utf8");
 const siteUrl = "https://ateight.xyz";
@@ -70,6 +70,7 @@ function routeHtml(route) {
 }
 
 await writeFile(fallbackPath, html, "utf8");
+await mkdir(dirname(rootPreviewPath), { recursive: true });
 await writeFile(rootPreviewPath, html, "utf8");
 for (const route of routes) {
   const routeDir = join(distDir, route.path.replace(/^\/|\/$/g, ""));
@@ -77,4 +78,4 @@ for (const route of routes) {
   await writeFile(join(routeDir, "index.html"), routeHtml(route), "utf8");
 }
 
-console.log(`Created dist/404.html, ${routes.length} route index files, and Milad-Portfolio.html`);
+console.log(`Created dist/404.html, ${routes.length} route index files, and Old/generated/Milad-Portfolio.html`);
