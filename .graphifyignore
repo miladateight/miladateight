@@ -1,0 +1,14 @@
+# Keep the default project graph code-only so Graphify can run without LLM/API keys.
+# Remove these patterns and run `graphify extract . --backend <provider>` for full
+# semantic extraction of docs and visual assets.
+*.md
+*.html
+*.svg
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.txt
+*.yml
+*.yaml

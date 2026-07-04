@@ -1,7 +1,17 @@
 export const profile = {
   name: "Milad Ateight",
+  legalName: "Milad Fatemi",
   shortName: "Milad",
-  title: "IT Specialist / Infrastructure, Networks, Web & Mail Systems",
+  aliases: [
+    "Ateight",
+    "AT8",
+    "Milad AT8",
+    "Milad Fatemi",
+    "میلاد 88",
+    "میلاد ۸۸",
+    "میلاد فاطمی"
+  ],
+  title: "Developer & Web Designer / Network, Infrastructure and DevOps",
   location: "Iran",
   github: "https://github.com/miladateight",
   telegram: "https://t.me/MiladAteight",
