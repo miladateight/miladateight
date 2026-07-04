@@ -2931,6 +2931,42 @@ p {
   font-size: 0.92rem;
 }
 
+.screenshot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.screenshot-card {
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: rgba(15, 22, 34, 0.72);
+  color: inherit;
+  text-decoration: none;
+}
+
+.screenshot-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.screenshot-card:hover img {
+  transform: scale(1.025);
+}
+
+.screenshot-card span {
+  display: block;
+  padding: 14px 16px;
+  color: var(--text-3);
+  font-size: 0.88rem;
+}
+
 .timeline {
   position: relative;
   display: grid;
@@ -3189,7 +3225,8 @@ p {
   .contact-methods,
   .feature-grid,
   .project-detail-grid,
-  .related-grid {
+  .related-grid,
+  .screenshot-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -3365,7 +3402,8 @@ p {
   .contact-methods,
   .about-focus-grid,
   .footer-grid,
-  .footer-cta {
+  .footer-cta,
+  .screenshot-grid {
     grid-template-columns: 1fr;
   }
 

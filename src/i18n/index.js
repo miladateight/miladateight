@@ -66,6 +66,8 @@ export const translations = {
     featuresLabel: "Features",
     workflowLabel: "How it works",
     downloadsLabel: "Downloads",
+    editionsLabel: "Editions",
+    screenshotsLabel: "Screenshots",
     specialtiesTitle: "Areas of expertise",
     specialtiesLead: "IT management, network infrastructure, server operations, and everything in between."
   },
@@ -113,6 +115,8 @@ export const translations = {
     featuresLabel: "\u0642\u0627\u0628\u0644\u06CC\u062A\u200C\u0647\u0627",
     workflowLabel: "\u0631\u0648\u0646\u062F \u06A9\u0627\u0631",
     downloadsLabel: "\u062F\u0627\u0646\u0644\u0648\u062F",
+    editionsLabel: "\u0646\u0633\u062E\u0647\u200C\u0647\u0627",
+    screenshotsLabel: "\u062A\u0635\u0627\u0648\u06CC\u0631",
     specialtiesTitle: "\u062D\u0648\u0632\u0647\u200C\u0647\u0627\u06CC \u062A\u062E\u0635\u0635\u06CC",
     specialtiesLead: "\u0632\u06CC\u0631\u0633\u0627\u062E\u062A \u0634\u0628\u06A9\u0647\u060C \u0639\u0645\u0644\u06CC\u0627\u062A \u0633\u0631\u0648\u0631 \u0648 \u0647\u0631\u0686\u0647 \u062F\u0631 \u0645\u06CC\u0627\u0646 \u0627\u0633\u062A."
   },
@@ -160,6 +164,8 @@ export const translations = {
     featuresLabel: "\u0627\u0644\u0645\u064A\u0632\u0627\u062A",
     workflowLabel: "\u0643\u064A\u0641\u064A\u0629 \u0627\u0644\u0639\u0645\u0644",
     downloadsLabel: "\u0627\u0644\u062A\u0646\u0632\u064A\u0644",
+    editionsLabel: "\u0627\u0644\u0625\u0635\u062F\u0627\u0631\u0627\u062A",
+    screenshotsLabel: "\u0644\u0642\u0637\u0627\u062A \u0627\u0644\u0634\u0627\u0634\u0629",
     specialtiesTitle: "\u0645\u062C\u0627\u0644\u0627\u062A \u0627\u0644\u062E\u0628\u0631\u0629",
     specialtiesLead: "\u0625\u062F\u0627\u0631\u0629 \u062A\u0642\u0646\u064A\u0629 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A\u060C \u0627\u0644\u0628\u0646\u064A\u0629 \u0627\u0644\u062A\u062D\u062A\u064A\u0629 \u0644\u0644\u0634\u0628\u0643\u0627\u062A\u060C \u0639\u0645\u0644\u064A\u0627\u062A \u0627\u0644\u062E\u0648\u0627\u062F\u0645 \u0648\u0645\u0627 \u0628\u064A\u0646 \u0630\u0644\u0643."
   },
@@ -207,6 +213,8 @@ export const translations = {
     featuresLabel: "Funktionen",
     workflowLabel: "Ablauf",
     downloadsLabel: "Downloads",
+    editionsLabel: "Editionen",
+    screenshotsLabel: "Screenshots",
     specialtiesTitle: "Fachbereiche",
     specialtiesLead: "IT-Management, Netzwerkinfrastruktur, Serverbetrieb und alles dazwischen."
   }
