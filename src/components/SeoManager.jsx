@@ -6,15 +6,21 @@ import { profile } from "../data/profile";
 import { localize } from "../utils/localize";
 
 const siteUrl = "https://ateight.xyz";
-const ogImage = `${siteUrl}/og-image.svg`;
+const ogImage = `${siteUrl}/brand/at8-logo-og.png`;
 const supportedLanguages = ["en", "fa", "ar", "de"];
 const brandKeywords = [
   "Ateight",
   "Milad Ateight",
   "AT8",
   "Milad AT8",
+  "Milad Fatemi",
+  "Milad Fatemi Ateight",
+  "میلاد Ateight",
   "میلاد AT8",
+  "میلاد 88",
   "میلاد ۸۸",
+  "میلاد فاطمی",
+  "میلاد فاطمی Ateight",
   "KeyFix",
   "NetDoctor",
   "Hybrid Web and Mail Infrastructure",
@@ -24,42 +30,42 @@ const brandKeywords = [
 const pageCopy = {
   home: {
     title: {
-      en: "Milad Ateight | AT8 - Infrastructure, Networks, DevOps and Web Systems",
-      fa: "Milad Ateight | AT8 - زیرساخت، شبکه، DevOps و سیستم‌های وب",
-      ar: "Milad Ateight | AT8 - البنية التحتية والشبكات وDevOps وأنظمة الويب",
-      de: "Milad Ateight | AT8 - Infrastruktur, Netzwerke, DevOps und Web-Systeme",
+      en: "Milad Ateight | AT8 - Developer, Web Designer & Network/DevOps Engineer",
+      fa: "Milad Ateight | AT8 - برنامه‌نویس، طراح وب و متخصص شبکه و DevOps",
+      ar: "Milad Ateight | AT8 - مطوّر ومصمم مواقع ومتخصص شبكات وDevOps",
+      de: "Milad Ateight | AT8 - Entwickler, Webdesigner und Netzwerk-/DevOps-Experte",
     },
     description: {
-      en: "Milad Ateight is an IT specialist focused on infrastructure, networks, server administration, DevOps, cloud, web and mail systems, programming, and automation.",
-      fa: "Milad Ateight متخصص IT با تمرکز بر زیرساخت، شبکه، مدیریت سرور، DevOps، ابر، سیستم‌های وب و ایمیل، برنامه‌نویسی و اتوماسیون است.",
-      ar: "Milad Ateight متخصص تقنية معلومات يركز على البنية التحتية والشبكات وإدارة الخوادم وDevOps والسحابة وأنظمة الويب والبريد والبرمجة والأتمتة.",
-      de: "Milad Ateight ist IT-Spezialist mit Fokus auf Infrastruktur, Netzwerke, Serveradministration, DevOps, Cloud, Web- und Mail-Systeme, Programmierung und Automatisierung.",
+      en: "Milad Ateight, also known as Milad Fatemi, is a developer and web designer who also works across network infrastructure, server administration, DevOps, cloud, and web and mail systems.",
+      fa: "Milad Ateight (میلاد فاطمی، میلاد ۸۸) برنامه‌نویس و طراح وب است و در کنار آن روی شبکه، زیرساخت سرور، DevOps، ابر و سیستم‌های وب و ایمیل هم کار می‌کند.",
+      ar: "Milad Ateight مطوّر ومصمم مواقع، ويعمل أيضًا في البنية التحتية للشبكات وإدارة الخوادم وDevOps والسحابة وأنظمة الويب والبريد.",
+      de: "Milad Ateight (Milad Fatemi) ist Entwickler und Webdesigner und arbeitet zudem an Netzwerkinfrastruktur, Serveradministration, DevOps, Cloud sowie Web- und Mail-Systemen.",
     },
   },
   about: {
     title: {
-      en: "About Milad Ateight | AT8",
-      fa: "درباره Milad Ateight | AT8",
+      en: "About Milad Ateight (Milad Fatemi) | Ateight AT8",
+      fa: "درباره Milad Ateight (میلاد فاطمی) | Ateight AT8",
       ar: "عن Milad Ateight | AT8",
       de: "Über Milad Ateight | AT8",
     },
     description: {
-      en: "Learn about Milad Ateight's work across IT operations, network infrastructure, Linux and Windows servers, web and mail systems, DevOps, cloud, and automation.",
-      fa: "با کار Milad Ateight در عملیات IT، زیرساخت شبکه، سرورهای لینوکس و ویندوز، سیستم‌های وب و ایمیل، DevOps، ابر و اتوماسیون آشنا شوید.",
+      en: "Learn about Milad Ateight, also known as Milad Fatemi, and his work across IT operations, network infrastructure, Linux and Windows servers, web and mail systems, DevOps, cloud, and automation.",
+      fa: "با کار Milad Ateight، معروف به میلاد فاطمی و میلاد ۸۸، در عملیات IT، زیرساخت شبکه، سرورهای لینوکس و ویندوز، سیستم‌های وب و ایمیل، DevOps، ابر و اتوماسیون آشنا شوید.",
       ar: "تعرف على عمل Milad Ateight في عمليات تقنية المعلومات وبنية الشبكات وخوادم Linux وWindows وأنظمة الويب والبريد وDevOps والسحابة والأتمتة.",
       de: "Erfahre mehr über Milad Ateights Arbeit in IT-Betrieb, Netzwerkinfrastruktur, Linux- und Windows-Servern, Web- und Mail-Systemen, DevOps, Cloud und Automatisierung.",
     },
   },
   contact: {
     title: {
-      en: "Contact Milad Ateight | AT8",
-      fa: "تماس با Milad Ateight | AT8",
+      en: "Contact Milad Ateight (Milad Fatemi) | Ateight AT8",
+      fa: "تماس با Milad Ateight (میلاد فاطمی) | Ateight AT8",
       ar: "تواصل مع Milad Ateight | AT8",
       de: "Kontakt zu Milad Ateight | AT8",
     },
     description: {
-      en: "Contact Milad Ateight through email, GitHub, or Telegram for infrastructure work, project review, automation, and technical collaboration.",
-      fa: "برای کارهای زیرساختی، بررسی پروژه، اتوماسیون و همکاری فنی از طریق ایمیل، GitHub یا Telegram با Milad Ateight تماس بگیرید.",
+      en: "Contact Milad Ateight, also known as Milad Fatemi, through email, GitHub, or Telegram for infrastructure work, project review, automation, and technical collaboration.",
+      fa: "برای کارهای زیرساختی، بررسی پروژه، اتوماسیون و همکاری فنی از طریق ایمیل، GitHub یا Telegram با Milad Ateight، میلاد فاطمی، تماس بگیرید.",
       ar: "تواصل مع Milad Ateight عبر البريد الإلكتروني أو GitHub أو Telegram لأعمال البنية التحتية ومراجعة المشاريع والأتمتة والتعاون التقني.",
       de: "Kontaktiere Milad Ateight per E-Mail, GitHub oder Telegram für Infrastrukturarbeit, Projekt-Reviews, Automatisierung und technische Zusammenarbeit.",
     },
@@ -156,11 +162,16 @@ function personJsonLd() {
     "@context": "https://schema.org",
     "@type": "Person",
     name: profile.name,
+    alternateName: profile.aliases,
+    additionalName: profile.legalName,
     url: profile.website,
     email: profile.email,
-    jobTitle: "IT Specialist",
+    jobTitle: "Developer & Web Designer / IT Specialist",
     sameAs: [profile.github, profile.telegram],
     knowsAbout: [
+      "Programming",
+      "Web design",
+      "Web development",
       "IT operations",
       "Network infrastructure",
       "MikroTik",
@@ -168,7 +179,6 @@ function personJsonLd() {
       "Windows Server",
       "DevOps",
       "Cloud",
-      "Web development",
       "Mail systems",
       "Automation",
     ],
@@ -179,10 +189,10 @@ function websiteJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "AT8 Portfolio",
-    alternateName: ["Ateight", "Milad AT8", "Milad Ateight"],
+    name: "Ateight",
+    alternateName: ["AT8 Portfolio", "Milad AT8", "Milad Ateight", "Milad Fatemi", "میلاد 88", "میلاد ۸۸", "میلاد فاطمی"],
     url: siteUrl,
-    author: { "@type": "Person", name: profile.name },
+    author: { "@type": "Person", name: profile.name, alternateName: profile.aliases },
     inLanguage: supportedLanguages,
   };
 }
@@ -274,7 +284,7 @@ export default function SeoManager({ language }) {
     upsertMeta('meta[property="og:description"]', { property: "og:description", content: seo.description });
     upsertMeta('meta[property="og:image"]', { property: "og:image", content: ogImage });
     upsertMeta('meta[property="og:image:alt"]', { property: "og:image:alt", content: `${seo.title}` });
-    upsertMeta('meta[property="og:site_name"]', { property: "og:site_name", content: "AT8 Portfolio" });
+    upsertMeta('meta[property="og:site_name"]', { property: "og:site_name", content: "Ateight" });
     upsertMeta('meta[property="og:locale"]', { property: "og:locale", content: language === "fa" ? "fa_IR" : language === "ar" ? "ar" : language === "de" ? "de_DE" : "en_US" });
     upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: "summary_large_image" });
     upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: seo.title });

@@ -6,7 +6,12 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "vite build && node scripts/make-standalone.mjs",
-    "preview": "vite preview --host 127.0.0.1"
+    "preview": "vite preview --host 127.0.0.1",
+    "graphify:extract": ".\\.graphify-venv\\Scripts\\graphify.exe extract . --no-cluster",
+    "graphify:report": ".\\.graphify-venv\\Scripts\\graphify.exe cluster-only . --no-label",
+    "graphify:update": ".\\.graphify-venv\\Scripts\\graphify.exe update .",
+    "graphify:benchmark": ".\\.graphify-venv\\Scripts\\graphify.exe benchmark graphify-out/graph.json",
+    "graphify:query": ".\\.graphify-venv\\Scripts\\graphify.exe query"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
