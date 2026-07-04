@@ -243,6 +243,43 @@ export default function ProjectPage({ project, language, t }) {
           </section>
         )}
 
+        {data.screenshots && (
+          <section className="section">
+            <Reveal className="section-header">
+              <p className="section-label">{t.screenshotsLabel}</p>
+              <h2 className="section-title">{t.screenshotsLabel}</h2>
+            </Reveal>
+            <RevealGroup className="screenshot-grid">
+              {data.screenshots.map((shot, index) => (
+                <Reveal key={index}>
+                  <a className="screenshot-card" href={shot.src} target="_blank" rel="noopener noreferrer">
+                    <img src={shot.src} alt={localize(shot.caption, language)} loading="lazy" />
+                    <span>{localize(shot.caption, language)}</span>
+                  </a>
+                </Reveal>
+              ))}
+            </RevealGroup>
+          </section>
+        )}
+
+        {data.editions && (
+          <section className="section">
+            <Reveal className="section-header">
+              <p className="section-label">{t.editionsLabel}</p>
+              <h2 className="section-title">{t.editionsLabel}</h2>
+            </Reveal>
+            <RevealGroup className="feature-grid">
+              {data.editions.map((edition, index) => (
+                <Reveal className="feature-card" key={index}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <h3>{localize(edition.title, language)}</h3>
+                  <p>{localize(edition.body, language)}</p>
+                </Reveal>
+              ))}
+            </RevealGroup>
+          </section>
+        )}
+
         {data.steps && (
           <section className="section">
             <Reveal className="section-header">
