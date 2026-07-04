@@ -25,14 +25,45 @@ const visualCopy = {
     ar: "توضيح وظيفي لسير عمل التشخيص والإصلاح",
     de: "Funktionale Darstellung des Diagnose- und Reparaturablaufs",
   },
-  netdoctorScan: { en: "NetDoctor scan", fa: "اسکن NetDoctor", ar: "فحص NetDoctor", de: "NetDoctor-Scan" },
-  netdoctorMode: {
-    en: "safe repair mode",
-    fa: "حالت ترمیم امن",
-    ar: "وضع الإصلاح الآمن",
-    de: "sicherer Reparaturmodus",
+  ndWindowTitle: {
+    en: "NetDoctor diagnostic session",
+    fa: "نشست تشخیص NetDoctor",
+    ar: "جلسة تشخيص NetDoctor",
+    de: "NetDoctor-Diagnosesitzung",
   },
-  pending: { en: "pending", fa: "در انتظار", ar: "قيد الانتظار", de: "ausstehend" },
+  ndNavDashboard: { en: "Dashboard", fa: "داشبورد", ar: "لوحة التحكم", de: "Dashboard" },
+  ndNavDns: { en: "DNS Lab", fa: "آزمایشگاه DNS", ar: "مختبر DNS", de: "DNS-Labor" },
+  ndNavAdapters: { en: "Adapters", fa: "آداپتورها", ar: "المحولات", de: "Adapter" },
+  ndNavFixes: { en: "Safe Fixes", fa: "ترمیم‌های امن", ar: "إصلاحات آمنة", de: "Sichere Reparaturen" },
+  ndLiveLabel: { en: "Live diagnosis", fa: "تشخیص زنده", ar: "تشخيص مباشر", de: "Live-Diagnose" },
+  ndHeadline: {
+    en: "International access is degraded",
+    fa: "دسترسی بین‌المللی مختل شده",
+    ar: "الوصول الدولي متدهور",
+    de: "Internationaler Zugriff ist beeinträchtigt",
+  },
+  ndRunning: { en: "running", fa: "در حال اجرا", ar: "قيد التشغيل", de: "läuft" },
+  ndGateway: { en: "Local gateway", fa: "گیت‌وی محلی", ar: "البوابة المحلية", de: "Lokales Gateway" },
+  ndGatewayValue: { en: "Healthy", fa: "سالم", ar: "سليم", de: "Fehlerfrei" },
+  ndDnsQuality: { en: "DNS quality", fa: "کیفیت DNS", ar: "جودة DNS", de: "DNS-Qualität" },
+  ndDnsValue: { en: "Unstable", fa: "ناپایدار", ar: "غير مستقر", de: "Instabil" },
+  ndPacketLoss: { en: "Packet loss", fa: "افت بسته", ar: "فقدان الحزم", de: "Paketverlust" },
+  ndRepairTitle: { en: "Recommended repair", fa: "ترمیم پیشنهادی", ar: "الإصلاح الموصى به", de: "Empfohlene Reparatur" },
+  ndRepairBody: {
+    en: "Switch DNS to a tested preset, keep the old values, and offer one-click undo after verification.",
+    fa: "DNS را به یک پیش‌تنظیم آزمایش‌شده تغییر بده، مقادیر قبلی را نگه دار و بعد از تأیید یک بازگشت یک‌کلیکی پیشنهاد بده.",
+    ar: "بدّل DNS إلى إعداد مسبق مُختبر، واحتفظ بالقيم القديمة، وقدّم تراجعاً بضغطة واحدة بعد التحقق.",
+    de: "DNS auf eine getestete Voreinstellung umstellen, die alten Werte behalten und nach der Prüfung ein Undo per Klick anbieten.",
+  },
+  ndIssueLicense: { en: "Issue license", fa: "صدور لایسنس", ar: "إصدار الترخيص", de: "Lizenz ausstellen" },
+  ndViewUi: { en: "View UI", fa: "مشاهده رابط", ar: "عرض الواجهة", de: "UI ansehen" },
+  ndTraceLabel: { en: "Trace", fa: "ردیابی", ar: "تتبع", de: "Trace" },
+  ndTraceTitle: { en: "What passed", fa: "چه چیزی سالم بود", ar: "ما الذي نجح", de: "Was bestanden hat" },
+  ndAdapterOnline: { en: "Adapter online", fa: "آداپتور آنلاین", ar: "المحول متصل", de: "Adapter online" },
+  ndPublicDns: { en: "Public DNS", fa: "DNS عمومی", ar: "DNS العام", de: "Öffentliches DNS" },
+  ndProxyStale: { en: "Proxy stale", fa: "پراکسی قدیمی", ar: "الوكيل قديم", de: "Proxy veraltet" },
+  ndSlow: { en: "slow", fa: "کند", ar: "بطيء", de: "langsam" },
+  ndFix: { en: "fix", fa: "ترمیم", ar: "إصلاح", de: "reparieren" },
   infraCaption: {
     en: "Functional illustration of the hybrid web and mail topology",
     fa: "نمایش کارکردی توپولوژی ترکیبی وب و ایمیل",
@@ -148,56 +179,99 @@ function KeyFixVisual({ language }) {
   );
 }
 
-const diagnosticSteps = [
-  { label: "adapter", value: { en: "active", fa: "فعال", ar: "نشط", de: "aktiv" } },
-  { label: "ip config", value: { en: "valid", fa: "معتبر", ar: "صالح", de: "gültig" } },
-  { label: "gateway", value: { en: "reachable", fa: "در دسترس", ar: "متاح", de: "erreichbar" } },
-  { label: "dns", value: { en: "resolved", fa: "حل شد", ar: "تم الحل", de: "aufgelöst" } },
-  { label: "internet", value: { en: "online", fa: "آنلاین", ar: "متصل", de: "online" } },
-  { label: "latency", value: "42 ms" },
-  { label: "proxy", value: { en: "clean", fa: "سالم", ar: "نظيف", de: "sauber" } },
-  { label: "health", value: { en: "stable", fa: "پایدار", ar: "مستقر", de: "stabil" } },
+const ndNavItems = [
+  { key: "ndNavDashboard", active: true },
+  { key: "ndNavDns", active: false },
+  { key: "ndNavAdapters", active: false },
+  { key: "ndNavFixes", active: false },
+];
+
+const ndMetrics = [
+  { labelKey: "ndGateway", valueKey: "ndGatewayValue", value: 96 },
+  { labelKey: "ndDnsQuality", valueKey: "ndDnsValue", value: 52 },
+  { labelKey: "ndPacketLoss", value: "2.8%", meter: 31 },
+];
+
+const ndTraceItems = [
+  { labelKey: "ndAdapterOnline", value: "12ms", state: "ok" },
+  { labelKey: "ndPublicDns", valueKey: "ndSlow", state: "warn" },
+  { labelKey: "ndProxyStale", valueKey: "ndFix", state: "fail" },
 ];
 
 function NetDoctorVisual({ language }) {
-  const active = useLoop(diagnosticSteps.length, 1050);
   return (
     <div className="project-visual-scene netdoctor-demo" aria-label="NetDoctor diagnostic workflow illustration">
       <div className="demo-caption">{L(visualCopy.netdoctorCaption, language)}</div>
-      <div className="diagnostic-console">
-        <div className="window-bar">
-          <span />
-          <strong>{L(visualCopy.netdoctorScan, language)}</strong>
-          <em>{L(visualCopy.netdoctorMode, language)}</em>
+      <div className="nd-dashboard">
+        <div className="nd-dashboard-bar">
+          <span className="nd-dot nd-dot-red" />
+          <span className="nd-dot nd-dot-amber" />
+          <span className="nd-dot nd-dot-green" />
+          <em>{L(visualCopy.ndWindowTitle, language)}</em>
         </div>
-        <div className="diagnostic-steps">
-          {diagnosticSteps.map((step, index) => (
-            <motion.div
-              className={`diagnostic-step ${index <= active ? "is-done" : ""} ${index === active ? "is-active" : ""}`}
-              key={step.label}
-              animate={index === active ? { scale: [1, 1.02, 1] } : undefined}
-              transition={{ duration: 0.7 }}
-            >
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <strong dir="ltr">{step.label}</strong>
-              <em>{index <= active ? L(step.value, language) : L(visualCopy.pending, language)}</em>
-            </motion.div>
-          ))}
+        <div className="nd-dashboard-body">
+          <aside className="nd-dashboard-nav" aria-hidden="true">
+            {ndNavItems.map((item) => (
+              <span key={item.key} className={item.active ? "is-active" : ""}>
+                {L(visualCopy[item.key], language)}
+              </span>
+            ))}
+          </aside>
+          <div className="nd-dashboard-main">
+            <div className="nd-dashboard-head">
+              <div>
+                <span className="nd-live-label">{L(visualCopy.ndLiveLabel, language)}</span>
+                <h3>{L(visualCopy.ndHeadline, language)}</h3>
+              </div>
+              <span className="nd-running-pill">
+                <i />
+                {L(visualCopy.ndRunning, language)}
+              </span>
+            </div>
+
+            <div className="nd-metric-row">
+              {ndMetrics.map((metric) => (
+                <div className="nd-metric" key={metric.labelKey}>
+                  <span>{L(visualCopy[metric.labelKey], language)}</span>
+                  <strong>{metric.valueKey ? L(visualCopy[metric.valueKey], language) : metric.value}</strong>
+                  <i className="nd-meter">
+                    <motion.i
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${metric.meter ?? metric.value}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                    />
+                  </i>
+                </div>
+              ))}
+            </div>
+
+            <div className="nd-panel-row">
+              <div className="nd-repair-card">
+                <h4>{L(visualCopy.ndRepairTitle, language)}</h4>
+                <p>{L(visualCopy.ndRepairBody, language)}</p>
+                <div className="nd-repair-actions">
+                  <span className="nd-chip nd-chip-primary">{L(visualCopy.ndIssueLicense, language)}</span>
+                  <span className="nd-chip">{L(visualCopy.ndViewUi, language)}</span>
+                </div>
+              </div>
+              <div className="nd-trace-card">
+                <span className="nd-trace-label">{L(visualCopy.ndTraceLabel, language)}</span>
+                <h4>{L(visualCopy.ndTraceTitle, language)}</h4>
+                <ul>
+                  {ndTraceItems.map((item) => (
+                    <li key={item.labelKey}>
+                      <i className={`nd-trace-dot nd-trace-${item.state}`} />
+                      <span>{L(visualCopy[item.labelKey], language)}</span>
+                      <b>{item.valueKey ? L(visualCopy[item.valueKey], language) : item.value}</b>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <svg className="latency-map" viewBox="0 0 420 180" aria-hidden="true">
-        <path className="latency-line" d="M34 128 C95 72 144 142 196 84 S300 98 382 42" />
-        {[34, 116, 196, 292, 382].map((x, index) => (
-          <motion.circle
-            cx={x}
-            cy={[128, 88, 84, 92, 42][index]}
-            r="5"
-            key={x}
-            animate={{ opacity: index <= active % 5 ? 1 : 0.35, scale: index === active % 5 ? [1, 1.5, 1] : 1 }}
-            transition={{ duration: 0.7 }}
-          />
-        ))}
-      </svg>
     </div>
   );
 }
