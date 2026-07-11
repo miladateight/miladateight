@@ -62,8 +62,10 @@ export default function AnimatedBackground() {
 
     const motionMedia = window.matchMedia("(prefers-reduced-motion: reduce)");
     const mobileMedia = window.matchMedia("(max-width: 720px)");
+    const tabletMedia = window.matchMedia("(max-width: 1024px)");
     let reduce = motionMedia.matches;
     let isMobile = mobileMedia.matches;
+    let isTablet = !isMobile && tabletMedia.matches;
     let running = false;
     let inViewport = true;
     let frameId = 0;
@@ -77,7 +79,7 @@ export default function AnimatedBackground() {
     let shooters = [];
 
     const seed = () => {
-      const count = isMobile ? 22 : 46;
+      const count = isMobile ? 14 : isTablet ? 20 : 30;
       nodes = Array.from({ length: count }, (_, index) => makeNode(index, count));
       pulses = Array.from({ length: isMobile ? 6 : 12 }, (_, index) => ({
         from: index % count,
@@ -85,7 +87,7 @@ export default function AnimatedBackground() {
         speed: 0.08 + (index % 5) * 0.02,
         progress: (index * 0.17) % 1,
       }));
-      const starCount = isMobile ? 9 : 18;
+      const starCount = isMobile ? 4 : isTablet ? 6 : 8;
       shooters = Array.from({ length: starCount }, () => {
         const m = makeShootingStar();
         m.tailX = m.x - Math.cos(m.angle) * (m.length / w);
@@ -308,6 +310,7 @@ export default function AnimatedBackground() {
     const onMedia = () => {
       reduce = motionMedia.matches;
       isMobile = mobileMedia.matches;
+      isTablet = !isMobile && tabletMedia.matches;
       seed();
       resize();
       if (reduce) { stop(); staticFrame(); }
@@ -331,6 +334,7 @@ export default function AnimatedBackground() {
     document.addEventListener("visibilitychange", onVisibility);
     motionMedia.addEventListener?.("change", onMedia);
     mobileMedia.addEventListener?.("change", onMedia);
+    tabletMedia.addEventListener?.("change", onMedia);
     observer.observe(canvas);
 
     return () => {
@@ -342,6 +346,7 @@ export default function AnimatedBackground() {
       document.removeEventListener("visibilitychange", onVisibility);
       motionMedia.removeEventListener?.("change", onMedia);
       mobileMedia.removeEventListener?.("change", onMedia);
+      tabletMedia.removeEventListener?.("change", onMedia);
     };
   }, []);
 
