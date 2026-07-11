@@ -1,7 +1,10 @@
 node_modules/
 dist/
 .graphify-venv/
-graphify-out/cache/
+graphify-out/
+.graphify-cache/
+*.graphify.tmp
+*.graphify.log
 Milad-Portfolio.html
 .env
 .DS_Store
@@ -9,6 +12,8 @@ Thumbs.db
 .claude/
 .codex/
 .agents/
+AGENTS.md
+CLAUDE.md
 .chrome-*/
 skills/
 src/ui-ux-pro-max/
