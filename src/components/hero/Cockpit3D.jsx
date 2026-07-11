@@ -355,59 +355,134 @@ function HairCap() {
   );
 }
 
+const smoothstep = (value) => {
+  const t = THREE.MathUtils.clamp(value, 0, 1);
+  return t * t * (3 - 2 * t);
+};
+
+const windowProgress = (time, start, end) => smoothstep((time - start) / (end - start));
+
+const LIMB_AXIS = new THREE.Vector3(0, 1, 0);
+const LIMB_DIRECTION = new THREE.Vector3();
+function setLimbPose(mesh, from, to) {
+  if (!mesh) return;
+  LIMB_DIRECTION.copy(to).sub(from);
+  mesh.position.copy(from).add(to).multiplyScalar(0.5);
+  mesh.quaternion.setFromUnitVectors(LIMB_AXIS, LIMB_DIRECTION.normalize());
+  mesh.scale.y = from.distanceTo(to) / 0.32;
+}
+
+function AnimatedLimb({ limbRef, radius }) {
+  return (
+    <mesh ref={limbRef} castShadow>
+      <capsuleGeometry args={[radius, 0.2, 4, 12]} />
+      <meshStandardMaterial color={SKIN} roughness={0.8} />
+    </mesh>
+  );
+}
+
 function Person() {
   const root = useRef();
+  const torso = useRef();
   const head = useRef();
-  const lForearm = useRef();
-  const rShoulder = useRef();
-  const rElbow = useRef();
+  const lUpperArm = useRef();
+  const lLowerArm = useRef();
+  const lHand = useRef();
+  const rUpperArm = useRef();
+  const rLowerArm = useRef();
   const rHand = useRef();
   const can = useRef();
   const reduce = useReducedMotion();
 
-  // rest / drink poses for the right (drinking) arm
-  const DRINK_RS = useMemo(() => new THREE.Euler(-0.35, 0.6, 0.2), []);
-  const DRINK_RE = useMemo(() => new THREE.Euler(1.2, 0, 0), []);
   const canRest = useMemo(() => new THREE.Vector3(0.95, 1.65, -0.3), []);
   const tmp = useMemo(() => new THREE.Vector3(), []);
+  const arm = useMemo(() => ({
+    leftShoulder: new THREE.Vector3(-0.27, 1.65, 0),
+    leftElbow: new THREE.Vector3(-0.24, 1.55, -0.2),
+    leftWrist: new THREE.Vector3(-0.2, 1.69, -0.47),
+    rightShoulder: new THREE.Vector3(0.27, 1.65, 0),
+    rightElbow: new THREE.Vector3(0.24, 1.55, -0.2),
+    rightWrist: new THREE.Vector3(0.2, 1.69, -0.47),
+    reachElbow: new THREE.Vector3(0.56, 1.64, -0.12),
+    reachWrist: new THREE.Vector3(0.88, 1.69, -0.29),
+    sipElbow: new THREE.Vector3(0.52, 1.82, -0.02),
+    sipWrist: new THREE.Vector3(0.18, 1.96, -0.06),
+    elbowNow: new THREE.Vector3(),
+    wristNow: new THREE.Vector3(),
+  }), []);
 
   useFrame((state) => {
     if (reduce) return;
     const t = state.clock.elapsedTime;
-    if (root.current) root.current.position.y = Math.sin(t * 1.4) * 0.012;
+    if (root.current) root.current.position.y = Math.sin(t * 1.35) * 0.009;
+    if (torso.current) {
+      torso.current.rotation.x = -0.11 + Math.sin(t * 1.35) * 0.008;
+      torso.current.scale.y = 1 + Math.sin(t * 1.35) * 0.008;
+    }
 
-    // ---- typing with a short, logical pause ----
-    const tc = t % 3.4;
-    const typing = tc < 2.7;
-    const bobL = typing ? Math.max(0, Math.sin(tc * 13)) * 0.16 : 0;
-    const bobR = typing ? Math.max(0, Math.sin(tc * 13 + 1.7)) * 0.16 : 0;
-    if (lForearm.current) lForearm.current.rotation.x = bobL;
+    // Fingers travel only a few millimetres: the palms stay above the keycaps,
+    // so the animation reads as typing without the hand entering the keyboard.
+    const cycle = t % 14.5;
+    const typing = cycle < 6.15 || cycle > 12.05;
+    const leftTap = typing ? Math.max(0, Math.sin(t * 12.4)) : 0;
+    const rightTap = typing ? Math.max(0, Math.sin(t * 11.8 + 1.9)) : 0;
+    arm.leftWrist.y = 1.69 - leftTap * 0.009;
+    setLimbPose(lUpperArm.current, arm.leftShoulder, arm.leftElbow);
+    setLimbPose(lLowerArm.current, arm.leftElbow, arm.leftWrist);
+    if (lHand.current) {
+      lHand.current.position.copy(arm.leftWrist);
+      lHand.current.rotation.x = 0.5 + leftTap * 0.035;
+      lHand.current.rotation.z = -0.06 + Math.sin(t * 1.7) * 0.018;
+    }
 
-    // ---- drink loop ----
-    const dc = t % 13;
-    let drink = 0;
-    if (dc > 7.5 && dc < 11) drink = Math.sin(((dc - 7.5) / 3.5) * Math.PI);
-    drink = drink * drink * (3 - 2 * drink); // smoothstep
+    // Reach, lift, sip, lower, and return are separate beats. The short hold at
+    // the mouth removes the old pendulum-like motion and gives the action weight.
+    const reach = windowProgress(cycle, 6.15, 6.9);
+    const lift = windowProgress(cycle, 6.9, 8.15);
+    const lower = windowProgress(cycle, 10.05, 11.15);
+    const release = windowProgress(cycle, 11.15, 12.05);
+    const holdingCan = reach * (1 - release);
+    let drink = lift * (1 - lower);
+    if (cycle >= 8.15 && cycle <= 10.05) drink = 1;
+    const sip = cycle >= 8.15 && cycle <= 10.05 ? Math.sin((cycle - 8.15) * Math.PI * 2.1) : 0;
 
-    if (rShoulder.current && rElbow.current) {
-      rShoulder.current.rotation.x = THREE.MathUtils.lerp(-bobR * 0.5, DRINK_RS.x, drink);
-      rShoulder.current.rotation.y = THREE.MathUtils.lerp(0, DRINK_RS.y, drink);
-      rShoulder.current.rotation.z = THREE.MathUtils.lerp(0, DRINK_RS.z, drink);
-      rElbow.current.rotation.x = THREE.MathUtils.lerp(0, DRINK_RE.x, drink);
+    arm.rightWrist.y = 1.69 - rightTap * 0.009;
+    arm.elbowNow.lerpVectors(arm.rightElbow, arm.reachElbow, reach);
+    arm.wristNow.lerpVectors(arm.rightWrist, arm.reachWrist, reach);
+    arm.elbowNow.lerp(arm.sipElbow, drink);
+    arm.wristNow.lerp(arm.sipWrist, drink);
+    if (release > 0) {
+      arm.elbowNow.lerp(arm.rightElbow, release);
+      arm.wristNow.lerp(arm.rightWrist, release);
+    }
+    arm.wristNow.y += drink * sip * 0.004;
+    setLimbPose(rUpperArm.current, arm.rightShoulder, arm.elbowNow);
+    setLimbPose(rLowerArm.current, arm.elbowNow, arm.wristNow);
+    if (rHand.current) {
+      rHand.current.position.copy(arm.wristNow);
+      rHand.current.rotation.set(
+        THREE.MathUtils.lerp(0.5, 0.1, drink),
+        THREE.MathUtils.lerp(0, -0.28, drink),
+        THREE.MathUtils.lerp(0.06, -0.42, drink)
+      );
     }
     if (head.current) {
       head.current.rotation.y = Math.sin(t * 0.45) * 0.06;
-      head.current.rotation.x = drink * 0.32;
+      head.current.rotation.x = THREE.MathUtils.lerp(0.06, -0.12 + sip * 0.012, drink);
+      head.current.rotation.z = THREE.MathUtils.lerp(0, -0.055, drink);
     }
-    // can follows the right hand as it lifts to the mouth, rests on the desk otherwise
+    // The can stays on the desk during typing and locks to the palm only after
+    // the reach completes. A small arc prevents it clipping the desk edge.
     if (can.current && rHand.current) {
       rHand.current.getWorldPosition(tmp);
+      const pickupArc = Math.sin(reach * Math.PI) * 0.055;
       can.current.position.set(
-        THREE.MathUtils.lerp(canRest.x, tmp.x, drink),
-        THREE.MathUtils.lerp(canRest.y, tmp.y + 0.03, drink),
-        THREE.MathUtils.lerp(canRest.z, tmp.z, drink)
+        THREE.MathUtils.lerp(canRest.x, tmp.x + 0.035, holdingCan),
+        THREE.MathUtils.lerp(canRest.y, tmp.y + 0.035 + pickupArc, holdingCan),
+        THREE.MathUtils.lerp(canRest.z, tmp.z - 0.015, holdingCan)
       );
-      can.current.rotation.z = drink * 0.75;
+      can.current.rotation.x = THREE.MathUtils.lerp(0, -0.12, drink);
+      can.current.rotation.z = THREE.MathUtils.lerp(0, 1.02 + sip * 0.025, drink);
     }
   });
 
@@ -435,7 +510,7 @@ function Person() {
         ))}
 
         {/* torso — tapered t-shirt with a slight forward lean */}
-        <group position={[0, 1.4, 0.03]} rotation={[-0.12, 0, 0]}>
+        <group ref={torso} position={[0, 1.4, 0.03]} rotation={[-0.11, 0, 0]}>
           {/* lower torso / waist */}
           <mesh position={[0, -0.04, 0]} castShadow>
             <cylinderGeometry args={[0.25, 0.23, 0.32, 24]} />
@@ -503,49 +578,41 @@ function Person() {
         </group>
 
         {/* LEFT arm — both hands rest on the keyboard */}
-        <group position={[-0.26, 1.62, 0.0]}>
-          <mesh position={[-0.03, -0.02, 0]} rotation={[0.3, 0, 0.55]} castShadow>
-            <capsuleGeometry args={[0.095, 0.1, 4, 12]} />
-            <meshStandardMaterial color={TEE} roughness={0.85} />
-          </mesh>
-          <Limb from={[0, -0.04, 0]} to={[0.03, -0.08, -0.2]} radius={0.07} color={SKIN} />
-          <group ref={lForearm} position={[0.03, -0.08, -0.2]}>
-            <Limb from={[0, 0, 0]} to={[0.02, 0.13, -0.27]} radius={0.057} color={SKIN} />
-            {/* palm hovers slightly above the keys, tilted so only the fingertips touch */}
-            <mesh position={[0.02, 0.14, -0.31]} rotation={[0.55, 0, 0]} castShadow>
-              <boxGeometry args={[0.095, 0.045, 0.1]} />
+        <mesh position={[-0.27, 1.65, 0]} rotation={[0.3, 0, 0.55]} castShadow>
+          <capsuleGeometry args={[0.095, 0.1, 4, 12]} />
+          <meshStandardMaterial color={TEE} roughness={0.85} />
+        </mesh>
+        <AnimatedLimb limbRef={lUpperArm} radius={0.07} />
+        <AnimatedLimb limbRef={lLowerArm} radius={0.057} />
+        <group ref={lHand} rotation={[0.5, 0, -0.06]}>
+          <RoundedBox args={[0.105, 0.044, 0.105]} radius={0.018} smoothness={2} castShadow>
+            <meshStandardMaterial color={SKIN} roughness={0.75} />
+          </RoundedBox>
+          {[-0.035, -0.012, 0.012, 0.035].map((x, i) => (
+            <mesh key={i} position={[x, -0.006, -0.075 - Math.abs(i - 1.5) * 0.006]} rotation={[0.08, 0, 0]} castShadow>
+              <capsuleGeometry args={[0.009, 0.05, 3, 8]} />
               <meshStandardMaterial color={SKIN} roughness={0.75} />
             </mesh>
-            <mesh position={[0.02, 0.11, -0.36]} rotation={[0.55, 0, 0]} castShadow>
-              <boxGeometry args={[0.09, 0.025, 0.07]} />
-              <meshStandardMaterial color={SKIN} roughness={0.75} />
-            </mesh>
-          </group>
+          ))}
         </group>
 
         {/* RIGHT arm — types too, but lifts to sip the energy drink */}
-        <group position={[0.26, 1.62, 0.0]}>
-          <mesh position={[0.03, -0.02, 0]} rotation={[0.3, 0, -0.55]} castShadow>
-            <capsuleGeometry args={[0.095, 0.1, 4, 12]} />
-            <meshStandardMaterial color={TEE} roughness={0.85} />
-          </mesh>
-          <group ref={rShoulder}>
-            <Limb from={[0, -0.04, 0]} to={[-0.03, -0.08, -0.2]} radius={0.07} color={SKIN} />
-            <group ref={rElbow} position={[-0.03, -0.08, -0.2]}>
-              <Limb from={[0, 0, 0]} to={[-0.02, 0.13, -0.27]} radius={0.057} color={SKIN} />
-              <group ref={rHand} position={[-0.02, 0.13, -0.27]}>
-                {/* palm hovers slightly above the keys, tilted so only the fingertips touch */}
-                <mesh position={[0, 0.01, -0.04]} rotation={[0.55, 0, 0]} castShadow>
-                  <boxGeometry args={[0.095, 0.045, 0.1]} />
-                  <meshStandardMaterial color={SKIN} roughness={0.75} />
-                </mesh>
-                <mesh position={[0, -0.02, -0.09]} rotation={[0.55, 0, 0]} castShadow>
-                  <boxGeometry args={[0.09, 0.025, 0.07]} />
-                  <meshStandardMaterial color={SKIN} roughness={0.75} />
-                </mesh>
-              </group>
-            </group>
-          </group>
+        <mesh position={[0.27, 1.65, 0]} rotation={[0.3, 0, -0.55]} castShadow>
+          <capsuleGeometry args={[0.095, 0.1, 4, 12]} />
+          <meshStandardMaterial color={TEE} roughness={0.85} />
+        </mesh>
+        <AnimatedLimb limbRef={rUpperArm} radius={0.07} />
+        <AnimatedLimb limbRef={rLowerArm} radius={0.057} />
+        <group ref={rHand} rotation={[0.5, 0, 0.06]}>
+          <RoundedBox args={[0.105, 0.044, 0.105]} radius={0.018} smoothness={2} castShadow>
+            <meshStandardMaterial color={SKIN} roughness={0.75} />
+          </RoundedBox>
+          {[-0.035, -0.012, 0.012, 0.035].map((x, i) => (
+            <mesh key={i} position={[x, -0.006, -0.075 - Math.abs(i - 1.5) * 0.006]} rotation={[0.08, 0, 0]} castShadow>
+              <capsuleGeometry args={[0.009, 0.05, 3, 8]} />
+              <meshStandardMaterial color={SKIN} roughness={0.75} />
+            </mesh>
+          ))}
         </group>
       </group>
 
