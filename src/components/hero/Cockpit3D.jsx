@@ -247,7 +247,7 @@ function Keyboard() {
 }
 function Mouse() {
   return (
-    <group position={[0.74, 1.6, -0.26]}>
+    <group position={[0.79, 1.6, -0.58]}>
       <mesh castShadow>
         <capsuleGeometry args={[0.05, 0.07, 4, 12]} />
         <meshStandardMaterial color="#0a0d14" metalness={0.4} roughness={0.5} />
@@ -364,20 +364,63 @@ const windowProgress = (time, start, end) => smoothstep((time - start) / (end - 
 
 const LIMB_AXIS = new THREE.Vector3(0, 1, 0);
 const LIMB_DIRECTION = new THREE.Vector3();
+const IK_DIRECTION = new THREE.Vector3();
+const IK_POLE = new THREE.Vector3();
+const IK_PROJECTION = new THREE.Vector3();
 function setLimbPose(mesh, from, to) {
   if (!mesh) return;
   LIMB_DIRECTION.copy(to).sub(from);
+  const length = LIMB_DIRECTION.length();
+  if (length < 0.0001) return;
   mesh.position.copy(from).add(to).multiplyScalar(0.5);
   mesh.quaternion.setFromUnitVectors(LIMB_AXIS, LIMB_DIRECTION.normalize());
-  mesh.scale.y = from.distanceTo(to) / 0.32;
+  mesh.scale.y = length / mesh.userData.baseLength;
 }
 
-function AnimatedLimb({ limbRef, radius }) {
+function solveElbow(shoulder, wrist, pole, upperLength, lowerLength, out) {
+  IK_DIRECTION.copy(wrist).sub(shoulder);
+  const distance = THREE.MathUtils.clamp(IK_DIRECTION.length(), 0.001, upperLength + lowerLength - 0.004);
+  IK_DIRECTION.normalize();
+  const along = (upperLength ** 2 - lowerLength ** 2 + distance ** 2) / (2 * distance);
+  const height = Math.sqrt(Math.max(0, upperLength ** 2 - along ** 2));
+  IK_POLE.copy(pole);
+  IK_PROJECTION.copy(IK_DIRECTION).multiplyScalar(IK_POLE.dot(IK_DIRECTION));
+  IK_POLE.sub(IK_PROJECTION).normalize();
+  out.copy(shoulder).addScaledVector(IK_DIRECTION, along).addScaledVector(IK_POLE, height);
+}
+
+function AnimatedLimb({ limbRef, radius, color = SKIN }) {
   return (
-    <mesh ref={limbRef} castShadow>
+    <mesh ref={limbRef} castShadow userData={{ baseLength: 0.2 + radius * 2 }}>
       <capsuleGeometry args={[radius, 0.2, 4, 12]} />
-      <meshStandardMaterial color={SKIN} roughness={0.8} />
+      <meshStandardMaterial color={color} roughness={0.82} />
     </mesh>
+  );
+}
+
+function Hand({ handRef, side }) {
+  return (
+    <group ref={handRef} rotation={[0.46, 0, side * 0.04]}>
+      <RoundedBox args={[0.105, 0.042, 0.115]} radius={0.022} smoothness={3} castShadow>
+        <meshStandardMaterial color={SKIN} roughness={0.75} />
+      </RoundedBox>
+      {[-0.032, 0, 0.032].map((x, index) => (
+        <RoundedBox
+          key={x}
+          args={[0.022, 0.022, 0.07 + (index === 1 ? 0.008 : 0)]}
+          radius={0.01}
+          smoothness={2}
+          position={[x, -0.004, -0.075]}
+          castShadow
+        >
+          <meshStandardMaterial color={SKIN} roughness={0.75} />
+        </RoundedBox>
+      ))}
+      <mesh position={[side * 0.058, -0.002, -0.014]} rotation={[0.2, 0, side * 0.48]} castShadow>
+        <capsuleGeometry args={[0.012, 0.045, 3, 8]} />
+        <meshStandardMaterial color={SKIN} roughness={0.75} />
+      </mesh>
+    </group>
   );
 }
 
@@ -385,29 +428,34 @@ function Person() {
   const root = useRef();
   const torso = useRef();
   const head = useRef();
+  const lSleeve = useRef();
   const lUpperArm = useRef();
   const lLowerArm = useRef();
   const lHand = useRef();
+  const rSleeve = useRef();
   const rUpperArm = useRef();
   const rLowerArm = useRef();
   const rHand = useRef();
   const can = useRef();
   const reduce = useReducedMotion();
 
-  const canRest = useMemo(() => new THREE.Vector3(0.95, 1.65, -0.3), []);
+  const canRest = useMemo(() => new THREE.Vector3(0.69, 1.65, -0.3), []);
   const tmp = useMemo(() => new THREE.Vector3(), []);
   const arm = useMemo(() => ({
-    leftShoulder: new THREE.Vector3(-0.27, 1.65, 0),
-    leftElbow: new THREE.Vector3(-0.24, 1.55, -0.2),
-    leftWrist: new THREE.Vector3(-0.2, 1.69, -0.47),
-    rightShoulder: new THREE.Vector3(0.27, 1.65, 0),
-    rightElbow: new THREE.Vector3(0.24, 1.55, -0.2),
-    rightWrist: new THREE.Vector3(0.2, 1.69, -0.47),
-    reachElbow: new THREE.Vector3(0.56, 1.64, -0.12),
-    reachWrist: new THREE.Vector3(0.88, 1.69, -0.29),
-    sipElbow: new THREE.Vector3(0.52, 1.82, -0.02),
-    sipWrist: new THREE.Vector3(0.18, 1.96, -0.06),
-    elbowNow: new THREE.Vector3(),
+    upperLength: 0.33,
+    lowerLength: 0.31,
+    leftShoulder: new THREE.Vector3(-0.265, 1.64, 0),
+    leftWrist: new THREE.Vector3(-0.19, 1.68, -0.45),
+    leftPole: new THREE.Vector3(-1, -0.45, 0.18),
+    leftElbow: new THREE.Vector3(),
+    leftSleeveEnd: new THREE.Vector3(),
+    rightShoulder: new THREE.Vector3(0.265, 1.64, 0),
+    rightWrist: new THREE.Vector3(0.19, 1.68, -0.45),
+    rightPole: new THREE.Vector3(1, -0.45, 0.18),
+    rightElbow: new THREE.Vector3(),
+    rightSleeveEnd: new THREE.Vector3(),
+    reachWrist: new THREE.Vector3(0.655, 1.66, -0.48),
+    sipWrist: new THREE.Vector3(0.14, 1.92, -0.055),
     wristNow: new THREE.Vector3(),
   }), []);
 
@@ -422,12 +470,15 @@ function Person() {
 
     // Fingers travel only a few millimetres: the palms stay above the keycaps,
     // so the animation reads as typing without the hand entering the keyboard.
-    const cycle = t % 14.5;
-    const typing = cycle < 6.15 || cycle > 12.05;
-    const leftTap = typing ? Math.max(0, Math.sin(t * 12.4)) : 0;
-    const rightTap = typing ? Math.max(0, Math.sin(t * 11.8 + 1.9)) : 0;
-    arm.leftWrist.y = 1.69 - leftTap * 0.009;
-    setLimbPose(lUpperArm.current, arm.leftShoulder, arm.leftElbow);
+    const cycle = t % 15.5;
+    const typing = cycle < 7 || cycle > 13.5;
+    const leftTap = typing ? Math.max(0, Math.sin(t * 11.2)) : 0;
+    const rightTap = typing ? Math.max(0, Math.sin(t * 10.7 + 1.8)) : 0;
+    arm.leftWrist.y = 1.68 - leftTap * 0.005;
+    solveElbow(arm.leftShoulder, arm.leftWrist, arm.leftPole, arm.upperLength, arm.lowerLength, arm.leftElbow);
+    arm.leftSleeveEnd.lerpVectors(arm.leftShoulder, arm.leftElbow, 0.28);
+    setLimbPose(lSleeve.current, arm.leftShoulder, arm.leftSleeveEnd);
+    setLimbPose(lUpperArm.current, arm.leftSleeveEnd, arm.leftElbow);
     setLimbPose(lLowerArm.current, arm.leftElbow, arm.leftWrist);
     if (lHand.current) {
       lHand.current.position.copy(arm.leftWrist);
@@ -437,27 +488,28 @@ function Person() {
 
     // Reach, lift, sip, lower, and return are separate beats. The short hold at
     // the mouth removes the old pendulum-like motion and gives the action weight.
-    const reach = windowProgress(cycle, 6.15, 6.9);
-    const lift = windowProgress(cycle, 6.9, 8.15);
-    const lower = windowProgress(cycle, 10.05, 11.15);
-    const release = windowProgress(cycle, 11.15, 12.05);
-    const holdingCan = reach * (1 - release);
+    const reach = windowProgress(cycle, 7, 8.2);
+    const lift = windowProgress(cycle, 8.2, 9.45);
+    const lower = windowProgress(cycle, 11.35, 12.55);
+    const release = windowProgress(cycle, 12.55, 13.35);
+    const grip = windowProgress(cycle, 8.05, 8.2);
+    const holdingCan = grip * (1 - release);
     let drink = lift * (1 - lower);
-    if (cycle >= 8.15 && cycle <= 10.05) drink = 1;
-    const sip = cycle >= 8.15 && cycle <= 10.05 ? Math.sin((cycle - 8.15) * Math.PI * 2.1) : 0;
+    if (cycle >= 9.45 && cycle <= 11.35) drink = 1;
+    const sip = cycle >= 9.45 && cycle <= 11.35 ? Math.sin((cycle - 9.45) * Math.PI * 1.8) : 0;
 
-    arm.rightWrist.y = 1.69 - rightTap * 0.009;
-    arm.elbowNow.lerpVectors(arm.rightElbow, arm.reachElbow, reach);
+    arm.rightWrist.y = 1.68 - rightTap * 0.005;
     arm.wristNow.lerpVectors(arm.rightWrist, arm.reachWrist, reach);
-    arm.elbowNow.lerp(arm.sipElbow, drink);
     arm.wristNow.lerp(arm.sipWrist, drink);
     if (release > 0) {
-      arm.elbowNow.lerp(arm.rightElbow, release);
       arm.wristNow.lerp(arm.rightWrist, release);
     }
-    arm.wristNow.y += drink * sip * 0.004;
-    setLimbPose(rUpperArm.current, arm.rightShoulder, arm.elbowNow);
-    setLimbPose(rLowerArm.current, arm.elbowNow, arm.wristNow);
+    arm.wristNow.y += drink * sip * 0.003;
+    solveElbow(arm.rightShoulder, arm.wristNow, arm.rightPole, arm.upperLength, arm.lowerLength, arm.rightElbow);
+    arm.rightSleeveEnd.lerpVectors(arm.rightShoulder, arm.rightElbow, 0.28);
+    setLimbPose(rSleeve.current, arm.rightShoulder, arm.rightSleeveEnd);
+    setLimbPose(rUpperArm.current, arm.rightSleeveEnd, arm.rightElbow);
+    setLimbPose(rLowerArm.current, arm.rightElbow, arm.wristNow);
     if (rHand.current) {
       rHand.current.position.copy(arm.wristNow);
       rHand.current.rotation.set(
@@ -475,10 +527,9 @@ function Person() {
     // the reach completes. A small arc prevents it clipping the desk edge.
     if (can.current && rHand.current) {
       rHand.current.getWorldPosition(tmp);
-      const pickupArc = Math.sin(reach * Math.PI) * 0.055;
       can.current.position.set(
         THREE.MathUtils.lerp(canRest.x, tmp.x + 0.035, holdingCan),
-        THREE.MathUtils.lerp(canRest.y, tmp.y + 0.035 + pickupArc, holdingCan),
+        THREE.MathUtils.lerp(canRest.y, tmp.y + 0.025, holdingCan),
         THREE.MathUtils.lerp(canRest.z, tmp.z - 0.015, holdingCan)
       );
       can.current.rotation.x = THREE.MathUtils.lerp(0, -0.12, drink);
@@ -511,28 +562,14 @@ function Person() {
 
         {/* torso — tapered t-shirt with a slight forward lean */}
         <group ref={torso} position={[0, 1.4, 0.03]} rotation={[-0.11, 0, 0]}>
-          {/* lower torso / waist */}
-          <mesh position={[0, -0.04, 0]} castShadow>
-            <cylinderGeometry args={[0.25, 0.23, 0.32, 24]} />
+          <RoundedBox args={[0.48, 0.5, 0.34]} radius={0.13} smoothness={4} position={[0, 0.08, 0]} castShadow>
             <meshStandardMaterial color={TEE} roughness={0.85} />
-          </mesh>
-          {/* chest */}
-          <mesh position={[0, 0.2, 0.01]} castShadow>
-            <cylinderGeometry args={[0.27, 0.25, 0.26, 24]} />
-            <meshStandardMaterial color={TEE} roughness={0.85} />
-          </mesh>
-          {/* shoulders */}
-          <mesh position={[0, 0.3, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
-            <capsuleGeometry args={[0.13, 0.32, 6, 16]} />
-            <meshStandardMaterial color={TEE} roughness={0.85} />
-          </mesh>
-          {/* upper back curve */}
-          <mesh position={[0, 0.22, -0.08]} castShadow>
-            <sphereGeometry args={[0.2, 18, 18]} />
-            <meshStandardMaterial color={TEE} roughness={0.85} />
-          </mesh>
+          </RoundedBox>
+          <RoundedBox args={[0.38, 0.12, 0.3]} radius={0.055} smoothness={3} position={[0, -0.2, 0.01]} castShadow>
+            <meshStandardMaterial color="#286f7c" roughness={0.88} />
+          </RoundedBox>
           {/* crew collar */}
-          <mesh position={[0, 0.34, 0.03]} rotation={[1.3, 0, 0]}>
+          <mesh position={[0, 0.34, 0.01]} rotation={[1.3, 0, 0]}>
             <torusGeometry args={[0.085, 0.018, 8, 22]} />
             <meshStandardMaterial color="#256875" roughness={0.85} />
           </mesh>
@@ -578,46 +615,20 @@ function Person() {
         </group>
 
         {/* LEFT arm — both hands rest on the keyboard */}
-        <mesh position={[-0.27, 1.65, 0]} rotation={[0.3, 0, 0.55]} castShadow>
-          <capsuleGeometry args={[0.095, 0.1, 4, 12]} />
-          <meshStandardMaterial color={TEE} roughness={0.85} />
-        </mesh>
+        <AnimatedLimb limbRef={lSleeve} radius={0.082} color={TEE} />
         <AnimatedLimb limbRef={lUpperArm} radius={0.07} />
         <AnimatedLimb limbRef={lLowerArm} radius={0.057} />
-        <group ref={lHand} rotation={[0.5, 0, -0.06]}>
-          <RoundedBox args={[0.105, 0.044, 0.105]} radius={0.018} smoothness={2} castShadow>
-            <meshStandardMaterial color={SKIN} roughness={0.75} />
-          </RoundedBox>
-          {[-0.035, -0.012, 0.012, 0.035].map((x, i) => (
-            <mesh key={i} position={[x, -0.006, -0.075 - Math.abs(i - 1.5) * 0.006]} rotation={[0.08, 0, 0]} castShadow>
-              <capsuleGeometry args={[0.009, 0.05, 3, 8]} />
-              <meshStandardMaterial color={SKIN} roughness={0.75} />
-            </mesh>
-          ))}
-        </group>
+        <Hand handRef={lHand} side={-1} />
 
         {/* RIGHT arm — types too, but lifts to sip the energy drink */}
-        <mesh position={[0.27, 1.65, 0]} rotation={[0.3, 0, -0.55]} castShadow>
-          <capsuleGeometry args={[0.095, 0.1, 4, 12]} />
-          <meshStandardMaterial color={TEE} roughness={0.85} />
-        </mesh>
+        <AnimatedLimb limbRef={rSleeve} radius={0.082} color={TEE} />
         <AnimatedLimb limbRef={rUpperArm} radius={0.07} />
         <AnimatedLimb limbRef={rLowerArm} radius={0.057} />
-        <group ref={rHand} rotation={[0.5, 0, 0.06]}>
-          <RoundedBox args={[0.105, 0.044, 0.105]} radius={0.018} smoothness={2} castShadow>
-            <meshStandardMaterial color={SKIN} roughness={0.75} />
-          </RoundedBox>
-          {[-0.035, -0.012, 0.012, 0.035].map((x, i) => (
-            <mesh key={i} position={[x, -0.006, -0.075 - Math.abs(i - 1.5) * 0.006]} rotation={[0.08, 0, 0]} castShadow>
-              <capsuleGeometry args={[0.009, 0.05, 3, 8]} />
-              <meshStandardMaterial color={SKIN} roughness={0.75} />
-            </mesh>
-          ))}
-        </group>
+        <Hand handRef={rHand} side={1} />
       </group>
 
       {/* energy drink can — world space, sits on the desk, follows the hand while sipping */}
-      <group ref={can} position={[0.95, 1.65, -0.3]}>
+      <group ref={can} position={[0.69, 1.65, -0.3]}>
         <mesh castShadow>
           <cylinderGeometry args={[0.046, 0.046, 0.18, 20]} />
           <meshStandardMaterial color={ENERGY} metalness={0.6} roughness={0.3} />
