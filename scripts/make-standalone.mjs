@@ -9,7 +9,7 @@ const rootPreviewPath = fileURLToPath(new URL("../Old/generated/Milad-Portfolio.
 
 const html = await readFile(indexPath, "utf8");
 const siteUrl = "https://ateight.xyz";
-const keywords = "Ateight, Milad Ateight, AT8, Milad AT8, میلاد AT8, میلاد ۸۸, KeyFix, NetDoctor, Hybrid Web and Mail Infrastructure, Media Downloader Bot, AI Chat RTL Fixer";
+const keywords = "Ateight, Milad Ateight, AT8, Milad AT8, میلاد AT8, میلاد ۸۸, KeyFix, NetDoctor, PDF Sanitizer, Hybrid Web and Mail Infrastructure, Media Downloader Bot, AI Chat RTL Fixer";
 const routes = [
   {
     path: "/about/",
@@ -30,6 +30,11 @@ const routes = [
     path: "/NetDoctor/",
     title: "NetDoctor | Milad Ateight AT8 Project",
     description: "NetDoctor is a Windows network diagnostic app for DNS, latency, proxy state, and connectivity issues with guided repair flows.",
+  },
+  {
+    path: "/PDF-Sanitizer/",
+    title: "PDF Sanitizer | Milad Ateight AT8 Project",
+    description: "PDF Sanitizer is a Windows tool that bulk-edits large PDFs, finding, replacing, removing, or inserting repeated content across hundreds or thousands of pages from one rule set, with free and Telegram-licensed premium tiers.",
   },
   {
     path: "/hybrid-web-mail-infrastructure/",

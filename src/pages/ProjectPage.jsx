@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, ChevronLeft, ChevronRight, Download, Github, Layers3 } from "lucide-react";
+import { ArrowUpRight, Check, ChevronLeft, ChevronRight, Download, Github, Layers3 } from "lucide-react";
 import { motion } from "framer-motion";
 import { projects } from "../data/projects";
 import { projectPages } from "../data/projectPages";
@@ -90,6 +90,13 @@ const projectDetails = {
     limits: "The tool can identify common Windows connectivity faults, but it does not replace ISP-side troubleshooting, damaged hardware checks, or enterprise network policy review.",
     security: "The diagnostic focus is local network state. Repair actions should remain explicit, documented, and scoped to the setting being fixed.",
     result: "It is useful when a user or technician needs a clearer path from symptom to likely cause before applying a network repair.",
+  },
+  "pdf-sanitizer": {
+    architecture: "PDF Sanitizer loads a document, builds a rule set describing which repeated blocks to remove, which text or values to replace, and what to insert, then applies those rules across every page in a single batch pass and exports a new clean PDF.",
+    decisions: "The tool is built around reusable rules instead of manual page edits, keeps processing local, previews changes before writing the file, and separates a free tier for small jobs from a licensed premium tier for large-scale work.",
+    limits: "The free tier is capped at 10 pages per file and 2 files per day; very large or unusually structured documents may need rule tuning, and scanned image-only PDFs depend on how their text is stored.",
+    security: "Documents are processed locally on the user's machine. Nothing is uploaded, and the premium tier is unlocked with a per-user license issued over Telegram rather than an account.",
+    result: "The practical outcome is that commercial and trading teams can clean or update huge PDFs — hundreds to thousands of pages — in one pass instead of editing them page by page.",
   },
   "hybrid-web-mail-infrastructure": {
     architecture: "The case study separates local and public environments: users and LAN services connect through MikroTik and WireGuard to a VPS, then HAProxy/Caddy routes web and mail traffic with DNS, TLS, and backup paths documented separately.",
@@ -187,15 +194,26 @@ export default function ProjectPage({ project, language, t }) {
             <h1><TextReveal>{localize(data.hero, language)}</TextReveal></h1>
             <p className="project-hero-lead">{localize(data.lead, language)}</p>
             <div className="project-hero-actions">
-              <a href={project.url} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
-                <Github size={17} aria-hidden="true" />
-                {localize(pageText.source, language)}
-              </a>
-              {data.downloads?.[0] && (
-                <a href={data.downloads[0].url} className="btn btn-ghost" target="_blank" rel="noopener noreferrer">
-                  <ArrowUpRight size={17} aria-hidden="true" />
-                  {localize(data.downloads[0].label, language)}
-                </a>
+              {project.url ? (
+                <>
+                  <a href={project.url} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <Github size={17} aria-hidden="true" />
+                    {localize(pageText.source, language)}
+                  </a>
+                  {data.downloads?.[0] && (
+                    <a href={data.downloads[0].url} className="btn btn-ghost" target="_blank" rel="noopener noreferrer">
+                      <ArrowUpRight size={17} aria-hidden="true" />
+                      {localize(data.downloads[0].label, language)}
+                    </a>
+                  )}
+                </>
+              ) : (
+                data.downloads?.[0] && (
+                  <a href={data.downloads[0].url} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <ArrowUpRight size={17} aria-hidden="true" />
+                    {localize(data.downloads[0].label, language)}
+                  </a>
+                )
               )}
             </div>
           </motion.div>
@@ -281,6 +299,46 @@ export default function ProjectPage({ project, language, t }) {
                   <span>{String(index + 1).padStart(2, "0")}</span>
                   <h3>{localize(edition.title, language)}</h3>
                   <p>{localize(edition.body, language)}</p>
+                </Reveal>
+              ))}
+            </RevealGroup>
+          </section>
+        )}
+
+        {data.plans && (
+          <section className="section">
+            <Reveal className="section-header">
+              <p className="section-label">{t.plansLabel}</p>
+              <h2 className="section-title">{t.plansLabel}</h2>
+            </Reveal>
+            <RevealGroup className="plan-grid">
+              {data.plans.map((plan, index) => (
+                <Reveal className={`plan-card ${plan.highlight ? "is-featured" : ""}`} key={index}>
+                  <div className="plan-head">
+                    <h3>{localize(plan.name, language)}</h3>
+                    {plan.badge && <span className="plan-badge">{localize(plan.badge, language)}</span>}
+                  </div>
+                  <p className="plan-price">{localize(plan.price, language)}</p>
+                  {plan.note && <p className="plan-note">{localize(plan.note, language)}</p>}
+                  <ul className="plan-features">
+                    {plan.features.map((feature, featureIndex) => (
+                      <li key={featureIndex}>
+                        <Check size={15} aria-hidden="true" />
+                        <span>{localize(feature, language)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  {plan.cta && (
+                    <a
+                      href={plan.cta.url}
+                      className={`btn ${plan.highlight ? "btn-primary" : "btn-ghost"} plan-cta`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <ArrowUpRight size={16} aria-hidden="true" />
+                      {localize(plan.cta.label, language)}
+                    </a>
+                  )}
                 </Reveal>
               ))}
             </RevealGroup>
