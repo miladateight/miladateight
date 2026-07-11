@@ -27,5 +27,7 @@ export const repos = {
   infrastructure: "https://github.com/miladateight/hybrid-web-mail-infrastructure",
   infrastructurePage: "/hybrid-web-mail-infrastructure/",
   downloader: "https://github.com/miladateight/instagram-youtube-soundcloud-downloader",
-  downloaderPage: "/instagram-youtube-soundcloud-downloader/"
+  downloaderPage: "/instagram-youtube-soundcloud-downloader/",
+  aiRtl: "https://github.com/miladateight/AI.Chat.RTL.Fixer",
+  aiRtlPage: "/AI-Chat-RTL-Fixer/"
 };

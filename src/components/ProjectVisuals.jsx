@@ -86,6 +86,22 @@ const visualCopy = {
     de: "Funktionale Darstellung des Telegram-Download-Ablaufs",
   },
   botTitle: { en: "AT8 Downloader", fa: "دانلودر AT8", ar: "AT8 Downloader", de: "AT8 Downloader" },
+  airtlCaption: {
+    en: "Functional illustration of the chat-surface RTL fix",
+    fa: "نمایش کارکردی اصلاح راست‌به‌چپ سطح چت",
+    ar: "توضيح وظيفي لإصلاح RTL على سطح الدردشة",
+    de: "Funktionale Darstellung der RTL-Korrektur auf der Chat-Oberfläche",
+  },
+  airtlWindow: { en: "AI chat app", fa: "اپ چت هوش مصنوعی", ar: "تطبيق دردشة الذكاء الاصطناعي", de: "KI-Chat-App" },
+  airtlOff: { en: "RTL fix off", fa: "اصلاح خاموش", ar: "الإصلاح متوقف", de: "RTL-Fix aus" },
+  airtlOn: { en: "RTL fix on", fa: "اصلاح روشن", ar: "الإصلاح مفعّل", de: "RTL-Fix an" },
+  airtlCodeStays: { en: "code stays LTR", fa: "کد چپ‌به‌راست می‌ماند", ar: "الكود يبقى LTR", de: "Code bleibt LTR" },
+  airtlStatus: {
+    en: "chat surface only · code stays LTR · runtime-only",
+    fa: "فقط سطح چت · کد چپ‌به‌راست · فقط زمان اجرا",
+    ar: "سطح الدردشة فقط · الكود LTR · وقت التشغيل فقط",
+    de: "nur Chat-Oberfläche · Code LTR · nur Laufzeit",
+  },
 };
 
 const keyfixExamples = [
@@ -640,11 +656,55 @@ function BotVisual({ language }) {
   );
 }
 
+function AiRtlVisual({ language }) {
+  const fixed = useLoop(2, 2600) === 1;
+  return (
+    <div className="project-visual-scene airtl-demo" data-visual="ai-chat-rtl-fixer" aria-label="AI Chat RTL Fixer chat-surface illustration">
+      <div className="demo-caption">{L(visualCopy.airtlCaption, language)}</div>
+      <div className="airtl-window">
+        <div className="window-bar">
+          <span />
+          <strong>{L(visualCopy.airtlWindow, language)}</strong>
+          <motion.em
+            className={`airtl-toggle ${fixed ? "is-on" : ""}`}
+            animate={{ opacity: [0.6, 1] }}
+            transition={{ duration: 0.4 }}
+          >
+            {L(fixed ? visualCopy.airtlOn : visualCopy.airtlOff, language)}
+          </motion.em>
+        </div>
+        <div className="airtl-thread">
+          <div className="airtl-msg is-user" dir="ltr">Fix RTL please</div>
+          <motion.div
+            key={`chat-${fixed}`}
+            className="airtl-msg is-bot"
+            dir={fixed ? "rtl" : "ltr"}
+            initial={{ opacity: 0.4 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          >
+            سلام! این پیام فارسی است و باید راست‌به‌چپ خوانده شود.
+          </motion.div>
+          <div className="airtl-code" dir="ltr" aria-hidden="true">
+            <span className="airtl-code-tag">{L(visualCopy.airtlCodeStays, language)}</span>
+            <code>npm run build --prefix ./app</code>
+          </div>
+        </div>
+      </div>
+      <div className="visual-status-line">
+        <span />
+        {L(visualCopy.airtlStatus, language)}
+      </div>
+    </div>
+  );
+}
+
 const sceneMap = {
   keyfix: KeyFixVisual,
   netdoctor: NetDoctorVisual,
   "hybrid-web-mail-infrastructure": InfrastructureVisual,
   "instagram-youtube-soundcloud-downloader": BotVisual,
+  "ai-chat-rtl-fixer": AiRtlVisual,
 };
 
 export default function ProjectVisual({ slug, language = "en" }) {
