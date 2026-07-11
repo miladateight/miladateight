@@ -48,12 +48,42 @@ const routes = [
   },
 ];
 
+const sitemapPaths = ["/", ...routes.map((route) => route.path)];
+const profileSourcePath = fileURLToPath(new URL("../src/data/profile.js", import.meta.url));
+const profileSource = await readFile(profileSourcePath, "utf8");
+const projectRoutePaths = [...profileSource.matchAll(/\w+Page:\s*"([^"]+)"/g)].map((match) => match[1]);
+const appRoutePaths = ["/about/", "/contact/", ...projectRoutePaths];
+
 function escapeHtml(value) {
   return value
     .replaceAll("&", "&amp;")
     .replaceAll('"', "&quot;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
+}
+
+function escapeXml(value) {
+  return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+}
+
+function createSitemap() {
+  const generatedRoutes = [...routes.map((route) => route.path)].sort();
+  const applicationRoutes = [...appRoutePaths].sort();
+  if (JSON.stringify(generatedRoutes) !== JSON.stringify(applicationRoutes)) {
+    throw new Error("SEO route metadata is out of sync with the application routes");
+  }
+  const uniquePaths = new Set(sitemapPaths);
+  if (uniquePaths.size !== sitemapPaths.length) throw new Error("Sitemap contains duplicate routes");
+  sitemapPaths.forEach((path) => {
+    if (!path.startsWith("/") || (path !== "/" && !path.endsWith("/"))) {
+      throw new Error(`Sitemap route must be an absolute trailing-slash path: ${path}`);
+    }
+  });
+
+  const entries = sitemapPaths
+    .map((path) => `  <url>\n    <loc>${escapeXml(`${siteUrl}${path}`)}</loc>\n  </url>`)
+    .join("\n");
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries}\n</urlset>\n`;
 }
 
 function routeHtml(route) {
@@ -83,4 +113,11 @@ for (const route of routes) {
   await writeFile(join(routeDir, "index.html"), routeHtml(route), "utf8");
 }
 
-console.log(`Created dist/404.html, ${routes.length} route index files, and Old/generated/Milad-Portfolio.html`);
+await writeFile(join(distDir, "sitemap.xml"), createSitemap(), "utf8");
+await writeFile(
+  join(distDir, "robots.txt"),
+  `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\n`,
+  "utf8"
+);
+
+console.log(`Created dist/404.html, ${routes.length} route index files, sitemap.xml, robots.txt, and Old/generated/Milad-Portfolio.html`);
