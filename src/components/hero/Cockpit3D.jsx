@@ -398,15 +398,16 @@ function AnimatedLimb({ limbRef, radius, color = SKIN }) {
   );
 }
 
-function Hand({ handRef, side }) {
+function Hand({ handRef, fingerRefs, side }) {
   return (
-    <group ref={handRef} rotation={[0.46, 0, side * 0.04]}>
+    <group ref={handRef} rotation={[0.43, -side * 0.08, side * 0.035]}>
       <RoundedBox args={[0.105, 0.042, 0.115]} radius={0.022} smoothness={3} castShadow>
         <meshStandardMaterial color={SKIN} roughness={0.75} />
       </RoundedBox>
       {[-0.032, 0, 0.032].map((x, index) => (
         <RoundedBox
           key={x}
+          ref={(node) => { fingerRefs.current[index] = node; }}
           args={[0.022, 0.022, 0.07 + (index === 1 ? 0.008 : 0)]}
           radius={0.01}
           smoothness={2}
@@ -432,29 +433,31 @@ function Person() {
   const lUpperArm = useRef();
   const lLowerArm = useRef();
   const lHand = useRef();
+  const lFingers = useRef([]);
   const rSleeve = useRef();
   const rUpperArm = useRef();
   const rLowerArm = useRef();
   const rHand = useRef();
+  const rFingers = useRef([]);
   const can = useRef();
   const reduce = useReducedMotion();
 
-  const canRest = useMemo(() => new THREE.Vector3(0.69, 1.65, -0.3), []);
+  const canRest = useMemo(() => new THREE.Vector3(0.675, 1.65, -0.3), []);
   const tmp = useMemo(() => new THREE.Vector3(), []);
   const arm = useMemo(() => ({
-    upperLength: 0.33,
-    lowerLength: 0.31,
-    leftShoulder: new THREE.Vector3(-0.265, 1.64, 0),
-    leftWrist: new THREE.Vector3(-0.19, 1.68, -0.45),
+    upperLength: 0.34,
+    lowerLength: 0.32,
+    leftShoulder: new THREE.Vector3(-0.265, 1.64, 0.06),
+    leftWrist: new THREE.Vector3(-0.22, 1.685, -0.44),
     leftPole: new THREE.Vector3(-1, -0.45, 0.18),
     leftElbow: new THREE.Vector3(),
     leftSleeveEnd: new THREE.Vector3(),
-    rightShoulder: new THREE.Vector3(0.265, 1.64, 0),
-    rightWrist: new THREE.Vector3(0.19, 1.68, -0.45),
+    rightShoulder: new THREE.Vector3(0.265, 1.64, 0.06),
+    rightWrist: new THREE.Vector3(0.22, 1.685, -0.44),
     rightPole: new THREE.Vector3(1, -0.45, 0.18),
     rightElbow: new THREE.Vector3(),
     rightSleeveEnd: new THREE.Vector3(),
-    reachWrist: new THREE.Vector3(0.655, 1.66, -0.48),
+    reachWrist: new THREE.Vector3(0.64, 1.66, -0.48),
     sipWrist: new THREE.Vector3(0.14, 1.92, -0.055),
     wristNow: new THREE.Vector3(),
   }), []);
@@ -472,9 +475,9 @@ function Person() {
     // so the animation reads as typing without the hand entering the keyboard.
     const cycle = t % 15.5;
     const typing = cycle < 7 || cycle > 13.5;
-    const leftTap = typing ? Math.max(0, Math.sin(t * 11.2)) : 0;
-    const rightTap = typing ? Math.max(0, Math.sin(t * 10.7 + 1.8)) : 0;
-    arm.leftWrist.y = 1.68 - leftTap * 0.005;
+    const leftTap = typing ? Math.max(0, Math.sin(t * 15.2)) : 0;
+    const rightTap = typing ? Math.max(0, Math.sin(t * 14.6 + 1.8)) : 0;
+    arm.leftWrist.y = 1.685 - leftTap * 0.002;
     solveElbow(arm.leftShoulder, arm.leftWrist, arm.leftPole, arm.upperLength, arm.lowerLength, arm.leftElbow);
     arm.leftSleeveEnd.lerpVectors(arm.leftShoulder, arm.leftElbow, 0.28);
     setLimbPose(lSleeve.current, arm.leftShoulder, arm.leftSleeveEnd);
@@ -482,9 +485,16 @@ function Person() {
     setLimbPose(lLowerArm.current, arm.leftElbow, arm.leftWrist);
     if (lHand.current) {
       lHand.current.position.copy(arm.leftWrist);
-      lHand.current.rotation.x = 0.5 + leftTap * 0.035;
-      lHand.current.rotation.z = -0.06 + Math.sin(t * 1.7) * 0.018;
+      lHand.current.rotation.x = 0.43 + leftTap * 0.012;
+      lHand.current.rotation.y = 0.08;
+      lHand.current.rotation.z = -0.035 + Math.sin(t * 1.7) * 0.01;
     }
+    lFingers.current.forEach((finger, index) => {
+      if (!finger) return;
+      const press = typing ? Math.max(0, Math.sin(t * 18.4 + index * 1.55)) : 0;
+      finger.position.y = -0.004 - press * 0.004;
+      finger.rotation.x = press * 0.055;
+    });
 
     // Reach, lift, sip, lower, and return are separate beats. The short hold at
     // the mouth removes the old pendulum-like motion and gives the action weight.
@@ -498,7 +508,7 @@ function Person() {
     if (cycle >= 9.45 && cycle <= 11.35) drink = 1;
     const sip = cycle >= 9.45 && cycle <= 11.35 ? Math.sin((cycle - 9.45) * Math.PI * 1.8) : 0;
 
-    arm.rightWrist.y = 1.68 - rightTap * 0.005;
+    arm.rightWrist.y = 1.685 - rightTap * 0.002;
     arm.wristNow.lerpVectors(arm.rightWrist, arm.reachWrist, reach);
     arm.wristNow.lerp(arm.sipWrist, drink);
     if (release > 0) {
@@ -514,10 +524,16 @@ function Person() {
       rHand.current.position.copy(arm.wristNow);
       rHand.current.rotation.set(
         THREE.MathUtils.lerp(0.5, 0.1, drink),
-        THREE.MathUtils.lerp(0, -0.28, drink),
-        THREE.MathUtils.lerp(0.06, -0.42, drink)
+        THREE.MathUtils.lerp(-0.08, -0.28, drink),
+        THREE.MathUtils.lerp(0.035, -0.42, drink)
       );
     }
+    rFingers.current.forEach((finger, index) => {
+      if (!finger) return;
+      const press = typing && drink < 0.01 ? Math.max(0, Math.sin(t * 17.8 + index * 1.4 + 0.9)) : 0;
+      finger.position.y = -0.004 - press * 0.004;
+      finger.rotation.x = press * 0.055;
+    });
     if (head.current) {
       head.current.rotation.y = Math.sin(t * 0.45) * 0.06;
       head.current.rotation.x = THREE.MathUtils.lerp(0.06, -0.12 + sip * 0.012, drink);
@@ -541,7 +557,7 @@ function Person() {
     <>
       <group ref={root} position={[0, 0, 0.18]}>
         {/* hips */}
-        <RoundedBox args={[0.56, 0.28, 0.44]} radius={0.12} smoothness={3} position={[0, 1.06, 0]} castShadow>
+        <RoundedBox args={[0.56, 0.28, 0.44]} radius={0.12} smoothness={3} position={[0, 1.06, 0.04]} castShadow>
           <meshStandardMaterial color={PANTS} roughness={0.85} />
         </RoundedBox>
         {/* thighs along the seat */}
@@ -561,7 +577,7 @@ function Person() {
         ))}
 
         {/* torso — tapered t-shirt with a slight forward lean */}
-        <group ref={torso} position={[0, 1.4, 0.03]} rotation={[-0.11, 0, 0]}>
+        <group ref={torso} position={[0, 1.4, 0.11]} rotation={[-0.11, 0, 0]}>
           <RoundedBox args={[0.48, 0.5, 0.34]} radius={0.13} smoothness={4} position={[0, 0.08, 0]} castShadow>
             <meshStandardMaterial color={TEE} roughness={0.85} />
           </RoundedBox>
@@ -576,7 +592,7 @@ function Person() {
         </group>
 
         {/* neck */}
-        <mesh position={[0, 1.74, 0.08]} rotation={[0.1, 0, 0]} castShadow>
+        <mesh position={[0, 1.74, 0.11]} rotation={[0.1, 0, 0]} castShadow>
           <cylinderGeometry args={[0.072, 0.085, 0.15, 14]} />
           <meshStandardMaterial color={SKIN} roughness={0.75} />
         </mesh>
@@ -618,17 +634,17 @@ function Person() {
         <AnimatedLimb limbRef={lSleeve} radius={0.082} color={TEE} />
         <AnimatedLimb limbRef={lUpperArm} radius={0.07} />
         <AnimatedLimb limbRef={lLowerArm} radius={0.057} />
-        <Hand handRef={lHand} side={-1} />
+        <Hand handRef={lHand} fingerRefs={lFingers} side={-1} />
 
         {/* RIGHT arm — types too, but lifts to sip the energy drink */}
         <AnimatedLimb limbRef={rSleeve} radius={0.082} color={TEE} />
         <AnimatedLimb limbRef={rUpperArm} radius={0.07} />
         <AnimatedLimb limbRef={rLowerArm} radius={0.057} />
-        <Hand handRef={rHand} side={1} />
+        <Hand handRef={rHand} fingerRefs={rFingers} side={1} />
       </group>
 
       {/* energy drink can — world space, sits on the desk, follows the hand while sipping */}
-      <group ref={can} position={[0.69, 1.65, -0.3]}>
+      <group ref={can} position={[0.675, 1.65, -0.3]}>
         <mesh castShadow>
           <cylinderGeometry args={[0.046, 0.046, 0.18, 20]} />
           <meshStandardMaterial color={ENERGY} metalness={0.6} roughness={0.3} />

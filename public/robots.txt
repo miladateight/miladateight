@@ -1,6 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /node_modules/
-Disallow: /dist/
 
 Sitemap: https://ateight.xyz/sitemap.xml
