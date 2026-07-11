@@ -23,6 +23,7 @@ const brandKeywords = [
   "میلاد فاطمی Ateight",
   "KeyFix",
   "NetDoctor",
+  "PDF Sanitizer",
   "Hybrid Web and Mail Infrastructure",
   "Media Downloader Bot",
   "AI Chat RTL Fixer",
@@ -239,7 +240,7 @@ export default function SeoManager({ language }) {
             inLanguage: language,
             mainEntityOfPage: canonical,
             author: { "@type": "Person", name: profile.name, url: profile.website },
-            codeRepository: project.url,
+            ...(project.url ? { codeRepository: project.url } : {}),
           },
         ],
       };

@@ -94,6 +94,74 @@ export const projectPages = {
     downloads: [{ label: { en: "Get a license on Telegram", fa: "دریافت لایسنس در تلگرام", ar: "الحصول على ترخيص عبر Telegram", de: "Lizenz über Telegram erhalten" }, url: "https://t.me/MiladAteight", primary: true },
                 { label: { en: "Download latest", fa: "دانلود آخرین نسخه", ar: "تحميل الأحدث", de: "Neueste Version" }, url: "https://github.com/miladateight/NetDoctor/releases/latest", primary: false }]
   },
+  "pdf-sanitizer": {
+    hero: {
+      en: "Clean up thousands of PDF pages in one pass.",
+      fa: "هزاران صفحه PDF را در یک مرحله پاک‌سازی کن.",
+      ar: "نظّف آلاف صفحات PDF في تمريرة واحدة.",
+      de: "Tausende PDF-Seiten in einem Durchgang bereinigen."
+    },
+    lead: {
+      en: "PDF Sanitizer is a Windows tool for commercial and trading teams that edit huge PDFs. It finds repeated or unwanted content and removes, replaces, or inserts it across hundreds or thousands of pages from a single rule set — no manual page-by-page work.",
+      fa: "PDF Sanitizer یک ابزار ویندوز برای تیم‌های بازرگانی و تجاری است که PDFهای بزرگ را ویرایش می‌کنند. محتوای تکراری یا ناخواسته را پیدا می‌کند و با یک مجموعه قانون آن را روی صدها یا هزاران صفحه حذف، جایگزین یا اضافه می‌کند — بدون کار دستی صفحه‌به‌صفحه.",
+      ar: "PDF Sanitizer أداة Windows للفِرق التجارية التي تحرّر ملفات PDF ضخمة. تعثر على المحتوى المتكرر أو غير المرغوب وتحذفه أو تستبدله أو تضيفه عبر مئات أو آلاف الصفحات من مجموعة قواعد واحدة — دون عمل يدوي صفحةً بصفحة.",
+      de: "PDF Sanitizer ist ein Windows-Tool für Handels- und Geschäftsteams, die riesige PDFs bearbeiten. Es findet wiederkehrende oder unerwünschte Inhalte und entfernt, ersetzt oder ergänzt sie über Hunderte oder Tausende Seiten aus einem einzigen Regelsatz — ohne manuelle Seite-für-Seite-Arbeit."
+    },
+    problem: {
+      en: "Commercial and trading teams often receive PDFs with hundreds or thousands of pages that repeat the same blocks — headers, stamps, prices, watermarks, or contact details — that must be removed or updated. Doing it by hand, page by page, is slow, tiring, and error-prone.",
+      fa: "تیم‌های بازرگانی و تجاری اغلب PDFهایی با صدها یا هزاران صفحه دریافت می‌کنند که بلوک‌های یکسانی را تکرار می‌کنند — سربرگ، مهر، قیمت، واترمارک یا اطلاعات تماس — که باید حذف یا به‌روزرسانی شوند. انجام دستی این کار صفحه‌به‌صفحه کند، خسته‌کننده و پرخطاست.",
+      ar: "غالباً ما تتلقى الفِرق التجارية ملفات PDF بمئات أو آلاف الصفحات تكرّر نفس الكتل — ترويسات وأختام وأسعار وعلامات مائية أو بيانات اتصال — يجب حذفها أو تحديثها. القيام بذلك يدوياً صفحةً بصفحة بطيء ومُتعب وعرضة للأخطاء.",
+      de: "Handels- und Geschäftsteams erhalten oft PDFs mit Hunderten oder Tausenden Seiten, die dieselben Blöcke wiederholen — Kopfzeilen, Stempel, Preise, Wasserzeichen oder Kontaktdaten — die entfernt oder aktualisiert werden müssen. Das von Hand, Seite für Seite, zu tun, ist langsam, ermüdend und fehleranfällig."
+    },
+    solution: {
+      en: "Define once what should be removed, replaced, or added, then let PDF Sanitizer apply those rules across the whole document — however many pages — locally on your machine, and export one clean file.",
+      fa: "یک بار مشخص کن چه چیزی باید حذف، جایگزین یا اضافه شود، سپس بگذار PDF Sanitizer آن قانون‌ها را روی کل سند — هر تعداد صفحه — به‌صورت محلی روی سیستم تو اعمال کند و یک فایل تمیز خروجی بگیرد.",
+      ar: "حدِّد مرة واحدة ما يجب حذفه أو استبداله أو إضافته، ثم دَع PDF Sanitizer يطبّق هذه القواعد على المستند بأكمله — مهما بلغ عدد صفحاته — محلياً على جهازك، ويُصدّر ملفاً واحداً نظيفاً.",
+      de: "Lege einmal fest, was entfernt, ersetzt oder ergänzt werden soll, und lass PDF Sanitizer diese Regeln auf das gesamte Dokument anwenden — egal wie viele Seiten — lokal auf deinem Rechner, und exportiere eine saubere Datei."
+    },
+    features: [
+      { title: { en: "Rule-based batch editing", fa: "ویرایش دسته‌ای بر پایه قانون", ar: "تحرير دفعي قائم على القواعد", de: "Regelbasierte Stapelbearbeitung" }, body: { en: "Define find, replace, remove, and insert rules once, then apply them to every page automatically.", fa: "قانون‌های پیدا کردن، جایگزینی، حذف و افزودن را یک بار تعریف کن و به‌صورت خودکار روی هر صفحه اعمال کن.", ar: "عرّف قواعد البحث والاستبدال والحذف والإضافة مرة واحدة، ثم طبّقها على كل صفحة تلقائياً.", de: "Definiere Such-, Ersetzungs-, Entfernungs- und Einfügeregeln einmal und wende sie automatisch auf jede Seite an." } },
+      { title: { en: "Built for large documents", fa: "ساخته‌شده برای اسناد بزرگ", ar: "مصمّم للمستندات الكبيرة", de: "Für große Dokumente gebaut" }, body: { en: "Handles hundreds to thousands of pages in a single pass instead of page-by-page editing.", fa: "به‌جای ویرایش صفحه‌به‌صفحه، صدها تا هزاران صفحه را در یک مرحله پردازش می‌کند.", ar: "يعالج مئات إلى آلاف الصفحات في تمريرة واحدة بدلاً من التحرير صفحةً بصفحة.", de: "Verarbeitet Hunderte bis Tausende Seiten in einem Durchgang statt Seite für Seite." } },
+      { title: { en: "Remove, replace, or insert", fa: "حذف، جایگزینی یا افزودن", ar: "حذف أو استبدال أو إضافة", de: "Entfernen, ersetzen oder einfügen" }, body: { en: "Delete repeated blocks, swap out text or values, or add new content in bulk across the file.", fa: "بلوک‌های تکراری را حذف کن، متن یا مقادیر را عوض کن یا محتوای جدید را به‌صورت دسته‌ای در کل فایل اضافه کن.", ar: "احذف الكتل المتكررة، أو استبدل النصوص والقيم، أو أضِف محتوى جديداً دفعةً واحدة عبر الملف.", de: "Lösche wiederkehrende Blöcke, tausche Text oder Werte aus oder füge neue Inhalte in großem Umfang in die Datei ein." } },
+      { title: { en: "Preview before export", fa: "پیش‌نمایش قبل از خروجی", ar: "معاينة قبل التصدير", de: "Vorschau vor dem Export" }, body: { en: "Review what the rules will change before the final PDF is written, so nothing is edited blindly.", fa: "قبل از نوشتن PDF نهایی، تغییراتی را که قانون‌ها اعمال می‌کنند بررسی کن تا هیچ‌چیز کورکورانه ویرایش نشود.", ar: "راجع ما ستغيّره القواعد قبل كتابة ملف PDF النهائي، حتى لا يُحرَّر شيء بشكل أعمى.", de: "Prüfe, was die Regeln ändern, bevor das finale PDF geschrieben wird — nichts wird blind bearbeitet." } },
+      { title: { en: "Local processing", fa: "پردازش محلی", ar: "معالجة محلية", de: "Lokale Verarbeitung" }, body: { en: "Documents are processed on your own machine. Files are never uploaded to any server.", fa: "اسناد روی سیستم خودت پردازش می‌شوند. فایل‌ها هرگز به هیچ سروری آپلود نمی‌شوند.", ar: "تتم معالجة المستندات على جهازك. لا تُرفَع الملفات إلى أي خادم أبداً.", de: "Dokumente werden auf deinem eigenen Rechner verarbeitet. Dateien werden nie auf einen Server hochgeladen." } },
+      { title: { en: "Free and Premium tiers", fa: "نسخه رایگان و پریمیوم", ar: "باقتان مجانية وبريميوم", de: "Kostenlose und Premium-Stufe" }, body: { en: "Start free for small jobs, up to 10 pages and 2 files a day; unlock unlimited work with a Telegram license.", fa: "برای کارهای کوچک رایگان شروع کن، تا ۱۰ صفحه و ۲ فایل در روز؛ کار نامحدود را با لایسنس تلگرام باز کن.", ar: "ابدأ مجاناً للمهام الصغيرة، حتى 10 صفحات وملفين في اليوم؛ افتح العمل غير المحدود بترخيص عبر Telegram.", de: "Starte kostenlos für kleine Aufgaben, bis zu 10 Seiten und 2 Dateien pro Tag; schalte unbegrenztes Arbeiten mit einer Telegram-Lizenz frei." } }
+    ],
+    plans: [
+      {
+        name: { en: "Free", fa: "رایگان", ar: "مجاني", de: "Kostenlos" },
+        price: { en: "Free", fa: "رایگان", ar: "مجاني", de: "Kostenlos" },
+        note: { en: "For small, occasional jobs", fa: "برای کارهای کوچک و گاه‌به‌گاه", ar: "للمهام الصغيرة والعرضية", de: "Für kleine, gelegentliche Aufgaben" },
+        features: [
+          { en: "Up to 10 pages per file", fa: "تا ۱۰ صفحه در هر فایل", ar: "حتى 10 صفحات لكل ملف", de: "Bis zu 10 Seiten pro Datei" },
+          { en: "Up to 2 files per day", fa: "حداکثر ۲ فایل در روز", ar: "حتى ملفين في اليوم", de: "Bis zu 2 Dateien pro Tag" },
+          { en: "All core sanitize rules", fa: "همه قانون‌های اصلی پاک‌سازی", ar: "جميع قواعد التنظيف الأساسية", de: "Alle Kern-Bereinigungsregeln" },
+          { en: "Fully local processing", fa: "پردازش کاملاً محلی", ar: "معالجة محلية بالكامل", de: "Vollständig lokale Verarbeitung" }
+        ]
+      },
+      {
+        name: { en: "Premium", fa: "پریمیوم", ar: "بريميوم", de: "Premium" },
+        price: { en: "License via Telegram", fa: "لایسنس از طریق تلگرام", ar: "ترخيص عبر Telegram", de: "Lizenz über Telegram" },
+        badge: { en: "Unlimited", fa: "نامحدود", ar: "غير محدود", de: "Unbegrenzt" },
+        highlight: true,
+        note: { en: "For high-volume, professional work", fa: "برای کارهای حرفه‌ای و پرحجم", ar: "للعمل الاحترافي وكبير الحجم", de: "Für professionelle Arbeit mit hohem Volumen" },
+        features: [
+          { en: "Unlimited pages per file", fa: "صفحات نامحدود در هر فایل", ar: "صفحات غير محدودة لكل ملف", de: "Unbegrenzte Seiten pro Datei" },
+          { en: "Unlimited files per day", fa: "فایل نامحدود در روز", ar: "ملفات غير محدودة يومياً", de: "Unbegrenzte Dateien pro Tag" },
+          { en: "Full rule engine, no caps", fa: "موتور قانون کامل، بدون سقف", ar: "محرك قواعد كامل دون حدود", de: "Vollständige Regel-Engine, ohne Limits" },
+          { en: "Priority support on Telegram", fa: "پشتیبانی اولویت‌دار در تلگرام", ar: "دعم ذو أولوية عبر Telegram", de: "Priorisierter Support auf Telegram" }
+        ],
+        cta: { label: { en: "Get a license on Telegram", fa: "دریافت لایسنس در تلگرام", ar: "الحصول على ترخيص عبر Telegram", de: "Lizenz über Telegram erhalten" }, url: "https://t.me/MiladAteight" }
+      }
+    ],
+    steps: [
+      { title: { en: "Load your PDF", fa: "بارگذاری PDF", ar: "حمّل ملف PDF", de: "PDF laden" }, body: { en: "Open a large document — whatever number of pages it has.", fa: "یک سند بزرگ را باز کن — با هر تعداد صفحه‌ای که دارد.", ar: "افتح مستنداً كبيراً — أياً كان عدد صفحاته.", de: "Öffne ein großes Dokument — egal mit wie vielen Seiten." } },
+      { title: { en: "Define the rules", fa: "تعریف قانون‌ها", ar: "عرّف القواعد", de: "Regeln definieren" }, body: { en: "Mark what to remove, what to replace, and what to insert.", fa: "مشخص کن چه چیزی حذف، چه چیزی جایگزین و چه چیزی اضافه شود.", ar: "حدِّد ما يُحذف وما يُستبدل وما يُضاف.", de: "Lege fest, was entfernt, ersetzt und eingefügt wird." } },
+      { title: { en: "Run the batch", fa: "اجرای دسته‌ای", ar: "شغّل الدفعة", de: "Stapel ausführen" }, body: { en: "Apply the rules across every page of the document in one pass.", fa: "قانون‌ها را در یک مرحله روی همه صفحات سند اعمال کن.", ar: "طبّق القواعد على كل صفحة من المستند في تمريرة واحدة.", de: "Wende die Regeln in einem Durchgang auf jede Seite des Dokuments an." } },
+      { title: { en: "Export a clean file", fa: "خروجی فایل تمیز", ar: "صدّر ملفاً نظيفاً", de: "Saubere Datei exportieren" }, body: { en: "Preview the result and save the sanitized PDF.", fa: "نتیجه را پیش‌نمایش کن و PDF پاک‌سازی‌شده را ذخیره کن.", ar: "عايِن النتيجة واحفظ ملف PDF بعد تنظيفه.", de: "Prüfe das Ergebnis und speichere das bereinigte PDF." } }
+    ],
+    downloads: [{ label: { en: "Get a license on Telegram", fa: "دریافت لایسنس در تلگرام", ar: "الحصول على ترخيص عبر Telegram", de: "Lizenz über Telegram erhalten" }, url: "https://t.me/MiladAteight", primary: true }]
+  },
   "hybrid-web-mail-infrastructure": {
     hero: {
       en: "Production infrastructure for web, mail, and secure tunneling.",

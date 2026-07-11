@@ -102,6 +102,34 @@ const visualCopy = {
     ar: "سطح الدردشة فقط · الكود LTR · وقت التشغيل فقط",
     de: "nur Chat-Oberfläche · Code LTR · nur Laufzeit",
   },
+  airtlRaw: { en: "before", fa: "قبل", ar: "قبل", de: "vorher" },
+  airtlFixed: { en: "after", fa: "بعد", ar: "بعد", de: "nachher" },
+  airtlUser: {
+    en: "Please show this answer right-to-left",
+    fa: "لطفاً این پاسخ را راست‌به‌چپ نشان بده",
+    ar: "من فضلك اعرض هذه الإجابة من اليمين إلى اليسار",
+    de: "Bitte zeige diese Antwort von rechts nach links",
+  },
+  pdfCaption: {
+    en: "Functional illustration of rule-based batch PDF editing",
+    fa: "نمایش کارکردی ویرایش دسته‌ای PDF بر پایه قانون",
+    ar: "توضيح وظيفي لتحرير PDF الدفعي القائم على القواعد",
+    de: "Funktionale Darstellung der regelbasierten Stapel-PDF-Bearbeitung",
+  },
+  pdfWindow: { en: "PDF Sanitizer", fa: "PDF Sanitizer", ar: "PDF Sanitizer", de: "PDF Sanitizer" },
+  pdfBatch: { en: "batch", fa: "دسته‌ای", ar: "دفعة", de: "Stapel" },
+  pdfRules: { en: "Rule set", fa: "مجموعه قانون", ar: "مجموعة القواعد", de: "Regelsatz" },
+  pdfRemove: { en: "remove", fa: "حذف", ar: "حذف", de: "entfernen" },
+  pdfReplace: { en: "replace", fa: "جایگزینی", ar: "استبدال", de: "ersetzen" },
+  pdfInsert: { en: "insert", fa: "افزودن", ar: "إضافة", de: "einfügen" },
+  pdfPages: { en: "pages", fa: "صفحه", ar: "صفحة", de: "Seiten" },
+  pdfApplied: { en: "rules applied to every page", fa: "قانون‌ها روی همه صفحات اعمال شد", ar: "طُبِّقت القواعد على كل صفحة", de: "Regeln auf jede Seite angewendet" },
+  pdfStatus: {
+    en: "rule-based · local processing · large documents",
+    fa: "بر پایه قانون · پردازش محلی · اسناد بزرگ",
+    ar: "قائم على القواعد · معالجة محلية · مستندات كبيرة",
+    de: "regelbasiert · lokale Verarbeitung · große Dokumente",
+  },
 };
 
 const keyfixExamples = [
@@ -657,33 +685,35 @@ function BotVisual({ language }) {
 }
 
 function AiRtlVisual({ language }) {
-  const fixed = useLoop(2, 2600) === 1;
+  const fixed = useLoop(2, 3000) === 1;
   return (
-    <div className="project-visual-scene airtl-demo" data-visual="ai-chat-rtl-fixer" aria-label="AI Chat RTL Fixer chat-surface illustration">
+    <div
+      className={`project-visual-scene airtl-demo ${fixed ? "is-fixed" : "is-raw"}`}
+      data-visual="ai-chat-rtl-fixer"
+      aria-label="AI Chat RTL Fixer chat-surface illustration"
+    >
       <div className="demo-caption">{L(visualCopy.airtlCaption, language)}</div>
       <div className="airtl-window">
         <div className="window-bar">
           <span />
           <strong>{L(visualCopy.airtlWindow, language)}</strong>
-          <motion.em
-            className={`airtl-toggle ${fixed ? "is-on" : ""}`}
-            animate={{ opacity: [0.6, 1] }}
-            transition={{ duration: 0.4 }}
-          >
+          <motion.em className={`airtl-toggle ${fixed ? "is-on" : ""}`} layout>
+            <i className="airtl-toggle-dot" />
             {L(fixed ? visualCopy.airtlOn : visualCopy.airtlOff, language)}
           </motion.em>
         </div>
         <div className="airtl-thread">
-          <div className="airtl-msg is-user" dir="ltr">Fix RTL please</div>
+          <div className="airtl-msg is-user" dir="rtl">{L(visualCopy.airtlUser, language)}</div>
           <motion.div
             key={`chat-${fixed}`}
-            className="airtl-msg is-bot"
+            className={`airtl-msg is-bot ${fixed ? "" : "is-broken"}`}
             dir={fixed ? "rtl" : "ltr"}
-            initial={{ opacity: 0.4 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0.35, filter: "blur(3px)" }}
+            animate={{ opacity: 1, filter: "blur(0px)" }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           >
-            سلام! این پیام فارسی است و باید راست‌به‌چپ خوانده شود.
+            <span className="airtl-msg-tag">{L(fixed ? visualCopy.airtlFixed : visualCopy.airtlRaw, language)}</span>
+            سلام! این یک پاسخ فارسی است، همراه با یک واژهٔ <span className="airtl-inline-en" dir="ltr">English</span> و علامت‌گذاری درست.
           </motion.div>
           <div className="airtl-code" dir="ltr" aria-hidden="true">
             <span className="airtl-code-tag">{L(visualCopy.airtlCodeStays, language)}</span>
@@ -699,9 +729,91 @@ function AiRtlVisual({ language }) {
   );
 }
 
+const pdfRules = [
+  { kind: "remove", tagKey: "pdfRemove", from: "CONFIDENTIAL — DRAFT", to: null },
+  { kind: "replace", tagKey: "pdfReplace", from: "€ 1,250.00", to: "$ 1,375.00" },
+  { kind: "insert", tagKey: "pdfInsert", from: null, to: "Approved · AT8" },
+];
+
+const pdfPageRows = [
+  { w: "82%", state: "keep" },
+  { w: "64%", state: "remove" },
+  { w: "90%", state: "keep" },
+  { w: "54%", state: "replace" },
+  { w: "74%", state: "keep" },
+  { w: "48%", state: "insert" },
+];
+
+const PDF_TOTAL = 3000;
+const PDF_STEPS = 26;
+
+function PdfSanitizerVisual({ language }) {
+  const step = useLoop(PDF_STEPS, 150);
+  const ratio = step / (PDF_STEPS - 1);
+  const pct = Math.round(ratio * 100);
+  const pages = Math.min(PDF_TOTAL, Math.round(ratio * PDF_TOTAL));
+
+  return (
+    <div className="project-visual-scene pdf-demo" data-visual="pdf-sanitizer" aria-label="PDF Sanitizer batch editing illustration">
+      <div className="demo-caption">{L(visualCopy.pdfCaption, language)}</div>
+      <div className="pdf-stage">
+        <div className="pdf-rules" aria-hidden="true">
+          <span className="pdf-rules-title">{L(visualCopy.pdfRules, language)}</span>
+          {pdfRules.map((rule) => (
+            <div className={`pdf-rule pdf-rule-${rule.kind}`} key={rule.kind}>
+              <em>{L(visualCopy[rule.tagKey], language)}</em>
+              <span className="pdf-rule-body" dir="ltr">
+                {rule.from && <b className="pdf-from">{rule.from}</b>}
+                {rule.from && rule.to && <i className="pdf-arrow">→</i>}
+                {rule.to && <b className="pdf-to">{rule.to}</b>}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <div className="pdf-doc">
+          <div className="window-bar">
+            <span />
+            <strong>{L(visualCopy.pdfWindow, language)}</strong>
+            <em>{L(visualCopy.pdfBatch, language)}</em>
+          </div>
+          <div className="pdf-pages">
+            <div className="pdf-page-lines" aria-hidden="true">
+              {pdfPageRows.map((row, index) => (
+                <span
+                  key={index}
+                  className={`pdf-line pdf-line-${row.state}`}
+                  style={{ width: row.w }}
+                />
+              ))}
+            </div>
+            <motion.span
+              className="pdf-scan"
+              aria-hidden="true"
+              animate={{ top: `${pct}%` }}
+              transition={{ ease: "linear", duration: 0.14 }}
+            />
+          </div>
+          <div className="pdf-progress" aria-hidden="true">
+            <motion.span animate={{ width: `${pct}%` }} transition={{ ease: "linear", duration: 0.14 }} />
+          </div>
+          <div className="pdf-counter" dir="ltr">
+            <b>{pages.toLocaleString("en-US")}</b> / {PDF_TOTAL.toLocaleString("en-US")} {L(visualCopy.pdfPages, language)}
+          </div>
+        </div>
+      </div>
+      <div className="visual-status-line">
+        <span />
+        {L(visualCopy.pdfStatus, language)}
+      </div>
+    </div>
+  );
+}
+
 const sceneMap = {
   keyfix: KeyFixVisual,
   netdoctor: NetDoctorVisual,
+  "pdf-sanitizer": PdfSanitizerVisual,
   "hybrid-web-mail-infrastructure": InfrastructureVisual,
   "instagram-youtube-soundcloud-downloader": BotVisual,
   "ai-chat-rtl-fixer": AiRtlVisual,

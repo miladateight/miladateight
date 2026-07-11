@@ -1,9 +1,10 @@
-import { Wrench, Network, Server, Bot, AlignRight } from "lucide-react";
+import { Wrench, Network, Server, Bot, AlignRight, FileStack } from "lucide-react";
 import { repos } from "./profile";
 
 export const projectAccents = {
   keyfix: "#2dd4bf",
   netdoctor: "#38bdf8",
+  pdfsan: "#fb7185",
   hwmi: "#8b5cf6",
   downloader: "#e879f9",
   airtl: "#f59e0b"
@@ -54,6 +55,29 @@ export const projects = [
       fa: "ابزار ویندوز برای بررسی DNS، تاخیر، وضعیت proxy و مشکلات اتصال، با ترمیم‌های هدایت‌شده و قابل بازگشت.",
       ar: "تطبيق Windows لتشخيص DNS والكمون وحالة proxy ومشاكل الاتصال، مع مسارات إصلاح موجَّهة وقابلة للتراجع.",
       de: "Ein Windows-Tool zur Diagnose von DNS, Latenz, Proxy-Status und Verbindungsproblemen mit geführten, rückgängig machbaren Reparaturen."
+    }
+  },
+  {
+    slug: "pdf-sanitizer",
+    accent: "pdfsan",
+    visualTone: "pdf-batch",
+    title: "PDF Sanitizer",
+    type: {
+      en: "Bulk PDF cleanup and find-replace",
+      fa: "ویرایش و پاک‌سازی دسته‌ای PDF",
+      ar: "تنظيف واستبدال دفعي في PDF",
+      de: "Stapel-PDF-Bereinigung und Suchen/Ersetzen"
+    },
+    stack: ".NET 8 / Batch PDF engine / Local-only",
+    url: null,
+    pageUrl: repos.pdfSanitizerPage,
+    Icon: FileStack,
+    tag: { en: "document tool", fa: "ابزار سند", ar: "أداة مستندات", de: "Dokumenten-Tool" },
+    lines: {
+      en: "A Windows tool that bulk-edits large PDFs — find, replace, remove, or insert repeated content across hundreds or thousands of pages from one rule set. Free up to 10 pages, unlimited on a Telegram license.",
+      fa: "ابزار ویندوز برای ویرایش دسته‌ای PDFهای بزرگ — پیدا کردن، جایگزینی، حذف یا افزودن محتوای تکراری روی صدها یا هزاران صفحه با یک مجموعه قانون. رایگان تا ۱۰ صفحه، نامحدود با لایسنس تلگرام.",
+      ar: "أداة Windows لتحرير ملفات PDF الكبيرة دفعةً واحدة — بحث واستبدال وحذف وإضافة للمحتوى المتكرر عبر مئات أو آلاف الصفحات من مجموعة قواعد واحدة. مجاني حتى 10 صفحات، وغير محدود بترخيص عبر Telegram.",
+      de: "Ein Windows-Tool zum Stapel-Bearbeiten großer PDFs — Inhalte über Hunderte oder Tausende Seiten aus einem Regelsatz finden, ersetzen, entfernen oder einfügen. Kostenlos bis 10 Seiten, unbegrenzt mit Telegram-Lizenz."
     }
   },
   {

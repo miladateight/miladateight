@@ -24,6 +24,7 @@ export const repos = {
   keyfixPage: "/KeyFix/",
   netDoctor: "https://github.com/miladateight/NetDoctor",
   netDoctorPage: "/NetDoctor/",
+  pdfSanitizerPage: "/PDF-Sanitizer/",
   infrastructure: "https://github.com/miladateight/hybrid-web-mail-infrastructure",
   infrastructurePage: "/hybrid-web-mail-infrastructure/",
   downloader: "https://github.com/miladateight/instagram-youtube-soundcloud-downloader",

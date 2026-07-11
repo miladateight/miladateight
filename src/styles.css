@@ -51,6 +51,7 @@
   --accent-3: #8b5cf6;
   --accent-4: #e879f9;
   --accent-5: #f59e0b;
+  --accent-6: #fb7185;
   --accent-soft: rgba(56, 189, 248, 0.1);
   --accent-glow: rgba(56, 189, 248, 0.26);
   --violet-soft: rgba(139, 92, 246, 0.12);
@@ -1386,6 +1387,7 @@ p {
 
 .project-preview.precision-input { --preview-accent: var(--accent-2); }
 .project-preview.network-diagnostics { --preview-accent: var(--accent); }
+.project-preview.pdf-batch { --preview-accent: var(--accent-6); }
 .project-preview.infrastructure-map { --preview-accent: var(--accent-3); }
 .project-preview.automation-flow { --preview-accent: var(--accent-4); }
 .project-preview.rtl-typography { --preview-accent: var(--accent-5); }
@@ -1997,6 +1999,7 @@ p {
 /* Project pages */
 .project-keyfix { --project-accent: var(--accent-2); --project-soft: rgba(45, 212, 191, 0.1); }
 .project-netdoctor { --project-accent: var(--accent); --project-soft: rgba(56, 189, 248, 0.1); }
+.project-pdfsan { --project-accent: var(--accent-6); --project-soft: rgba(251, 113, 133, 0.12); }
 .project-hwmi { --project-accent: var(--accent-3); --project-soft: rgba(139, 92, 246, 0.12); }
 .project-downloader { --project-accent: var(--accent-4); --project-soft: rgba(232, 121, 249, 0.1); }
 .project-airtl { --project-accent: var(--accent-5); --project-soft: rgba(245, 158, 11, 0.12); }
@@ -2979,6 +2982,316 @@ p {
   border-radius: 50%;
   background: var(--project-accent);
   box-shadow: 0 0 18px var(--project-accent);
+}
+
+/* AI Chat RTL Fixer — hero visual polish */
+.airtl-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.airtl-toggle-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-3);
+  transition: background 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+
+.airtl-toggle.is-on .airtl-toggle-dot {
+  background: var(--project-accent);
+  box-shadow: 0 0 12px var(--project-accent);
+}
+
+.airtl-msg-tag {
+  display: inline-block;
+  margin-inline-end: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  vertical-align: middle;
+}
+
+.airtl-msg.is-bot .airtl-msg-tag {
+  border-color: color-mix(in srgb, var(--project-accent) 45%, var(--border));
+  color: var(--project-accent);
+}
+
+.airtl-msg.is-broken {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.06);
+}
+
+.airtl-msg.is-broken .airtl-msg-tag {
+  border-color: rgba(245, 158, 11, 0.5);
+  color: #f59e0b;
+}
+
+.airtl-inline-en {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  color: var(--accent);
+  unicode-bidi: isolate;
+}
+
+/* PDF Sanitizer — batch editing visual */
+.pdf-demo {
+  align-content: center;
+}
+
+.pdf-stage {
+  width: min(408px, 100%);
+  display: grid;
+  gap: 14px;
+  padding-block-start: 16px;
+}
+
+.pdf-rules {
+  display: grid;
+  gap: 9px;
+  padding: 14px 15px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: rgba(3, 7, 18, 0.6);
+}
+
+.pdf-rules-title {
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.pdf-rule {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.pdf-rule em {
+  flex-shrink: 0;
+  min-width: 62px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  font-style: normal;
+  font-size: 0.6rem;
+  font-weight: 850;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.pdf-rule-remove em { color: #f87171; border-color: rgba(248, 113, 113, 0.4); background: rgba(248, 113, 113, 0.08); }
+.pdf-rule-replace em { color: var(--accent-5); border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.08); }
+.pdf-rule-insert em { color: var(--accent-2); border-color: rgba(45, 212, 191, 0.4); background: rgba(45, 212, 191, 0.08); }
+
+.pdf-rule-body {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.pdf-from {
+  color: var(--text-3);
+  font-weight: 700;
+  text-decoration: line-through;
+  text-decoration-color: rgba(248, 113, 113, 0.75);
+}
+
+.pdf-arrow { color: var(--text-3); font-style: normal; }
+.pdf-to { color: var(--text); font-weight: 800; }
+
+.pdf-doc {
+  border: 1px solid color-mix(in srgb, var(--project-accent) 32%, var(--border));
+  border-radius: var(--radius-md);
+  background: rgba(3, 7, 18, 0.74);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), var(--shadow-1);
+  overflow: hidden;
+}
+
+.pdf-pages {
+  position: relative;
+  padding: 18px;
+  overflow: hidden;
+}
+
+.pdf-page-lines {
+  display: grid;
+  gap: 11px;
+}
+
+.pdf-line {
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(148, 163, 184, 0.22);
+}
+
+.pdf-line-remove {
+  position: relative;
+  background: rgba(248, 113, 113, 0.16);
+}
+
+.pdf-line-remove::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 50%;
+  height: 1px;
+  background: rgba(248, 113, 113, 0.85);
+}
+
+.pdf-line-replace { background: rgba(245, 158, 11, 0.28); }
+.pdf-line-insert {
+  background: transparent;
+  border: 1px dashed rgba(45, 212, 191, 0.55);
+}
+
+.pdf-scan {
+  position: absolute;
+  inset-inline: 10px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--project-accent);
+  box-shadow: 0 0 16px var(--project-accent);
+}
+
+.pdf-progress {
+  height: 4px;
+  margin: 0 18px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.18);
+  overflow: hidden;
+}
+
+.pdf-progress span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--project-accent) 55%, transparent), var(--project-accent));
+}
+
+.pdf-counter {
+  padding: 12px 18px 16px;
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+}
+
+.pdf-counter b {
+  color: var(--text);
+  font-weight: 900;
+}
+
+.pdf-demo .visual-status-line {
+  position: static;
+  justify-self: center;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* Project plans / pricing */
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(248px, 1fr));
+  gap: 18px;
+}
+
+.plan-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 26px 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: rgba(15, 22, 34, 0.72);
+}
+
+.plan-card.is-featured {
+  border-color: color-mix(in srgb, var(--project-accent) 52%, var(--border));
+  background:
+    linear-gradient(180deg, var(--project-soft), transparent 62%),
+    rgba(15, 22, 34, 0.72);
+  box-shadow: 0 22px 60px color-mix(in srgb, var(--project-accent) 16%, transparent);
+}
+
+.plan-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.plan-head h3 {
+  font-size: 1.16rem;
+  font-weight: 900;
+  color: var(--text);
+}
+
+.plan-badge {
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--project-accent) 45%, var(--border));
+  background: var(--project-soft);
+  color: var(--project-accent);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.plan-price {
+  color: var(--project-accent);
+  font-size: 1.32rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.plan-note {
+  color: var(--text-3);
+  font-size: 0.86rem;
+}
+
+.plan-features {
+  display: grid;
+  gap: 9px;
+  margin-block: 4px;
+}
+
+.plan-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  color: var(--text-2);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.plan-features svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+  color: var(--project-accent);
+}
+
+.plan-cta {
+  margin-top: auto;
+  justify-content: center;
 }
 
 .bot-phone {
