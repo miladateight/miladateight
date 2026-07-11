@@ -1,11 +1,12 @@
-import { Wrench, Network, Server, Bot } from "lucide-react";
+import { Wrench, Network, Server, Bot, AlignRight } from "lucide-react";
 import { repos } from "./profile";
 
 export const projectAccents = {
   keyfix: "#2dd4bf",
   netdoctor: "#38bdf8",
   hwmi: "#8b5cf6",
-  downloader: "#e879f9"
+  downloader: "#e879f9",
+  airtl: "#f59e0b"
 };
 
 export const projects = [
@@ -99,6 +100,29 @@ export const projects = [
       fa: "ربات تلگرامی خصوصی برای دانلود از Instagram، YouTube و SoundCloud، با فعال‌سازی توسط ادمین و مدیریت کوکی.",
       ar: "بوت Telegram خاص للتنزيل من Instagram و YouTube و SoundCloud، مع تفعيل من المسؤول وإدارة لملفات تعريف الارتباط.",
       de: "Ein privater Telegram-Bot zum Herunterladen von Instagram, YouTube und SoundCloud mit Admin-Aktivierung und Cookie-Verwaltung."
+    }
+  },
+  {
+    slug: "ai-chat-rtl-fixer",
+    accent: "airtl",
+    visualTone: "rtl-typography",
+    title: "AI Chat RTL Fixer",
+    type: {
+      en: "Open-source RTL utility for AI chat apps",
+      fa: "ابزار متن‌باز راست‌به‌چپ برای اپ‌های چت هوش مصنوعی",
+      ar: "أداة RTL مفتوحة المصدر لتطبيقات دردشة الذكاء الاصطناعي",
+      de: "Open-Source-RTL-Tool für KI-Chat-Apps"
+    },
+    stack: ".NET 8 / Tray app / CDP injection / Local-only",
+    url: repos.aiRtl,
+    pageUrl: repos.aiRtlPage,
+    Icon: AlignRight,
+    tag: { en: "desktop tool", fa: "ابزار دسکتاپ", ar: "أداة سطح المكتب", de: "Desktop-Tool" },
+    lines: {
+      en: "A Windows tray tool that fixes right-to-left rendering inside AI desktop chat apps for Persian, Arabic, Hebrew, and Urdu — while code, paths, and English stay left-to-right. Runtime-only, no telemetry.",
+      fa: "ابزار tray ویندوز که رندر راست‌به‌چپ را داخل اپ‌های دسکتاپ چت هوش مصنوعی برای فارسی، عربی، عبری و اردو اصلاح می‌کند — در حالی که کد، مسیرها و انگلیسی چپ‌به‌راست می‌مانند. فقط زمان اجرا، بدون ارسال داده.",
+      ar: "أداة في شريط مهام Windows تصحّح العرض من اليمين إلى اليسار داخل تطبيقات دردشة الذكاء الاصطناعي للفارسية والعربية والعبرية والأردية — مع بقاء الكود والمسارات والإنجليزية من اليسار إلى اليمين. وقت التشغيل فقط، دون إرسال بيانات.",
+      de: "Eine Windows-Tray-App, die die Rechts-nach-links-Darstellung in KI-Desktop-Chat-Apps für Persisch, Arabisch, Hebräisch und Urdu korrigiert — während Code, Pfade und Englisch von links nach rechts bleiben. Nur zur Laufzeit, ohne Telemetrie."
     }
   }
 ];

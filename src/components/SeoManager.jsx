@@ -25,6 +25,7 @@ const brandKeywords = [
   "NetDoctor",
   "Hybrid Web and Mail Infrastructure",
   "Media Downloader Bot",
+  "AI Chat RTL Fixer",
 ];
 
 const pageCopy = {

@@ -105,6 +105,13 @@ const projectDetails = {
     security: "Access is limited to approved Telegram users. Cookie handling and logs should stay minimal because downloader workflows can expose sensitive account or media metadata.",
     result: "The useful result is a private automation tool that removes the need to jump between multiple ad-heavy download sites or browser extensions.",
   },
+  "ai-chat-rtl-fixer": {
+    architecture: "A .NET 8 Windows tray app detects known desktop AI chat apps, and for Electron targets connects over the Chrome DevTools Protocol on local loopback, injecting scoped CSS, the Vazirmatn font, and a runtime script that classifies each chat block and applies the correct text direction.",
+    decisions: "The tool is deliberately scoped to the chat surface, keeps code and English left-to-right, stays runtime-only instead of patching app files, and only relaunches a target on a random free debug port after explicit user consent.",
+    limits: "It is a pre-release framework build: detecting an app is not the same as a verified fix, no app profile is marked stable yet, and selectors may need updating after target apps change their UI.",
+    security: "There is no telemetry, no account, and no external network calls — only local loopback to a debug-enabled target app. Chat text and clipboard content are never stored, and logs keep safe metadata only.",
+    result: "The practical outcome is readable right-to-left chat in desktop AI apps for Persian, Arabic, Hebrew, and Urdu users, with a clean revert whenever the tool is disabled or the app is restarted normally.",
+  },
 };
 
 function ProjectMetaPanel({ project, data, language }) {
