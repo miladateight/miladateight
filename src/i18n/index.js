@@ -70,7 +70,7 @@ export const translations = {
     plansLabel: "Plans",
     screenshotsLabel: "Screenshots",
     specialtiesTitle: "Areas of expertise",
-    specialtiesLead: "IT management, network infrastructure, server operations, and everything in between."
+    specialtiesLead: "IT operations, network infrastructure, server administration, and everything in between."
   },
   fa: {
     label: "\u0641\u0627\u0631\u0633\u06CC",
@@ -170,7 +170,7 @@ export const translations = {
     plansLabel: "\u0627\u0644\u0628\u0627\u0642\u0627\u062A",
     screenshotsLabel: "\u0644\u0642\u0637\u0627\u062A \u0627\u0644\u0634\u0627\u0634\u0629",
     specialtiesTitle: "\u0645\u062C\u0627\u0644\u0627\u062A \u0627\u0644\u062E\u0628\u0631\u0629",
-    specialtiesLead: "\u0625\u062F\u0627\u0631\u0629 \u062A\u0642\u0646\u064A\u0629 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A\u060C \u0627\u0644\u0628\u0646\u064A\u0629 \u0627\u0644\u062A\u062D\u062A\u064A\u0629 \u0644\u0644\u0634\u0628\u0643\u0627\u062A\u060C \u0639\u0645\u0644\u064A\u0627\u062A \u0627\u0644\u062E\u0648\u0627\u062F\u0645 \u0648\u0645\u0627 \u0628\u064A\u0646 \u0630\u0644\u0643."
+    specialtiesLead: "\u0639\u0645\u0644\u064A\u0627\u062A \u062A\u0642\u0646\u064A\u0629 \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062A\u060C \u0627\u0644\u0628\u0646\u064A\u0629 \u0627\u0644\u062A\u062D\u062A\u064A\u0629 \u0644\u0644\u0634\u0628\u0643\u0627\u062A\u060C \u0639\u0645\u0644\u064A\u0627\u062A \u0627\u0644\u062E\u0648\u0627\u062F\u0645 \u0648\u0645\u0627 \u0628\u064A\u0646 \u0630\u0644\u0643."
   },
   de: {
     label: "Deutsch",
@@ -220,6 +220,6 @@ export const translations = {
     plansLabel: "Tarife",
     screenshotsLabel: "Screenshots",
     specialtiesTitle: "Fachbereiche",
-    specialtiesLead: "IT-Management, Netzwerkinfrastruktur, Serverbetrieb und alles dazwischen."
+    specialtiesLead: "IT-Betrieb, Netzwerkinfrastruktur, Serverbetrieb und alles dazwischen."
   }
 };

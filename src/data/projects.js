@@ -152,7 +152,7 @@ export const projects = [
 ];
 
 export const specialties = [
-  { en: "IT Management", fa: "مدیریت IT", ar: "إدارة تقنية المعلومات", de: "IT-Management" },
+  { en: "IT Operations", fa: "عملیات IT", ar: "عمليات تقنية المعلومات", de: "IT-Betrieb" },
   { en: "Network Infrastructure", fa: "زیرساخت شبکه", ar: "البنية التحتية للشبكة", de: "Netzwerkinfrastruktur" },
   { en: "MikroTik", fa: "MikroTik", ar: "MikroTik", de: "MikroTik" },
   { en: "Linux Servers", fa: "سرورهای لینوکس", ar: "خوادم Linux", de: "Linux-Server" },

@@ -316,22 +316,6 @@ export default function Header({ t, language, setLanguage, isRtl }) {
                     ))}
                   </div>
                 </div>
-                <div className="header-drawer-section">
-                  <strong>{localize(shellText.language, language)}</strong>
-                  <div className="header-drawer-language" role="listbox" aria-label={localize(shellText.language, language)}>
-                    {languages.map((item) => (
-                      <button
-                        key={item.key}
-                        type="button"
-                        role="option"
-                        aria-selected={language === item.key}
-                        onClick={() => setLanguage(item.key)}
-                      >
-                        {item.short}
-                      </button>
-                    ))}
-                  </div>
-                </div>
               </motion.div>
             </>
           )}
