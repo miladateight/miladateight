@@ -519,39 +519,42 @@ p {
 .header-projects-panel {
   inset-inline-start: 50%;
   translate: -50% 0;
-  width: min(410px, calc(100vw - 34px));
-  max-height: min(60vh, 420px);
-  overflow-y: auto;
+  width: min(480px, calc(100vw - 34px));
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 8px;
   padding: 10px;
   transform-origin: top center;
 }
 
 .header-panel-intro {
-  padding: 10px 12px 12px;
+  grid-column: 1 / -1;
+  padding: 8px 10px 10px;
   border-bottom: 1px solid var(--border);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .header-panel-intro strong {
   display: block;
   color: var(--text);
   font-family: var(--font-display);
-  font-size: 0.98rem;
+  font-size: 0.92rem;
 }
 
 .header-panel-intro small {
   display: block;
   margin-top: 4px;
   color: var(--text-3);
-  font-size: 0.8rem;
+  font-size: 0.76rem;
 }
 
 .header-projects-panel a {
   display: grid;
   gap: 2px;
-  padding: 9px 12px;
+  padding: 8px 10px;
   border: 1px solid transparent;
   border-radius: var(--radius-md);
+  min-width: 0;
   transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
 }
 
@@ -562,13 +565,14 @@ p {
 }
 
 .header-projects-panel a span {
-  font-size: 0.92rem;
+  font-size: 0.82rem;
   font-weight: 760;
+  overflow-wrap: anywhere;
 }
 
 .header-projects-panel a small {
   color: var(--text-3);
-  font-size: 0.75rem;
+  font-size: 0.68rem;
 }
 
 .header-actions {
@@ -814,7 +818,7 @@ p {
 }
 
 .section-title {
-  font-size: clamp(1.8rem, 3.4vw, 2.85rem);
+  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
   color: var(--text);
 }
 
@@ -932,8 +936,8 @@ p {
   max-width: 900px;
   margin-top: 24px;
   color: #f8fbff;
-  font-size: clamp(2.15rem, 4.3vw, 4.05rem);
-  line-height: 1.05;
+  font-size: clamp(1.9rem, 3.6vw, 3.4rem);
+  line-height: 1.08;
 }
 
 .hero-sub {
@@ -1677,7 +1681,7 @@ p {
 }
 
 .contact-cta-section h2 {
-  font-size: clamp(1.8rem, 4.2vw, 3.7rem);
+  font-size: clamp(1.6rem, 3.4vw, 3.05rem);
 }
 
 .contact-cta-section .lead {
@@ -1865,7 +1869,7 @@ p {
 
 .subpage-hero h1 {
   max-width: 920px;
-  font-size: clamp(1.85rem, 3.6vw, 3.3rem);
+  font-size: clamp(1.65rem, 3vw, 2.75rem);
   line-height: 1.06;
 }
 
@@ -2098,8 +2102,8 @@ p {
 
 .project-hero h1 {
   color: var(--text);
-  font-size: clamp(1.75rem, 3.3vw, 3.15rem);
-  line-height: 1.1;
+  font-size: clamp(1.55rem, 2.8vw, 2.65rem);
+  line-height: 1.14;
   overflow-wrap: anywhere;
 }
 
@@ -4098,7 +4102,7 @@ p {
   }
 
   .hero h1 {
-    font-size: clamp(1.95rem, 7.6vw, 2.75rem);
+    font-size: clamp(1.75rem, 6.6vw, 2.4rem);
   }
 
   .contact-fallback,
@@ -4121,11 +4125,11 @@ p {
 
   .hero h1 {
     margin-top: 20px;
-    font-size: clamp(1.85rem, 8vw, 2.45rem);
+    font-size: clamp(1.65rem, 7vw, 2.15rem);
   }
 
   .project-hero h1 {
-    font-size: clamp(1.62rem, 7.2vw, 2.25rem);
+    font-size: clamp(1.45rem, 6.3vw, 1.95rem);
   }
 
   .hero-sub {
