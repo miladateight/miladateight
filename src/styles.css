@@ -3168,7 +3168,9 @@ p {
   color: var(--text-3);
 }
 
-.keyfix-demo .visual-status-line {
+.keyfix-demo .visual-status-line,
+.airtl-demo .visual-status-line,
+.veyna-demo .visual-status-line {
   position: static;
   justify-self: center;
   margin-top: 8px;

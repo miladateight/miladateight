@@ -37,6 +37,12 @@ const footerText = {
     ar: "متاح للتعاون التقني ومراجعة المشاريع.",
     de: "Verfügbar für technische Zusammenarbeit und Projekt-Reviews.",
   },
+  email: {
+    en: "Email",
+    fa: "ایمیل",
+    ar: "البريد الإلكتروني",
+    de: "E-Mail",
+  },
 };
 
 const fadeUp = {
@@ -101,7 +107,7 @@ export default function Footer({ t, language }) {
             <ul className="footer-contact-list">
               <li><a href={profile.github} target="_blank" rel="noopener noreferrer"><Github size={15} />GitHub</a></li>
               <li><a href={profile.telegram} target="_blank" rel="noopener noreferrer"><Send size={15} />Telegram</a></li>
-              <li><a href={`mailto:${profile.email}`}><AtSign size={15} />Email</a></li>
+              <li><a href={`mailto:${profile.email}`}><AtSign size={15} />{localize(footerText.email, language)}</a></li>
             </ul>
           </motion.div>
         </div>
