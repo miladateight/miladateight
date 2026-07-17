@@ -56,6 +56,12 @@ const homeCopy = {
     ar: "ابدأ محادثة",
     de: "Gespräch starten",
   },
+  emailLabel: {
+    en: "Email",
+    fa: "ایمیل",
+    ar: "البريد الإلكتروني",
+    de: "E-Mail",
+  },
   commandTitle: {
     en: "Systems cockpit",
     fa: "کاکپیت سیستم",
@@ -277,8 +283,8 @@ export default function Home({ t, language }) {
   const contactLinks = useMemo(() => [
     [Github, "GitHub", profile.github],
     [Send, "Telegram", profile.telegram],
-    [Globe2, "Email", `mailto:${profile.email}`],
-  ], []);
+    [Globe2, localize(homeCopy.emailLabel, language), `mailto:${profile.email}`],
+  ], [language]);
 
   return (
     <>

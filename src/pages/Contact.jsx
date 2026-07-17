@@ -63,7 +63,7 @@ export default function Contact({ t, language }) {
     },
     {
       icon: AtSign,
-      title: "Email",
+      title: { en: "Email", fa: "ایمیل", ar: "البريد الإلكتروني", de: "E-Mail" },
       desc: contactCopy.detailed,
       link: `mailto:${profile.email}?subject=AT8%20technical%20collaboration`,
       label: profile.email,
@@ -98,7 +98,7 @@ export default function Contact({ t, language }) {
           {methods.map((method) => {
             const Icon = method.icon;
             return (
-              <Reveal key={method.title}>
+              <Reveal key={method.label}>
                 <motion.a
                   href={method.link}
                   className={`contact-method ${method.primary ? "primary" : ""}`}
@@ -110,7 +110,7 @@ export default function Contact({ t, language }) {
                 >
                   <span className="contact-method-icon"><Icon size={21} aria-hidden="true" /></span>
                   <span className="contact-method-info">
-                    <strong>{method.title}</strong>
+                    <strong>{localize(method.title, language)}</strong>
                     <small>{localize(method.desc, language)}</small>
                     <em>
                       {method.label}

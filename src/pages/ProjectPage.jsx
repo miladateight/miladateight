@@ -76,55 +76,239 @@ const detailLabels = {
   result: { en: "Result and use", fa: "نتیجه و کاربرد", ar: "النتيجة والاستخدام", de: "Ergebnis und Nutzung" },
 };
 
+const notesKicker = { en: "AT8 Project Notes", fa: "یادداشت‌های پروژه AT8", ar: "ملاحظات مشروع AT8", de: "AT8 Projektnotizen" };
+
+function notesTitleFor(title, language) {
+  if (language === "fa") return `یادداشت‌های فنی ${title}`;
+  if (language === "ar") return `الملاحظات الفنية لـ ${title}`;
+  if (language === "de") return `Technische Notizen zu ${title}`;
+  return `${title} technical notes`;
+}
+
 const projectDetails = {
   keyfix: {
-    architecture: "KeyFix stays in the Windows tray, watches a short in-memory word buffer, compares that word with enabled keyboard-layout maps and dictionaries, then acts only after a clear trigger such as Space.",
-    decisions: "The project favors local scoring, per-language enablement, excluded apps, conservative handling for short words, and a release path that does not require users to build from source.",
-    limits: "It cannot guarantee every ambiguous short word is wrong, and unsupported layouts or sensitive apps should stay excluded so correction never becomes intrusive.",
-    security: "Typed text is not uploaded or stored as telemetry. The working buffer is temporary and the privacy model is based on local-only processing.",
-    result: "The practical outcome is a small desktop utility for multilingual typists who often switch between English, Persian, Arabic, and German layouts.",
+    architecture: {
+      en: "KeyFix stays in the Windows tray, watches a short in-memory word buffer, compares that word with enabled keyboard-layout maps and dictionaries, then acts only after a clear trigger such as Space.",
+      fa: "KeyFix در tray ویندوز باقی می‌ماند، یک بافر کوتاه از کلمه‌ی در حال تایپ را در حافظه بررسی می‌کند، آن کلمه را با نقشه‌های چیدمان کیبورد و دیکشنری‌های فعال مقایسه می‌کند و فقط بعد از یک محرک مشخص مثل Space وارد عمل می‌شود.",
+      ar: "يبقى KeyFix في شريط مهام Windows، ويراقب مخزناً قصيراً للكلمة الجاري كتابتها داخل الذاكرة، ويقارن تلك الكلمة بخرائط تخطيط لوحة المفاتيح والقواميس المفعّلة، ثم يتصرف فقط بعد محفّز واضح مثل زر Space.",
+      de: "KeyFix bleibt im Windows-Tray, beobachtet einen kurzen Wortpuffer im Speicher, vergleicht dieses Wort mit aktivierten Tastaturlayout-Zuordnungen und Wörterbüchern und handelt erst nach einem klaren Auslöser wie Space.",
+    },
+    decisions: {
+      en: "The project favors local scoring, per-language enablement, excluded apps, conservative handling for short words, and a release path that does not require users to build from source.",
+      fa: "این پروژه امتیازدهی محلی، فعال‌سازی جداگانه برای هر زبان، برنامه‌های مستثنی‌شده، برخورد محتاطانه با کلمات کوتاه و مسیر انتشاری را ترجیح می‌دهد که نیازی به build کردن سورس توسط کاربر ندارد.",
+      ar: "يفضّل المشروع التقييم المحلي، والتفعيل حسب اللغة، والتطبيقات المستثناة، والتعامل الحذر مع الكلمات القصيرة، ومسار إصدار لا يتطلب من المستخدمين بناء المصدر بأنفسهم.",
+      de: "Das Projekt setzt auf lokale Bewertung, sprachspezifische Aktivierung, ausgeschlossene Apps, vorsichtigen Umgang mit kurzen Wörtern und einen Release-Weg, der keinen Build aus dem Quellcode durch die Nutzer erfordert.",
+    },
+    limits: {
+      en: "It cannot guarantee every ambiguous short word is wrong, and unsupported layouts or sensitive apps should stay excluded so correction never becomes intrusive.",
+      fa: "نمی‌تواند تضمین کند هر کلمه کوتاه مبهم اشتباه است و چیدمان‌های پشتیبانی‌نشده یا برنامه‌های حساس باید مستثنی بمانند تا اصلاح هرگز مزاحم نشود.",
+      ar: "لا يمكنه ضمان أن كل كلمة قصيرة غامضة خاطئة، ويجب أن تبقى التخطيطات غير المدعومة أو التطبيقات الحساسة مستثناة حتى لا يصبح التصحيح مزعجاً أبداً.",
+      de: "Es kann nicht garantieren, dass jedes mehrdeutige kurze Wort falsch ist, und nicht unterstützte Layouts oder sensible Apps sollten ausgeschlossen bleiben, damit die Korrektur nie aufdringlich wird.",
+    },
+    security: {
+      en: "Typed text is not uploaded or stored as telemetry. The working buffer is temporary and the privacy model is based on local-only processing.",
+      fa: "متن تایپ‌شده به‌عنوان telemetry آپلود یا ذخیره نمی‌شود. بافر کاری موقتی است و مدل حریم خصوصی بر پایه پردازش کاملاً محلی است.",
+      ar: "لا يُرفَع النص المكتوب أو يُخزَّن كبيانات تتبّع. المخزن المؤقت للعمل مؤقت ونموذج الخصوصية يقوم على المعالجة المحلية فقط.",
+      de: "Getippter Text wird nicht als Telemetrie hochgeladen oder gespeichert. Der Arbeitspuffer ist temporär, und das Datenschutzmodell basiert auf ausschließlich lokaler Verarbeitung.",
+    },
+    result: {
+      en: "The practical outcome is a small desktop utility for multilingual typists who often switch between English, Persian, Arabic, and German layouts.",
+      fa: "نتیجه عملی یک ابزار کوچک دسکتاپ برای کاربرانی است که به چند زبان تایپ می‌کنند و مدام بین چیدمان انگلیسی، فارسی، عربی و آلمانی جابجا می‌شوند.",
+      ar: "النتيجة العملية أداة سطح مكتب صغيرة لمستخدمين متعددي اللغات ينتقلون كثيراً بين تخطيطات الإنجليزية والفارسية والعربية والألمانية.",
+      de: "Das praktische Ergebnis ist ein kleines Desktop-Werkzeug für mehrsprachige Tipper, die häufig zwischen englischem, persischem, arabischem und deutschem Layout wechseln.",
+    },
   },
   netdoctor: {
-    architecture: "NetDoctor presents a step-by-step diagnostics flow for adapter state, IP configuration, gateway reachability, DNS, latency, proxy settings, and internet connectivity.",
-    decisions: "The repair model is guided and reversible where possible, so the user can understand what changed instead of running a black-box network reset.",
-    limits: "The tool can identify common Windows connectivity faults, but it does not replace ISP-side troubleshooting, damaged hardware checks, or enterprise network policy review.",
-    security: "The diagnostic focus is local network state. Repair actions should remain explicit, documented, and scoped to the setting being fixed.",
-    result: "It is useful when a user or technician needs a clearer path from symptom to likely cause before applying a network repair.",
+    architecture: {
+      en: "NetDoctor presents a step-by-step diagnostics flow for adapter state, IP configuration, gateway reachability, DNS, latency, proxy settings, and internet connectivity.",
+      fa: "NetDoctor یک جریان تشخیصی گام‌به‌گام برای وضعیت آداپتور، پیکربندی IP، دسترسی به گیت‌وی، DNS، تاخیر، تنظیمات پراکسی و اتصال اینترنت ارائه می‌دهد.",
+      ar: "يقدّم NetDoctor مساراً تشخيصياً خطوة بخطوة لحالة المحول وتهيئة IP والوصول إلى البوابة وDNS والكمون وإعدادات الوكيل واتصال الإنترنت.",
+      de: "NetDoctor bietet einen schrittweisen Diagnoseablauf für Adapterstatus, IP-Konfiguration, Gateway-Erreichbarkeit, DNS, Latenz, Proxy-Einstellungen und Internetverbindung.",
+    },
+    decisions: {
+      en: "The repair model is guided and reversible where possible, so the user can understand what changed instead of running a black-box network reset.",
+      fa: "مدل ترمیم هدایت‌شده و تا حد امکان قابل بازگشت است تا کاربر بفهمد چه چیزی تغییر کرده، به‌جای اجرای یک ریست شبکه جعبه‌سیاه.",
+      ar: "نموذج الإصلاح موجَّه وقابل للتراجع حيثما أمكن، ليفهم المستخدم ما الذي تغيّر بدلاً من تشغيل إعادة ضبط شبكة غامضة (صندوق أسود).",
+      de: "Das Reparaturmodell ist geführt und, wo möglich, rückgängig machbar, damit der Nutzer versteht, was sich geändert hat, statt einen undurchsichtigen Netzwerk-Reset auszuführen.",
+    },
+    limits: {
+      en: "The tool can identify common Windows connectivity faults, but it does not replace ISP-side troubleshooting, damaged hardware checks, or enterprise network policy review.",
+      fa: "این ابزار می‌تواند خطاهای رایج اتصال ویندوز را شناسایی کند، اما جایگزین عیب‌یابی سمت ISP، بررسی سخت‌افزار آسیب‌دیده یا بازبینی سیاست‌های شبکه سازمانی نیست.",
+      ar: "يمكن للأداة تحديد أعطال الاتصال الشائعة في Windows، لكنها لا تحل محل استكشاف الأعطال لدى مزود الخدمة، أو فحص العتاد التالف، أو مراجعة سياسات الشبكة المؤسسية.",
+      de: "Das Tool kann häufige Windows-Verbindungsfehler erkennen, ersetzt aber keine ISP-seitige Fehlersuche, Prüfung defekter Hardware oder Überprüfung von Unternehmensnetzwerk-Richtlinien.",
+    },
+    security: {
+      en: "The diagnostic focus is local network state. Repair actions should remain explicit, documented, and scoped to the setting being fixed.",
+      fa: "تمرکز تشخیص روی وضعیت شبکه محلی است. اقدام‌های ترمیم باید صریح، مستند و محدود به همان تنظیمی باشند که در حال اصلاح آن هستیم.",
+      ar: "يتركّز التشخيص على حالة الشبكة المحلية. يجب أن تبقى إجراءات الإصلاح صريحة وموثّقة ومحصورة بالإعداد الذي يتم إصلاحه.",
+      de: "Der diagnostische Fokus liegt auf dem lokalen Netzwerkstatus. Reparaturmaßnahmen sollten explizit, dokumentiert und auf die jeweils zu behebende Einstellung begrenzt bleiben.",
+    },
+    result: {
+      en: "It is useful when a user or technician needs a clearer path from symptom to likely cause before applying a network repair.",
+      fa: "زمانی مفید است که کاربر یا تکنسین به مسیری روشن‌تر از علامت تا علت محتمل نیاز دارد، پیش از اعمال یک ترمیم شبکه.",
+      ar: "يفيد عندما يحتاج المستخدم أو الفني إلى مسار أوضح من العارض إلى السبب المحتمل قبل تطبيق إصلاح للشبكة.",
+      de: "Es ist hilfreich, wenn ein Nutzer oder Techniker einen klareren Weg vom Symptom zur wahrscheinlichen Ursache braucht, bevor eine Netzwerkreparatur angewendet wird.",
+    },
   },
   "pdf-sanitizer": {
-    architecture: "PDF Sanitizer loads a document, builds a rule set describing which repeated blocks to remove, which text or values to replace, and what to insert, then applies those rules across every page in a single batch pass and exports a new clean PDF.",
-    decisions: "The tool is built around reusable rules instead of manual page edits, keeps processing local, previews changes before writing the file, and separates a free tier for small jobs from a licensed premium tier for large-scale work.",
-    limits: "The free tier is capped at 10 pages per file and 2 files per day; very large or unusually structured documents may need rule tuning, and scanned image-only PDFs depend on how their text is stored.",
-    security: "Documents are processed locally on the user's machine. Nothing is uploaded, and the premium tier is unlocked with a per-user license issued over Telegram rather than an account.",
-    result: "The practical outcome is that commercial and trading teams can clean or update huge PDFs — hundreds to thousands of pages — in one pass instead of editing them page by page.",
+    architecture: {
+      en: "PDF Sanitizer loads a document, builds a rule set describing which repeated blocks to remove, which text or values to replace, and what to insert, then applies those rules across every page in a single batch pass and exports a new clean PDF.",
+      fa: "PDF Sanitizer یک سند را بارگذاری می‌کند، یک مجموعه قانون می‌سازد که مشخص می‌کند کدام بلوک‌های تکراری حذف شوند، کدام متن یا مقادیر جایگزین شوند و چه چیزی اضافه شود، سپس آن قانون‌ها را در یک اجرای دسته‌ای روی همه صفحات اعمال می‌کند و یک PDF تمیز جدید خروجی می‌گیرد.",
+      ar: "يحمّل PDF Sanitizer مستنداً، ويبني مجموعة قواعد تحدّد أي الكتل المتكررة تُحذف، وأي نص أو قيم تُستبدل، وما الذي يُضاف، ثم يطبّق تلك القواعد على كل صفحة في تمريرة دفعية واحدة ويصدّر ملف PDF نظيفاً جديداً.",
+      de: "PDF Sanitizer lädt ein Dokument, erstellt ein Regelwerk, das festlegt, welche wiederkehrenden Blöcke entfernt, welcher Text oder welche Werte ersetzt und was eingefügt werden soll, wendet diese Regeln dann in einem einzigen Stapeldurchgang auf jede Seite an und exportiert ein neues, sauberes PDF.",
+    },
+    decisions: {
+      en: "The tool is built around reusable rules instead of manual page edits, keeps processing local, previews changes before writing the file, and separates a free tier for small jobs from a licensed premium tier for large-scale work.",
+      fa: "این ابزار بر پایه قانون‌های قابل استفاده مجدد ساخته شده، نه ویرایش دستی صفحه‌به‌صفحه؛ پردازش را محلی نگه می‌دارد، پیش از نوشتن فایل تغییرات را پیش‌نمایش می‌دهد و یک سطح رایگان برای کارهای کوچک را از یک سطح پریمیوم لایسنس‌دار برای کارهای بزرگ جدا می‌کند.",
+      ar: "بُنيت الأداة حول قواعد قابلة لإعادة الاستخدام بدلاً من التحرير اليدوي صفحة بصفحة، وتُبقي المعالجة محلية، وتعاين التغييرات قبل كتابة الملف، وتفصل باقة مجانية للمهام الصغيرة عن باقة بريميوم مرخّصة للعمل واسع النطاق.",
+      de: "Das Tool basiert auf wiederverwendbaren Regeln statt manueller Seitenbearbeitung, hält die Verarbeitung lokal, zeigt Änderungen vor dem Schreiben der Datei als Vorschau und trennt eine kostenlose Stufe für kleine Aufgaben von einer lizenzierten Premium-Stufe für umfangreiche Arbeiten.",
+    },
+    limits: {
+      en: "The free tier is capped at 10 pages per file and 2 files per day; very large or unusually structured documents may need rule tuning, and scanned image-only PDFs depend on how their text is stored.",
+      fa: "سطح رایگان به ۱۰ صفحه در هر فایل و ۲ فایل در روز محدود است؛ اسناد بسیار بزرگ یا با ساختار غیرمعمول ممکن است نیاز به تنظیم دقیق‌تر قانون‌ها داشته باشند و PDFهای اسکن‌شده‌ی فقط‌تصویری به نحوه ذخیره متن‌شان بستگی دارند.",
+      ar: "الباقة المجانية محدودة بـ 10 صفحات لكل ملف وملفين في اليوم؛ قد تحتاج المستندات الكبيرة جداً أو ذات البنية غير المعتادة إلى ضبط دقيق للقواعد، وتعتمد ملفات PDF الممسوحة ضوئياً (صور فقط) على طريقة تخزين نصها.",
+      de: "Die kostenlose Stufe ist auf 10 Seiten pro Datei und 2 Dateien pro Tag begrenzt; sehr große oder ungewöhnlich strukturierte Dokumente benötigen eventuell Regel-Feinabstimmung, und gescannte, reine Bild-PDFs hängen davon ab, wie ihr Text gespeichert ist.",
+    },
+    security: {
+      en: "Documents are processed locally on the user's machine. Nothing is uploaded, and the premium tier is unlocked with a per-user license issued over Telegram rather than an account.",
+      fa: "اسناد روی سیستم خود کاربر پردازش می‌شوند. هیچ‌چیز آپلود نمی‌شود و سطح پریمیوم با یک لایسنس اختصاصی که از طریق تلگرام صادر می‌شود باز می‌شود، نه با ساخت حساب کاربری.",
+      ar: "تُعالَج المستندات محلياً على جهاز المستخدم. لا يُرفَع أي شيء، وتُفتَح الباقة البريميوم بترخيص خاص بكل مستخدم يُصدَر عبر Telegram بدلاً من إنشاء حساب.",
+      de: "Dokumente werden lokal auf dem Rechner des Nutzers verarbeitet. Nichts wird hochgeladen, und die Premium-Stufe wird mit einer benutzerbezogenen Lizenz freigeschaltet, die über Telegram statt über ein Konto ausgestellt wird.",
+    },
+    result: {
+      en: "The practical outcome is that commercial and trading teams can clean or update huge PDFs — hundreds to thousands of pages — in one pass instead of editing them page by page.",
+      fa: "نتیجه عملی این است که تیم‌های بازرگانی و تجاری می‌توانند PDFهای بسیار بزرگ — از صدها تا هزاران صفحه — را در یک مرحله پاک‌سازی یا به‌روزرسانی کنند، به‌جای ویرایش صفحه‌به‌صفحه.",
+      ar: "النتيجة العملية أن الفرق التجارية يمكنها تنظيف أو تحديث ملفات PDF ضخمة — من مئات إلى آلاف الصفحات — في تمريرة واحدة بدلاً من تحريرها صفحة بصفحة.",
+      de: "Das praktische Ergebnis ist, dass Handels- und Geschäftsteams riesige PDFs — Hunderte bis Tausende Seiten — in einem Durchgang bereinigen oder aktualisieren können, statt sie Seite für Seite zu bearbeiten.",
+    },
   },
   "hybrid-web-mail-infrastructure": {
-    architecture: "The case study separates local and public environments: users and LAN services connect through MikroTik and WireGuard to a VPS, then HAProxy/Caddy routes web and mail traffic with DNS, TLS, and backup paths documented separately.",
-    decisions: "The design keeps the local site private, uses the VPS as a public edge, splits web and mail flows deliberately, and treats DNS, TLS, monitoring, and backup as first-class operational concerns.",
-    limits: "The published material is sanitized. It avoids exposing sensitive hostnames, secrets, customer details, and private network values.",
-    security: "WireGuard, DNS records, TLS handling, service separation, and encrypted backups are described as architecture decisions rather than leaked production configuration.",
-    result: "The page works as a readable infrastructure note for planning, reviewing, or explaining a hybrid web and mail migration.",
+    architecture: {
+      en: "The case study separates local and public environments: users and LAN services connect through MikroTik and WireGuard to a VPS, then HAProxy/Caddy routes web and mail traffic with DNS, TLS, and backup paths documented separately.",
+      fa: "این مطالعه موردی محیط محلی و عمومی را از هم جدا می‌کند: کاربران و سرویس‌های LAN از طریق MikroTik و WireGuard به یک VPS وصل می‌شوند، سپس HAProxy/Caddy ترافیک وب و ایمیل را مسیریابی می‌کند، در حالی که DNS، TLS و مسیرهای بکاپ جداگانه مستند شده‌اند.",
+      ar: "تفصل دراسة الحالة بين البيئتين المحلية والعامة: يتصل المستخدمون وخدمات LAN عبر MikroTik وWireGuard بخادم VPS، ثم يوجّه HAProxy/Caddy حركة الويب والبريد، بينما تُوثَّق مسارات DNS وTLS والنسخ الاحتياطي بشكل منفصل.",
+      de: "Die Fallstudie trennt lokale und öffentliche Umgebungen: Nutzer und LAN-Dienste verbinden sich über MikroTik und WireGuard mit einem VPS, danach leitet HAProxy/Caddy Web- und Mail-Verkehr weiter, während DNS-, TLS- und Backup-Wege separat dokumentiert sind.",
+    },
+    decisions: {
+      en: "The design keeps the local site private, uses the VPS as a public edge, splits web and mail flows deliberately, and treats DNS, TLS, monitoring, and backup as first-class operational concerns.",
+      fa: "این طراحی سایت محلی را خصوصی نگه می‌دارد، از VPS به‌عنوان لبه عمومی استفاده می‌کند، جریان‌های وب و ایمیل را عمداً از هم جدا می‌کند و DNS، TLS، مانیتورینگ و بکاپ را به‌عنوان دغدغه‌های عملیاتی درجه‌یک در نظر می‌گیرد.",
+      ar: "يحافظ التصميم على خصوصية الموقع المحلي، ويستخدم VPS كحافة عامة، ويفصل تدفقات الويب والبريد عمداً، ويتعامل مع DNS وTLS والمراقبة والنسخ الاحتياطي باعتبارها اهتمامات تشغيلية أساسية.",
+      de: "Das Design hält die lokale Seite privat, nutzt den VPS als öffentlichen Edge, trennt Web- und Mail-Flows bewusst und behandelt DNS, TLS, Monitoring und Backup als zentrale betriebliche Anliegen.",
+    },
+    limits: {
+      en: "The published material is sanitized. It avoids exposing sensitive hostnames, secrets, customer details, and private network values.",
+      fa: "مطالب منتشرشده پاک‌سازی شده‌اند و از افشای hostnameهای حساس، اطلاعات محرمانه، جزئیات مشتری و مقادیر شبکه خصوصی پرهیز می‌کنند.",
+      ar: "المواد المنشورة منظّفة، وتتجنّب كشف أسماء المضيفين الحساسة والأسرار وتفاصيل العملاء وقيم الشبكة الخاصة.",
+      de: "Das veröffentlichte Material ist bereinigt. Es vermeidet die Offenlegung sensibler Hostnamen, Geheimnisse, Kundendetails und privater Netzwerkwerte.",
+    },
+    security: {
+      en: "WireGuard, DNS records, TLS handling, service separation, and encrypted backups are described as architecture decisions rather than leaked production configuration.",
+      fa: "WireGuard، رکوردهای DNS، مدیریت TLS، جداسازی سرویس‌ها و بکاپ‌های رمزگذاری‌شده به‌عنوان تصمیم‌های معماری توصیف شده‌اند، نه به‌عنوان پیکربندی واقعی افشاشده.",
+      ar: "يُوصَف WireGuard وسجلات DNS ومعالجة TLS وفصل الخدمات والنسخ الاحتياطية المشفّرة كقرارات معمارية وليس كإعدادات إنتاج مسرَّبة.",
+      de: "WireGuard, DNS-Einträge, TLS-Handling, Service-Trennung und verschlüsselte Backups werden als Architekturentscheidungen beschrieben, nicht als durchgesickerte Produktionskonfiguration.",
+    },
+    result: {
+      en: "The page works as a readable infrastructure note for planning, reviewing, or explaining a hybrid web and mail migration.",
+      fa: "این صفحه به‌عنوان یک یادداشت زیرساختی قابل‌خواندن برای برنامه‌ریزی، بازبینی یا توضیح یک مهاجرت ترکیبی وب و ایمیل عمل می‌کند.",
+      ar: "تعمل الصفحة كملاحظة بنية تحتية سهلة القراءة للتخطيط أو المراجعة أو شرح عملية ترحيل هجينة للويب والبريد.",
+      de: "Die Seite dient als gut lesbare Infrastruktur-Notiz zum Planen, Überprüfen oder Erklären einer hybriden Web- und Mail-Migration.",
+    },
   },
   "instagram-youtube-soundcloud-downloader": {
-    architecture: "The Telegram bot receives a media URL from an authorized user, detects the platform, fetches metadata, selects a download format when available, queues work, and returns the file inside Telegram.",
-    decisions: "Admin activation, queueing, cookie-based authentication where needed, and platform-specific handling keep the workflow controlled instead of exposing a public downloader surface.",
-    limits: "Availability depends on platform behavior, account access, rate limits, media rights, and the size limits of the delivery channel.",
-    security: "Access is limited to approved Telegram users. Cookie handling and logs should stay minimal because downloader workflows can expose sensitive account or media metadata.",
-    result: "The useful result is a private automation tool that removes the need to jump between multiple ad-heavy download sites or browser extensions.",
+    architecture: {
+      en: "The Telegram bot receives a media URL from an authorized user, detects the platform, fetches metadata, selects a download format when available, queues work, and returns the file inside Telegram.",
+      fa: "ربات تلگرامی یک URL رسانه را از کاربر مجاز دریافت می‌کند، پلتفرم را تشخیص می‌دهد، متادیتا را می‌گیرد، در صورت وجود فرمت دانلود را انتخاب می‌کند، کار را در صف قرار می‌دهد و فایل را داخل تلگرام برمی‌گرداند.",
+      ar: "يستقبل بوت Telegram رابط وسائط من مستخدم مصرَّح له، ويكتشف المنصة، ويجلب البيانات الوصفية، ويختار تنسيق التنزيل عند توفره، ويضع العمل في قائمة انتظار، ويعيد الملف داخل Telegram.",
+      de: "Der Telegram-Bot empfängt eine Medien-URL von einem autorisierten Nutzer, erkennt die Plattform, ruft Metadaten ab, wählt bei Verfügbarkeit ein Download-Format, reiht die Aufgabe in eine Warteschlange ein und liefert die Datei innerhalb von Telegram zurück.",
+    },
+    decisions: {
+      en: "Admin activation, queueing, cookie-based authentication where needed, and platform-specific handling keep the workflow controlled instead of exposing a public downloader surface.",
+      fa: "فعال‌سازی توسط ادمین، صف‌بندی، احراز هویت مبتنی بر کوکی در صورت نیاز و مدیریت اختصاصی هر پلتفرم، جریان کار را کنترل‌شده نگه می‌دارند، به‌جای در معرض قرار دادن یک رابط دانلود عمومی.",
+      ar: "يحافظ التفعيل من قبل المسؤول والوضع في قائمة الانتظار والمصادقة القائمة على الكوكيز عند الحاجة والمعالجة الخاصة بكل منصة على انضباط سير العمل، بدلاً من كشف واجهة تنزيل عامة.",
+      de: "Admin-Aktivierung, Warteschlangen, cookie-basierte Authentifizierung bei Bedarf und plattformspezifische Behandlung halten den Ablauf kontrolliert, statt eine öffentliche Downloader-Oberfläche offenzulegen.",
+    },
+    limits: {
+      en: "Availability depends on platform behavior, account access, rate limits, media rights, and the size limits of the delivery channel.",
+      fa: "دسترس‌پذیری به رفتار پلتفرم، دسترسی حساب، محدودیت نرخ، حقوق رسانه و محدودیت حجم کانال تحویل بستگی دارد.",
+      ar: "يعتمد التوفر على سلوك المنصة، والوصول إلى الحساب، وحدود المعدل، وحقوق الوسائط، وحدود حجم قناة التسليم.",
+      de: "Die Verfügbarkeit hängt vom Plattformverhalten, Kontozugriff, Ratenlimits, Medienrechten und den Größenbeschränkungen des Zustellkanals ab.",
+    },
+    security: {
+      en: "Access is limited to approved Telegram users. Cookie handling and logs should stay minimal because downloader workflows can expose sensitive account or media metadata.",
+      fa: "دسترسی فقط برای کاربران تأییدشده تلگرام امکان‌پذیر است. مدیریت کوکی و لاگ‌ها باید حداقلی بمانند، چون جریان‌های دانلود می‌توانند متادیتای حساس حساب یا رسانه را افشا کنند.",
+      ar: "يقتصر الوصول على مستخدمي Telegram المعتمدين. يجب أن تبقى معالجة الكوكيز والسجلات في حدها الأدنى لأن مسارات التنزيل قد تكشف بيانات وصفية حساسة للحساب أو الوسائط.",
+      de: "Der Zugriff ist auf genehmigte Telegram-Nutzer beschränkt. Cookie-Handling und Logs sollten minimal bleiben, da Downloader-Abläufe sensible Konto- oder Medien-Metadaten offenlegen können.",
+    },
+    result: {
+      en: "The useful result is a private automation tool that removes the need to jump between multiple ad-heavy download sites or browser extensions.",
+      fa: "نتیجه مفید یک ابزار خودکار خصوصی است که نیاز به جابجایی بین چند سایت دانلود پر از تبلیغ یا افزونه مرورگر را از بین می‌برد.",
+      ar: "النتيجة المفيدة أداة أتمتة خاصة تلغي الحاجة إلى التنقل بين عدة مواقع تنزيل مزدحمة بالإعلانات أو إضافات المتصفح.",
+      de: "Das nützliche Ergebnis ist ein privates Automatisierungstool, das den Wechsel zwischen mehreren werbelastigen Download-Seiten oder Browser-Erweiterungen überflüssig macht.",
+    },
   },
   "ai-chat-rtl-fixer": {
-    architecture: "A .NET 8 Windows tray app detects known desktop AI chat apps, and for Electron targets connects over the Chrome DevTools Protocol on local loopback, injecting scoped CSS, the Vazirmatn font, and a runtime script that classifies each chat block and applies the correct text direction.",
-    decisions: "The tool is deliberately scoped to the chat surface, keeps code and English left-to-right, stays runtime-only instead of patching app files, and only relaunches a target on a random free debug port after explicit user consent.",
-    limits: "It is a pre-release framework build: detecting an app is not the same as a verified fix, no app profile is marked stable yet, and selectors may need updating after target apps change their UI.",
-    security: "There is no telemetry, no account, and no external network calls — only local loopback to a debug-enabled target app. Chat text and clipboard content are never stored, and logs keep safe metadata only.",
-    result: "The practical outcome is readable right-to-left chat in desktop AI apps for Persian, Arabic, Hebrew, and Urdu users, with a clean revert whenever the tool is disabled or the app is restarted normally.",
+    architecture: {
+      en: "A .NET 8 Windows tray app detects known desktop AI chat apps, and for Electron targets connects over the Chrome DevTools Protocol on local loopback, injecting scoped CSS, the Vazirmatn font, and a runtime script that classifies each chat block and applies the correct text direction.",
+      fa: "یک اپ tray ویندوز مبتنی بر .NET 8، اپ‌های شناخته‌شده‌ی دسکتاپ چت هوش مصنوعی را تشخیص می‌دهد و برای هدف‌های Electron از طریق Chrome DevTools Protocol روی loopback محلی وصل می‌شود؛ سپس CSS محدود، فونت Vazirmatn و یک اسکریپت زمان‌اجرا را تزریق می‌کند که هر بلوک چت را دسته‌بندی و جهت درست متن را اعمال می‌کند.",
+      ar: "يكتشف تطبيق شريط مهام Windows مبني على .NET 8 تطبيقات دردشة الذكاء الاصطناعي المعروفة على سطح المكتب، ولأهداف Electron يتصل عبر بروتوكول Chrome DevTools على الاسترجاع المحلي، حاقناً CSS محدود النطاق وخط Vazirmatn وسكربت وقت تشغيل يصنّف كل كتلة دردشة ويطبّق اتجاه النص الصحيح.",
+      de: "Eine .NET-8-Windows-Tray-App erkennt bekannte Desktop-KI-Chat-Apps und verbindet sich bei Electron-Zielen über das Chrome DevTools Protocol auf lokalem Loopback, wobei begrenztes CSS, die Vazirmatn-Schrift und ein Laufzeitskript eingefügt werden, das jeden Chat-Block klassifiziert und die richtige Textrichtung anwendet.",
+    },
+    decisions: {
+      en: "The tool is deliberately scoped to the chat surface, keeps code and English left-to-right, stays runtime-only instead of patching app files, and only relaunches a target on a random free debug port after explicit user consent.",
+      fa: "این ابزار عمداً به سطح چت محدود شده، کد و متن انگلیسی را چپ‌به‌راست نگه می‌دارد، به‌جای پچ‌کردن فایل‌های اپ فقط در زمان اجرا عمل می‌کند و اپ هدف را فقط بعد از رضایت صریح کاربر روی یک پورت دیباگ آزاد تصادفی دوباره اجرا می‌کند.",
+      ar: "الأداة محصورة عمداً بسطح الدردشة، وتُبقي الكود والنص الإنجليزي من اليسار إلى اليمين، وتعمل وقت التشغيل فقط بدلاً من تعديل ملفات التطبيق، ولا تعيد تشغيل الهدف إلا على منفذ تصحيح حر عشوائي وبعد موافقة صريحة من المستخدم.",
+      de: "Das Tool ist bewusst auf die Chat-Oberfläche begrenzt, hält Code und Englisch von links nach rechts, bleibt reines Laufzeit-Tool statt App-Dateien zu patchen, und startet ein Ziel nur nach ausdrücklicher Nutzerzustimmung auf einem zufälligen freien Debug-Port neu.",
+    },
+    limits: {
+      en: "It is a pre-release framework build: detecting an app is not the same as a verified fix, no app profile is marked stable yet, and selectors may need updating after target apps change their UI.",
+      fa: "این یک بیلد pre-release از فریم‌ورک است: تشخیص یک اپ به معنای اصلاح تأییدشده نیست، هیچ پروفایل اپی هنوز stable علامت‌گذاری نشده و ممکن است selectorها بعد از تغییر UI اپ‌های هدف نیاز به به‌روزرسانی داشته باشند.",
+      ar: "هذا بناء ما قبل الإصدار للإطار: اكتشاف تطبيق ليس مثل إصلاح مُتحقَّق منه، ولا يوجد ملف تطبيق موسوم كمستقر بعد، وقد تحتاج المحدِّدات إلى تحديث بعد تغيير واجهة التطبيقات المستهدفة.",
+      de: "Dies ist ein Vorab-Release-Build des Frameworks: Eine App zu erkennen ist nicht dasselbe wie ein verifizierter Fix, kein App-Profil ist bisher als stabil markiert, und Selektoren müssen möglicherweise aktualisiert werden, wenn Ziel-Apps ihre UI ändern.",
+    },
+    security: {
+      en: "There is no telemetry, no account, and no external network calls — only local loopback to a debug-enabled target app. Chat text and clipboard content are never stored, and logs keep safe metadata only.",
+      fa: "هیچ telemetry، حساب کاربری یا تماس شبکه‌ی خارجی وجود ندارد — فقط loopback محلی به یک اپ هدف با دیباگ فعال. متن چت و محتوای کلیپ‌بورد هرگز ذخیره نمی‌شوند و لاگ‌ها فقط متادیتای امن نگه می‌دارند.",
+      ar: "لا توجد telemetry ولا حساب ولا اتصالات شبكة خارجية — فقط استرجاع محلي إلى تطبيق هدف مفعَّل فيه التصحيح. لا يُخزَّن نص الدردشة أو محتوى الحافظة أبداً، وتحتفظ السجلات ببيانات وصفية آمنة فقط.",
+      de: "Es gibt keine Telemetrie, kein Konto und keine externen Netzwerkaufrufe — nur lokales Loopback zu einer debug-fähigen Ziel-App. Chat-Text und Zwischenablage-Inhalt werden nie gespeichert, und Logs enthalten nur sichere Metadaten.",
+    },
+    result: {
+      en: "The practical outcome is readable right-to-left chat in desktop AI apps for Persian, Arabic, Hebrew, and Urdu users, with a clean revert whenever the tool is disabled or the app is restarted normally.",
+      fa: "نتیجه عملی چت راست‌به‌چپ خوانا در اپ‌های دسکتاپ هوش مصنوعی برای کاربران فارسی، عربی، عبری و اردو است، همراه با بازگشت تمیز هر وقت ابزار غیرفعال شود یا اپ به‌طور عادی ری‌استارت شود.",
+      ar: "النتيجة العملية دردشة مقروءة من اليمين إلى اليسار في تطبيقات الذكاء الاصطناعي على سطح المكتب لمستخدمي الفارسية والعربية والعبرية والأردية، مع تراجع نظيف كلما عُطِّلت الأداة أو أُعيد تشغيل التطبيق بشكل عادي.",
+      de: "Das praktische Ergebnis ist lesbarer Rechts-nach-links-Chat in Desktop-KI-Apps für persische, arabische, hebräische und urdu Nutzer, mit sauberem Rückgängigmachen, sobald das Tool deaktiviert oder die App normal neu gestartet wird.",
+    },
   },
   veyna: {
-    architecture: "VEYNA combines a Flutter desktop interface with shared Go profile contracts, a Windows Core built around Xray-core, and Wintun support for TUN mode. Profiles, routing choices, DNS policy, and connection state meet in one desktop workflow.",
-    decisions: "The client accepts standard links, subscriptions, and Xray JSON while keeping locked VEYNA imports opaque. Smart, System Proxy, and TUN modes are explicit choices, and English, Persian, dark, and light interfaces are built into the product.",
-    limits: "The current public release targets Windows 10 and 11 on x64. Android, iOS, macOS, and Linux are planned, and locked links created by the bundled local Gateway currently stay scoped to the same Windows installation.",
-    security: "Locked profiles do not reveal or share their source configuration. The project documents sanitized diagnostics, checksum verification, clean proxy and route restoration, and a clear split between the public interface code and private security-sensitive components.",
-    result: "The result is a focused connectivity client that brings standard Xray workflows and protected profile distribution into one polished Windows application.",
+    architecture: {
+      en: "VEYNA combines a Flutter desktop interface with shared Go profile contracts, a Windows Core built around Xray-core, and Wintun support for TUN mode. Profiles, routing choices, DNS policy, and connection state meet in one desktop workflow.",
+      fa: "VEYNA یک رابط دسکتاپ Flutter را با قراردادهای مشترک پروفایل به زبان Go، یک Core ویندوزی ساخته‌شده بر پایه Xray-core و پشتیبانی Wintun برای حالت TUN ترکیب می‌کند. پروفایل‌ها، انتخاب مسیر، سیاست DNS و وضعیت اتصال در یک جریان کاری دسکتاپ به هم می‌رسند.",
+      ar: "يجمع VEYNA بين واجهة سطح مكتب مبنية بـ Flutter وعقود ملفات تعريف مشتركة بلغة Go، ونواة Windows مبنية حول Xray-core، ودعم Wintun لوضع TUN. تلتقي الملفات وخيارات التوجيه وسياسة DNS وحالة الاتصال في مسار عمل واحد على سطح المكتب.",
+      de: "VEYNA verbindet eine Flutter-Desktop-Oberfläche mit gemeinsamen Go-Profilverträgen, einem Windows-Core rund um Xray-core und Wintun-Unterstützung für den TUN-Modus. Profile, Routing-Entscheidungen, DNS-Richtlinie und Verbindungsstatus treffen in einem einzigen Desktop-Workflow zusammen.",
+    },
+    decisions: {
+      en: "The client accepts standard links, subscriptions, and Xray JSON while keeping locked VEYNA imports opaque. Smart, System Proxy, and TUN modes are explicit choices, and English, Persian, dark, and light interfaces are built into the product.",
+      fa: "این کلاینت لینک‌های استاندارد، اشتراک‌ها و Xray JSON را می‌پذیرد و در عین حال ورودی‌های قفل‌شده VEYNA را پنهان نگه می‌دارد. حالت‌های Smart، System Proxy و TUN انتخاب‌های صریح هستند و رابط انگلیسی، فارسی، تیره و روشن در محصول تعبیه شده‌اند.",
+      ar: "يقبل العميل الروابط القياسية والاشتراكات وXray JSON مع إبقاء واردات VEYNA المقفلة مبهمة. أوضاع Smart وSystem Proxy وTUN خيارات صريحة، والواجهات الإنجليزية والفارسية والداكنة والفاتحة مدمجة في المنتج.",
+      de: "Der Client akzeptiert Standard-Links, Abonnements und Xray JSON, während gesperrte VEYNA-Importe undurchsichtig bleiben. Smart-, System-Proxy- und TUN-Modi sind explizite Optionen, und englische, persische, dunkle und helle Oberflächen sind fest im Produkt verankert.",
+    },
+    limits: {
+      en: "The current public release targets Windows 10 and 11 on x64. Android, iOS, macOS, and Linux are planned, and locked links created by the bundled local Gateway currently stay scoped to the same Windows installation.",
+      fa: "نسخه عمومی فعلی، ویندوز ۱۰ و ۱۱ روی x64 را هدف قرار می‌دهد. Android، iOS، macOS و Linux برنامه‌ریزی شده‌اند و لینک‌های قفل‌شده‌ای که توسط Gateway محلی همراه ساخته می‌شوند، فعلاً به همان نصب ویندوز محدود می‌مانند.",
+      ar: "يستهدف الإصدار العام الحالي Windows 10 وWindows 11 على x64. Android وiOS وmacOS وLinux مخطط لها، وتبقى الروابط المقفلة التي تنشئها بوابة Gateway المحلية المدمجة محصورة حالياً بنفس تثبيت Windows.",
+      de: "Die aktuelle öffentliche Version zielt auf Windows 10 und 11 auf x64 ab. Android, iOS, macOS und Linux sind geplant, und gesperrte Links, die vom mitgelieferten lokalen Gateway erstellt werden, bleiben derzeit auf dieselbe Windows-Installation beschränkt.",
+    },
+    security: {
+      en: "Locked profiles do not reveal or share their source configuration. The project documents sanitized diagnostics, checksum verification, clean proxy and route restoration, and a clear split between the public interface code and private security-sensitive components.",
+      fa: "پروفایل‌های قفل‌شده هرگز پیکربندی منبع خود را نمایش یا اشتراک‌گذاری نمی‌کنند. این پروژه تشخیص‌های پاک‌سازی‌شده، تأیید checksum، بازگردانی تمیز پراکسی و مسیر و یک جداسازی روشن بین کد رابط عمومی و اجزای حساس امنیتی خصوصی را مستند می‌کند.",
+      ar: "لا تكشف الملفات المقفلة إعداد المصدر أو تشاركه أبداً. يوثّق المشروع تشخيصات منظّفة، والتحقق من checksum، واستعادة نظيفة للوكيل والمسار، وفصلاً واضحاً بين كود الواجهة العامة والمكونات الحساسة أمنياً الخاصة.",
+      de: "Gesperrte Profile zeigen oder teilen ihre Quellkonfiguration nie. Das Projekt dokumentiert bereinigte Diagnosen, Checksummenprüfung, saubere Proxy- und Routenwiederherstellung sowie eine klare Trennung zwischen öffentlichem Oberflächencode und privaten, sicherheitsrelevanten Komponenten.",
+    },
+    result: {
+      en: "The result is a focused connectivity client that brings standard Xray workflows and protected profile distribution into one polished Windows application.",
+      fa: "نتیجه یک کلاینت اتصال متمرکز است که جریان‌های کاری استاندارد Xray و توزیع پروفایل محافظت‌شده را در یک برنامه ویندوزی پرداخت‌شده گرد هم می‌آورد.",
+      ar: "النتيجة عميل اتصال مركّز يجمع سير عمل Xray القياسي وتوزيع الملفات المحمية في تطبيق Windows واحد مصقول.",
+      de: "Das Ergebnis ist ein fokussierter Connectivity-Client, der Standard-Xray-Workflows und die Verteilung geschützter Profile in einer ausgereiften Windows-Anwendung zusammenführt.",
+    },
   },
 };
 
@@ -153,15 +337,15 @@ function ProjectDetailBlocks({ project, language }) {
   return (
     <section className="section project-detail-section">
       <Reveal className="section-header">
-        <p className="section-label">AT8 Project Notes</p>
-        <h2 className="section-title">{project.title} technical notes</h2>
+        <p className="section-label">{localize(notesKicker, language)}</p>
+        <h2 className="section-title">{notesTitleFor(project.title, language)}</h2>
       </Reveal>
       <RevealGroup className="project-detail-grid">
         {Object.entries(details).map(([key, body], index) => (
           <Reveal className="project-detail-card" key={key} delay={index * 0.025}>
             <span>{String(index + 1).padStart(2, "0")}</span>
             <h3>{localize(detailLabels[key], language)}</h3>
-            <p>{body}</p>
+            <p>{localize(body, language)}</p>
           </Reveal>
         ))}
       </RevealGroup>
