@@ -27,6 +27,8 @@ const brandKeywords = [
   "Hybrid Web and Mail Infrastructure",
   "Media Downloader Bot",
   "AI Chat RTL Fixer",
+  "VEYNA",
+  "Veyna.App",
 ];
 
 const pageCopy = {

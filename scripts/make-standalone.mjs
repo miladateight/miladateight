@@ -9,7 +9,7 @@ const rootPreviewPath = fileURLToPath(new URL("../Old/generated/Milad-Portfolio.
 
 const html = await readFile(indexPath, "utf8");
 const siteUrl = "https://ateight.xyz";
-const keywords = "Ateight, Milad Ateight, AT8, Milad AT8, میلاد AT8, میلاد ۸۸, KeyFix, NetDoctor, PDF Sanitizer, Hybrid Web and Mail Infrastructure, Media Downloader Bot, AI Chat RTL Fixer";
+const keywords = "Ateight, Milad Ateight, AT8, Milad AT8, میلاد AT8, میلاد ۸۸, KeyFix, NetDoctor, PDF Sanitizer, Hybrid Web and Mail Infrastructure, Media Downloader Bot, AI Chat RTL Fixer, VEYNA, Veyna.App";
 const routes = [
   {
     path: "/about/",
@@ -50,6 +50,11 @@ const routes = [
     path: "/AI-Chat-RTL-Fixer/",
     title: "AI Chat RTL Fixer | Milad Ateight AT8 Project",
     description: "A free, open-source Windows tray tool that fixes right-to-left rendering inside AI desktop chat apps for Persian, Arabic, Hebrew, and Urdu, while code and English stay left-to-right.",
+  },
+  {
+    path: "/VEYNA/",
+    title: "VEYNA | Milad Ateight AT8 Project",
+    description: "VEYNA is a privacy-focused Windows Xray client for standard links, subscriptions, protected profiles, and Smart, System Proxy, or TUN connection modes.",
   },
 ];
 

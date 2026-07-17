@@ -288,5 +288,48 @@ export const projectPages = {
     ],
     downloads: [{ label: { en: "Download latest", fa: "دانلود آخرین نسخه", ar: "تحميل الأحدث", de: "Neueste Version" }, url: "https://github.com/miladateight/AI.Chat.RTL.Fixer/releases/latest", primary: true },
                 { label: { en: "Source code", fa: "سورس کد", ar: "الكود المصدري", de: "Quellcode" }, url: "https://github.com/miladateight/AI.Chat.RTL.Fixer", primary: false }]
+  },
+  veyna: {
+    hero: {
+      en: "Private connectivity. Protected profiles.",
+      fa: "اتصال خصوصی. پروفایل محافظت‌شده.",
+      ar: "اتصال خاص. ملفات محمية.",
+      de: "Private Verbindung. Geschützte Profile."
+    },
+    lead: {
+      en: "A privacy-focused Windows Xray client for standard imports, protected profiles, and Smart, System Proxy, or TUN modes.",
+      fa: "کلاینت Xray ویندوز با تمرکز بر حریم خصوصی، برای ورودی‌های استاندارد، پروفایل‌های محافظت‌شده و حالت‌های Smart، System Proxy و TUN.",
+      ar: "عميل Xray لنظام Windows يركز على الخصوصية، للاستيراد القياسي والملفات المحمية وأوضاع Smart وSystem Proxy وTUN.",
+      de: "Ein datenschutzorientierter Windows-Xray-Client für Standardimporte, geschützte Profile sowie Smart-, System-Proxy- und TUN-Modi."
+    },
+    problem: {
+      en: "Xray users often manage several link formats, subscriptions, routing modes, and DNS choices across tools that can expose the original configuration when a profile is shared.",
+      fa: "کاربران Xray معمولاً چند نوع لینک، اشتراک، حالت مسیریابی و انتخاب DNS را بین ابزارهای مختلف مدیریت می‌کنند؛ ابزارهایی که ممکن است هنگام اشتراک‌گذاری، تنظیمات اصلی پروفایل را آشکار کنند.",
+      ar: "غالباً يدير مستخدمو Xray صيغ روابط واشتراكات وأوضاع توجيه وخيارات DNS متعددة عبر أدوات قد تكشف الإعداد الأصلي عند مشاركة ملف التعريف.",
+      de: "Xray-Nutzer verwalten häufig mehrere Linkformate, Abonnements, Routing-Modi und DNS-Optionen in verschiedenen Tools, die beim Teilen die ursprüngliche Konfiguration offenlegen können."
+    },
+    solution: {
+      en: "VEYNA brings standard and protected profile workflows into one client. Locked imports stay opaque, while connection mode, node, DNS, and LAN-bypass controls remain clear and reversible.",
+      fa: "VEYNA جریان کار پروفایل‌های استاندارد و محافظت‌شده را در یک کلاینت جمع می‌کند. ورودی‌های قفل‌شده پنهان می‌مانند و انتخاب حالت اتصال، نود، DNS و LAN bypass روشن و قابل بازگشت است.",
+      ar: "يجمع VEYNA مسارات عمل الملفات القياسية والمحمية في عميل واحد. تبقى الواردات المقفلة مبهمة، بينما تظل عناصر وضع الاتصال والعقدة وDNS وتجاوز LAN واضحة وقابلة للتراجع.",
+      de: "VEYNA vereint Standard- und geschützte Profilabläufe in einem Client. Gesperrte Importe bleiben verborgen, während Verbindungsmodus, Knoten, DNS und LAN-Bypass klar und reversibel steuerbar sind."
+    },
+    features: [
+      { title: { en: "Flexible imports", fa: "ورودی‌های انعطاف‌پذیر", ar: "استيراد مرن", de: "Flexible Importe" }, body: { en: "Imports VLESS, VMess, Trojan, Shadowsocks, and SOCKS5 links, plus plain, mixed, or base64 subscriptions and Xray JSON.", fa: "لینک‌های VLESS، VMess، Trojan، Shadowsocks و SOCKS5 را همراه اشتراک‌های ساده، ترکیبی یا base64 و Xray JSON وارد می‌کند.", ar: "يستورد روابط VLESS وVMess وTrojan وShadowsocks وSOCKS5، إضافة إلى الاشتراكات العادية أو المختلطة أو base64 وXray JSON.", de: "Importiert VLESS-, VMess-, Trojan-, Shadowsocks- und SOCKS5-Links sowie einfache, gemischte oder Base64-Abonnements und Xray JSON." } },
+      { title: { en: "Protected profiles", fa: "پروفایل‌های محافظت‌شده", ar: "ملفات محمية", de: "Geschützte Profile" }, body: { en: "Lock Studio creates opaque VEYNA links. Imported locked profiles never reveal or share their original source configuration.", fa: "Lock Studio لینک‌های پنهان VEYNA می‌سازد. پروفایل‌های قفل‌شده واردشده هرگز تنظیمات منبع اصلی را نمایش یا اشتراک‌گذاری نمی‌کنند.", ar: "ينشئ Lock Studio روابط VEYNA مبهمة. ولا تكشف الملفات المقفلة المستوردة إعداد المصدر الأصلي أو تشاركه أبداً.", de: "Lock Studio erstellt undurchsichtige VEYNA-Links. Importierte gesperrte Profile zeigen oder teilen ihre ursprüngliche Konfiguration nie." } },
+      { title: { en: "Three connection modes", fa: "سه حالت اتصال", ar: "ثلاثة أوضاع اتصال", de: "Drei Verbindungsmodi" }, body: { en: "Choose Smart mode, Windows System Proxy, or a Wintun-powered TUN connection according to the traffic and application.", fa: "بر اساس ترافیک و برنامه، حالت Smart، پراکسی سیستمی ویندوز یا اتصال TUN مبتنی بر Wintun را انتخاب کنید.", ar: "اختر وضع Smart أو وكيل نظام Windows أو اتصال TUN المعتمد على Wintun وفقاً لحركة المرور والتطبيق.", de: "Je nach Datenverkehr und Anwendung stehen Smart-Modus, Windows-Systemproxy oder eine Wintun-basierte TUN-Verbindung zur Wahl." } },
+      { title: { en: "Routing and DNS control", fa: "کنترل مسیریابی و DNS", ar: "التحكم في التوجيه وDNS", de: "Routing- und DNS-Steuerung" }, body: { en: "Selectable DNS and LAN-bypass policies make the active route explicit, while normal shutdown restores proxy, route, and DNS changes.", fa: "DNS قابل انتخاب و سیاست‌های LAN bypass مسیر فعال را روشن می‌کنند و توقف عادی، تغییرات پراکسی، route و DNS را برمی‌گرداند.", ar: "تجعل خيارات DNS وسياسات تجاوز LAN المسار النشط واضحاً، بينما يعيد الإيقاف العادي تغييرات الوكيل والمسار وDNS.", de: "Wählbare DNS- und LAN-Bypass-Regeln machen die aktive Route transparent. Beim normalen Beenden werden Proxy-, Routing- und DNS-Änderungen zurückgesetzt." } },
+      { title: { en: "English and Persian", fa: "انگلیسی و فارسی", ar: "الإنجليزية والفارسية", de: "Englisch und Persisch" }, body: { en: "The interface includes complete English and Persian localization, right-to-left layout support, and consistent light and dark themes.", fa: "رابط کاربری دارای ترجمه کامل انگلیسی و فارسی، پشتیبانی از چیدمان راست‌به‌چپ و تم‌های روشن و تیره یکپارچه است.", ar: "تتضمن الواجهة تعريباً كاملاً بالإنجليزية والفارسية، ودعم التخطيط من اليمين إلى اليسار، وسمات فاتحة وداكنة متناسقة.", de: "Die Oberfläche bietet vollständige englische und persische Lokalisierung, Rechts-nach-links-Unterstützung sowie konsistente helle und dunkle Designs." } },
+      { title: { en: "Desktop integration", fa: "یکپارچگی با دسکتاپ", ar: "تكامل سطح المكتب", de: "Desktop-Integration" }, body: { en: "Tray controls, single-instance handling, installer cleanup, and coordinated Core shutdown keep the Windows experience predictable.", fa: "کنترل‌های tray، اجرای تک‌نمونه، پاک‌سازی نصب‌کننده و توقف هماهنگ Core تجربه ویندوز را قابل پیش‌بینی نگه می‌دارند.", ar: "تحافظ عناصر شريط المهام وتشغيل نسخة واحدة وتنظيف المثبت والإيقاف المنسق للنواة على تجربة Windows مستقرة.", de: "Tray-Steuerung, Einzelinstanz-Verhalten, Installer-Bereinigung und koordiniertes Core-Herunterfahren sorgen für eine verlässliche Windows-Nutzung." } }
+    ],
+    steps: [
+      { title: { en: "Import a profile", fa: "واردکردن پروفایل", ar: "استيراد ملف", de: "Profil importieren" }, body: { en: "Paste a supported link, add a subscription URL, import a subscription payload, or load Xray JSON.", fa: "یک لینک پشتیبانی‌شده، URL اشتراک، محتوای اشتراک یا Xray JSON را وارد کنید.", ar: "ألصق رابطاً مدعوماً أو أضف رابط اشتراك أو استورد محتوى اشتراك أو حمّل Xray JSON.", de: "Einen unterstützten Link, eine Abo-URL, einen Abo-Inhalt oder Xray JSON importieren." } },
+      { title: { en: "Choose profile and node", fa: "انتخاب پروفایل و نود", ar: "اختيار الملف والعقدة", de: "Profil und Knoten wählen" }, body: { en: "Review standard profile details when available, then select the profile and node that should carry the connection.", fa: "در صورت امکان جزئیات پروفایل استاندارد را بررسی کنید، سپس پروفایل و نود اتصال را انتخاب کنید.", ar: "راجع تفاصيل الملف القياسي عند توفرها، ثم اختر الملف والعقدة اللذين سيحملان الاتصال.", de: "Verfügbare Standardprofildetails prüfen und anschließend Profil und Knoten für die Verbindung auswählen." } },
+      { title: { en: "Set the route", fa: "تنظیم مسیر", ar: "ضبط المسار", de: "Route festlegen" }, body: { en: "Select Smart, System Proxy, or TUN mode, then choose the DNS and LAN-bypass policy that fits the session.", fa: "حالت Smart، System Proxy یا TUN را انتخاب کنید و سپس DNS و سیاست LAN bypass مناسب را تنظیم کنید.", ar: "اختر وضع Smart أوSystem Proxy أوTUN، ثم حدد سياسة DNS وتجاوز LAN المناسبة للجلسة.", de: "Smart-, System-Proxy- oder TUN-Modus und anschließend die passende DNS- und LAN-Bypass-Regel wählen." } },
+      { title: { en: "Connect and restore", fa: "اتصال و بازگردانی", ar: "الاتصال والاستعادة", de: "Verbinden und zurücksetzen" }, body: { en: "Connect from Home or Profiles. When the session stops normally, VEYNA restores the proxy, route, and DNS changes it made.", fa: "از Home یا Profiles متصل شوید. با توقف عادی نشست، VEYNA تغییرات پراکسی، route و DNS را بازمی‌گرداند.", ar: "اتصل من Home أوProfiles. وعند توقف الجلسة بشكل عادي، يعيد VEYNA تغييرات الوكيل والمسار وDNS التي أجراها.", de: "Über Home oder Profiles verbinden. Beim normalen Sitzungsende setzt VEYNA seine Proxy-, Routing- und DNS-Änderungen zurück." } }
+    ],
+    downloads: [{ label: { en: "Download latest", fa: "دانلود آخرین نسخه", ar: "تحميل الأحدث", de: "Neueste Version" }, url: "https://github.com/miladateight/Veyna.App/releases/latest", primary: true },
+                { label: { en: "Release notes", fa: "یادداشت انتشار", ar: "ملاحظات الإصدار", de: "Versionshinweise" }, url: "https://github.com/miladateight/Veyna.App/blob/main/Windows/docs/RELEASE_NOTES_0.8.0.md", primary: false },
+                { label: { en: "Source code", fa: "سورس کد", ar: "الكود المصدري", de: "Quellcode" }, url: "https://github.com/miladateight/Veyna.App", primary: false }]
   }
 };

@@ -1,4 +1,4 @@
-import { Wrench, Network, Server, Bot, AlignRight, FileStack } from "lucide-react";
+import { Wrench, Network, Server, Bot, AlignRight, FileStack, ShieldCheck } from "lucide-react";
 import { repos } from "./profile";
 
 export const projectAccents = {
@@ -7,7 +7,8 @@ export const projectAccents = {
   pdfsan: "#fb7185",
   hwmi: "#8b5cf6",
   downloader: "#e879f9",
-  airtl: "#f59e0b"
+  airtl: "#f59e0b",
+  veyna: "#4da3ff"
 };
 
 export const projects = [
@@ -147,6 +148,29 @@ export const projects = [
       fa: "ابزار tray ویندوز که رندر راست‌به‌چپ را داخل اپ‌های دسکتاپ چت هوش مصنوعی برای فارسی، عربی، عبری و اردو اصلاح می‌کند — در حالی که کد، مسیرها و انگلیسی چپ‌به‌راست می‌مانند. فقط زمان اجرا، بدون ارسال داده.",
       ar: "أداة في شريط مهام Windows تصحّح العرض من اليمين إلى اليسار داخل تطبيقات دردشة الذكاء الاصطناعي للفارسية والعربية والعبرية والأردية — مع بقاء الكود والمسارات والإنجليزية من اليسار إلى اليمين. وقت التشغيل فقط، دون إرسال بيانات.",
       de: "Eine Windows-Tray-App, die die Rechts-nach-links-Darstellung in KI-Desktop-Chat-Apps für Persisch, Arabisch, Hebräisch und Urdu korrigiert — während Code, Pfade und Englisch von links nach rechts bleiben. Nur zur Laufzeit, ohne Telemetrie."
+    }
+  },
+  {
+    slug: "veyna",
+    accent: "veyna",
+    visualTone: "secure-connectivity",
+    title: "VEYNA",
+    type: {
+      en: "Privacy-focused Xray client",
+      fa: "کلاینت Xray با تمرکز بر حریم خصوصی",
+      ar: "عميل Xray يركز على الخصوصية",
+      de: "Datenschutzorientierter Xray-Client"
+    },
+    stack: "Flutter / Dart / Go / Xray-core / Wintun",
+    url: repos.veyna,
+    pageUrl: repos.veynaPage,
+    Icon: ShieldCheck,
+    tag: { en: "connectivity", fa: "اتصال امن", ar: "اتصال آمن", de: "Sichere Verbindung" },
+    lines: {
+      en: "A modern Windows Xray client for standard links, subscriptions, and protected VEYNA profiles, with Smart, System Proxy, and TUN connection modes.",
+      fa: "کلاینت مدرن Xray برای ویندوز با پشتیبانی از لینک‌ها و اشتراک‌های استاندارد، پروفایل‌های محافظت‌شده VEYNA و حالت‌های اتصال Smart، System Proxy و TUN.",
+      ar: "عميل Xray حديث لنظام Windows يدعم الروابط والاشتراكات القياسية وملفات VEYNA المحمية، مع أوضاع اتصال Smart وSystem Proxy وTUN.",
+      de: "Ein moderner Xray-Client für Windows mit Standard-Links, Abonnements, geschützten VEYNA-Profilen sowie Smart-, System-Proxy- und TUN-Verbindungsmodi."
     }
   }
 ];

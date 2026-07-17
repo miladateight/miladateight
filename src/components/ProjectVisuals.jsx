@@ -5,6 +5,22 @@ import { localize } from "../utils/localize";
 const L = (value, language) => localize(value, language);
 
 const visualCopy = {
+  veynaCaption: {
+    en: "Protected profile and connection-mode system",
+    fa: "سیستم پروفایل محافظت‌شده و حالت اتصال",
+    ar: "نظام الملف المحمي ووضع الاتصال",
+    de: "System für geschützte Profile und Verbindungsmodi",
+  },
+  veynaStatus: {
+    en: "profile protected, route selected, connection ready",
+    fa: "پروفایل محافظت‌شده، مسیر انتخاب‌شده، اتصال آماده",
+    ar: "الملف محمي، المسار محدد، الاتصال جاهز",
+    de: "Profil geschützt, Route gewählt, Verbindung bereit",
+  },
+  veynaProtected: { en: "Protected profile", fa: "پروفایل محافظت‌شده", ar: "ملف محمي", de: "Geschütztes Profil" },
+  veynaSmart: { en: "Smart", fa: "هوشمند", ar: "ذكي", de: "Smart" },
+  veynaSystem: { en: "System Proxy", fa: "پراکسی سیستم", ar: "وكيل النظام", de: "Systemproxy" },
+  veynaTun: { en: "TUN", fa: "TUN", ar: "TUN", de: "TUN" },
   keyfixCaption: {
     en: "Functional illustration based on documented KeyFix behavior",
     fa: "نمایش کارکردی بر پایه رفتار مستند KeyFix",
@@ -810,6 +826,51 @@ function PdfSanitizerVisual({ language }) {
   );
 }
 
+function VeynaVisual({ language }) {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <div className="project-visual-scene veyna-demo" data-visual="veyna" aria-label="VEYNA protected connectivity illustration">
+      <div className="demo-caption">{L(visualCopy.veynaCaption, language)}</div>
+      <div className="veyna-stage">
+        <div className="veyna-orbit" aria-hidden="true">
+          <motion.span
+            className="veyna-orbit-ring veyna-orbit-ring-outer"
+            animate={reduceMotion ? undefined : { rotate: 360 }}
+            transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.span
+            className="veyna-orbit-ring veyna-orbit-ring-inner"
+            animate={reduceMotion ? undefined : { rotate: -360 }}
+            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+          />
+          <div className="veyna-logo-shell">
+            <img src="/projects/veyna/veyna-logo.png" alt="" />
+          </div>
+        </div>
+
+        <div className="veyna-profile">
+          <span className="veyna-lock" aria-hidden="true" />
+          <div>
+            <strong>VEYNA Secure</strong>
+            <small>{L(visualCopy.veynaProtected, language)}</small>
+          </div>
+        </div>
+
+        <div className="veyna-modes" aria-label="VEYNA connection modes">
+          <span className="is-active">{L(visualCopy.veynaSmart, language)}</span>
+          <span>{L(visualCopy.veynaSystem, language)}</span>
+          <span>{L(visualCopy.veynaTun, language)}</span>
+        </div>
+      </div>
+      <div className="visual-status-line">
+        <span />
+        {L(visualCopy.veynaStatus, language)}
+      </div>
+    </div>
+  );
+}
+
 const sceneMap = {
   keyfix: KeyFixVisual,
   netdoctor: NetDoctorVisual,
@@ -817,6 +878,7 @@ const sceneMap = {
   "hybrid-web-mail-infrastructure": InfrastructureVisual,
   "instagram-youtube-soundcloud-downloader": BotVisual,
   "ai-chat-rtl-fixer": AiRtlVisual,
+  veyna: VeynaVisual,
 };
 
 export default function ProjectVisual({ slug, language = "en" }) {
