@@ -332,31 +332,6 @@ p {
   transform: translate(-50%, 0);
 }
 
-.route-fallback {
-  min-height: 72vh;
-  display: grid;
-  place-items: center;
-  gap: 14px;
-}
-
-.route-fallback-mark {
-  width: 56px;
-  height: 56px;
-  display: grid;
-  place-items: center;
-  border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, var(--accent), var(--accent-3));
-  color: #fff;
-  font-family: var(--font-mono);
-  font-weight: 900;
-}
-
-.route-fallback-line {
-  width: 120px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-}
-
 /* Header */
 .at8-header {
   position: fixed;
@@ -3964,7 +3939,6 @@ p {
 }
 
 .rtl .header-projects-panel {
-  translate: 50% 0;
   text-align: right;
 }
 

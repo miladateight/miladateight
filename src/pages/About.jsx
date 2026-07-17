@@ -27,10 +27,10 @@ const aboutCopy = {
     de: "Milad Ateight arbeitet über die gesamte operative Technikfläche.",
   },
   lead: {
-    en: "I am an IT Lead working in an EPC company, focused on infrastructure, networks, servers, secure access, web and mail systems, backup, monitoring, technical continuity, documentation, and internal tools.",
-    fa: "من IT Lead در یک شرکت EPC هستم و روی زیرساخت، شبکه، سرورها، دسترسی امن، سیستم‌های وب و ایمیل، بکاپ، مانیتورینگ، تداوم فنی، مستندسازی و ابزارهای داخلی تمرکز دارم.",
-    ar: "أنا IT Lead في شركة EPC، أركز على البنية التحتية والشبكات والخوادم والوصول الآمن وأنظمة الويب والبريد والنسخ الاحتياطي والمراقبة والاستمرارية التقنية والتوثيق والأدوات الداخلية.",
-    de: "Ich bin IT Lead in einem EPC-Unternehmen und arbeite an Infrastruktur, Netzwerken, Servern, sicherem Zugriff, Web- und Mail-Systemen, Backups, Monitoring, technischer Kontinuität, Dokumentation und internen Tools.",
+    en: "I am an IT Specialist working in an EPC company, focused on infrastructure, networks, servers, secure access, web and mail systems, backup, monitoring, technical continuity, documentation, and internal tools.",
+    fa: "من کارشناس IT در یک شرکت EPC هستم و روی زیرساخت، شبکه، سرورها، دسترسی امن، سیستم‌های وب و ایمیل، بکاپ، مانیتورینگ، تداوم فنی، مستندسازی و ابزارهای داخلی تمرکز دارم.",
+    ar: "أنا أخصائي تقني في شركة EPC، أركز على البنية التحتية والشبكات والخوادم والوصول الآمن وأنظمة الويب والبريد والنسخ الاحتياطي والمراقبة والاستمرارية التقنية والتوثيق والأدوات الداخلية.",
+    de: "Ich bin IT-Spezialist in einem EPC-Unternehmen und arbeite an Infrastruktur, Netzwerken, Servern, sicherem Zugriff, Web- und Mail-Systemen, Backups, Monitoring, technischer Kontinuität, Dokumentation und internen Tools.",
   },
   approachTitle: {
     en: "Operating approach",
