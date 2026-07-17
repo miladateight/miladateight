@@ -119,6 +119,13 @@ const projectDetails = {
     security: "There is no telemetry, no account, and no external network calls — only local loopback to a debug-enabled target app. Chat text and clipboard content are never stored, and logs keep safe metadata only.",
     result: "The practical outcome is readable right-to-left chat in desktop AI apps for Persian, Arabic, Hebrew, and Urdu users, with a clean revert whenever the tool is disabled or the app is restarted normally.",
   },
+  veyna: {
+    architecture: "VEYNA combines a Flutter desktop interface with shared Go profile contracts, a Windows Core built around Xray-core, and Wintun support for TUN mode. Profiles, routing choices, DNS policy, and connection state meet in one desktop workflow.",
+    decisions: "The client accepts standard links, subscriptions, and Xray JSON while keeping locked VEYNA imports opaque. Smart, System Proxy, and TUN modes are explicit choices, and English, Persian, dark, and light interfaces are built into the product.",
+    limits: "The current public release targets Windows 10 and 11 on x64. Android, iOS, macOS, and Linux are planned, and locked links created by the bundled local Gateway currently stay scoped to the same Windows installation.",
+    security: "Locked profiles do not reveal or share their source configuration. The project documents sanitized diagnostics, checksum verification, clean proxy and route restoration, and a clear split between the public interface code and private security-sensitive components.",
+    result: "The result is a focused connectivity client that brings standard Xray workflows and protected profile distribution into one polished Windows application.",
+  },
 };
 
 function ProjectMetaPanel({ project, data, language }) {
