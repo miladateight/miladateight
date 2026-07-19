@@ -15,6 +15,10 @@ export const profile = {
   location: "Iran",
   github: "https://github.com/miladateight",
   telegram: "https://t.me/MiladAteight",
+  telegramChannel: "https://t.me/AteightTech",
+  facebook: "https://www.facebook.com/people/Milad-Ateight/pfbid0XvNxf7NVRPUYhbsrKNA1mmKLacfLJbgrGDyLvy1dnzKoE3LFijXXgahHr5qnaDMbl/",
+  instagram: "https://www.instagram.com/miladateight/",
+  linkedin: "https://www.linkedin.com/in/milad-fatemi-5b924135a/",
   email: "ateight088@gmail.com",
   website: "https://ateight.xyz"
 };
