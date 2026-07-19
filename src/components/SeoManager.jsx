@@ -74,6 +74,20 @@ const pageCopy = {
       de: "Kontaktiere Milad Ateight per E-Mail, GitHub oder Telegram für Infrastrukturarbeit, Projekt-Reviews, Automatisierung und technische Zusammenarbeit.",
     },
   },
+  links: {
+    title: {
+      en: "Links | Milad Ateight (AT8)",
+      fa: "لینک‌ها | Milad Ateight (AT8)",
+      ar: "الروابط | Milad Ateight (AT8)",
+      de: "Links | Milad Ateight (AT8)",
+    },
+    description: {
+      en: "All official channels for Milad Ateight: website, GitHub, LinkedIn, Telegram, Telegram channel, Instagram, Facebook, and email.",
+      fa: "همه کانال‌های رسمی Milad Ateight: سایت، گیت‌هاب، لینکدین، تلگرام، کانال تلگرام، اینستاگرام، فیس‌بوک و ایمیل.",
+      ar: "جميع القنوات الرسمية لـ Milad Ateight: الموقع وGitHub وLinkedIn وTelegram وقناة Telegram وInstagram وFacebook والبريد الإلكتروني.",
+      de: "Alle offiziellen Kanäle von Milad Ateight: Website, GitHub, LinkedIn, Telegram, Telegram-Kanal, Instagram, Facebook und E-Mail.",
+    },
+  },
   notFound: {
     title: {
       en: "Page Not Found | AT8",
@@ -207,7 +221,7 @@ export default function SeoManager({ language }) {
   const seo = useMemo(() => {
     const normalized = normalizePath(location.pathname);
     const project = getProject(normalized);
-    const is404 = !project && !["/", "/about/", "/contact/"].includes(normalized);
+    const is404 = !project && !["/", "/about/", "/contact/", "/links/"].includes(normalized);
     const canonical = `${siteUrl}${normalized}`;
 
     if (project) {
@@ -248,7 +262,7 @@ export default function SeoManager({ language }) {
       };
     }
 
-    const key = normalized === "/about/" ? "about" : normalized === "/contact/" ? "contact" : is404 ? "notFound" : "home";
+    const key = normalized === "/about/" ? "about" : normalized === "/contact/" ? "contact" : normalized === "/links/" ? "links" : is404 ? "notFound" : "home";
     return {
       title: localize(pageCopy[key].title, language),
       description: localize(pageCopy[key].description, language),
@@ -270,7 +284,7 @@ export default function SeoManager({ language }) {
         key !== "home"
           ? breadcrumbJsonLd([
               { name: "Home", url: siteUrl },
-              { name: key === "about" ? "About" : key === "contact" ? "Contact" : "404", url: canonical },
+              { name: key === "about" ? "About" : key === "contact" ? "Contact" : key === "links" ? "Links" : "404", url: canonical },
             ])
           : null,
       ].filter(Boolean),

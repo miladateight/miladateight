@@ -1852,6 +1852,16 @@ p {
   max-width: 820px;
 }
 
+.links-avatar-shell {
+  display: block;
+  margin-block-end: 18px;
+}
+
+.links-avatar {
+  width: 88px;
+  height: 88px;
+}
+
 .about-focus-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

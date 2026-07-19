@@ -11,6 +11,7 @@ import { projects } from "./data/projects";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Links from "./pages/Links";
 import ProjectPage from "./pages/ProjectPage";
 import NotFound from "./pages/NotFound";
 
@@ -77,6 +78,8 @@ export default function App() {
           <Route path="/about" element={<PageTransition><About t={t} language={language} /></PageTransition>} />
           <Route path="/contact/" element={<PageTransition><Contact t={t} language={language} /></PageTransition>} />
           <Route path="/contact" element={<PageTransition><Contact t={t} language={language} /></PageTransition>} />
+          <Route path="/links/" element={<PageTransition><Links language={language} /></PageTransition>} />
+          <Route path="/links" element={<PageTransition><Links language={language} /></PageTransition>} />
           {projects.map((project) => (
             <Route
               key={project.slug}
