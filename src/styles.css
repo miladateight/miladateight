@@ -1860,26 +1860,20 @@ p {
 .links-avatar {
   width: 88px;
   height: 88px;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(242, 246, 255, 0.92) 0%,
-    rgba(242, 246, 255, 0.68) 34%,
-    rgba(242, 246, 255, 0.38) 58%,
-    rgba(242, 246, 255, 0.14) 80%,
-    rgba(242, 246, 255, 0) 100%
-  );
+  background: none;
 }
 
 .links-avatar::before {
-  inset: -34px;
+  inset: -40px;
   background: radial-gradient(
     circle,
-    rgba(242, 246, 255, 0.35) 0%,
-    rgba(56, 189, 248, 0.28) 30%,
-    rgba(139, 92, 246, 0.14) 52%,
-    rgba(6, 8, 13, 0) 78%
+    rgba(242, 246, 255, 0.8) 0%,
+    rgba(242, 246, 255, 0.5) 24%,
+    rgba(56, 189, 248, 0.32) 44%,
+    rgba(139, 92, 246, 0.16) 64%,
+    rgba(6, 8, 13, 0) 86%
   );
-  filter: blur(26px);
+  filter: blur(32px);
 }
 
 .links-avatar img {
