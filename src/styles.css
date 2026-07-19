@@ -1860,6 +1860,18 @@ p {
 .links-avatar {
   width: 88px;
   height: 88px;
+  background: radial-gradient(circle at 50% 50%, #f2f6ff 0%, #f2f6ff 60%, rgba(242, 246, 255, 0.5) 76%, rgba(242, 246, 255, 0) 92%);
+  box-shadow: 0 0 0 1px var(--border-2), 0 18px 40px rgba(56, 189, 248, 0.2);
+}
+
+.links-avatar::before {
+  inset: -22px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.32) 0%, rgba(139, 92, 246, 0.16) 46%, rgba(6, 8, 13, 0) 74%);
+  filter: blur(18px);
+}
+
+.links-avatar img {
+  padding: 12px;
 }
 
 .about-focus-grid {
