@@ -1,14 +1,66 @@
 const LANG_KEY = "at8:lang";
 const LANGUAGES = ["en", "fa", "ar", "de"];
 
+// Timezones mapped to a supported language. Used only as a fallback signal when
+// the browser's language list has no match. Timezone reflects the device's OS
+// setting, not the network path, so unlike IP geolocation it stays accurate
+// even when the visitor is on a VPN.
+const TIMEZONE_LANGUAGE_MAP = {
+  "Asia/Tehran": "fa",
+  "Asia/Kabul": "fa",
+  "Asia/Riyadh": "ar",
+  "Asia/Dubai": "ar",
+  "Asia/Qatar": "ar",
+  "Asia/Kuwait": "ar",
+  "Asia/Bahrain": "ar",
+  "Asia/Muscat": "ar",
+  "Asia/Aden": "ar",
+  "Asia/Baghdad": "ar",
+  "Asia/Amman": "ar",
+  "Asia/Beirut": "ar",
+  "Asia/Damascus": "ar",
+  "Asia/Gaza": "ar",
+  "Asia/Hebron": "ar",
+  "Africa/Cairo": "ar",
+  "Africa/Tripoli": "ar",
+  "Africa/Tunis": "ar",
+  "Africa/Algiers": "ar",
+  "Africa/Casablanca": "ar",
+  "Africa/Khartoum": "ar",
+  "Europe/Berlin": "de",
+  "Europe/Vienna": "de",
+  "Europe/Zurich": "de",
+  "Europe/Luxembourg": "de",
+  "Europe/Busingen": "de"
+};
+
+function detectFromBrowserLanguages() {
+  const candidates = navigator.languages?.length ? navigator.languages : [navigator.language];
+  for (const candidate of candidates) {
+    const code = candidate?.slice(0, 2).toLowerCase();
+    if (code && LANGUAGES.includes(code)) return code;
+  }
+  return null;
+}
+
+function detectFromTimezone() {
+  const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  return TIMEZONE_LANGUAGE_MAP[zone] || null;
+}
+
 export function getInitialLanguage() {
   try {
     const queryLang = new URLSearchParams(window.location.search).get("lang");
     if (queryLang && LANGUAGES.includes(queryLang)) return queryLang;
+
     const saved = localStorage.getItem(LANG_KEY);
     if (saved && LANGUAGES.includes(saved)) return saved;
-    const browserLang = navigator.language?.slice(0, 2);
-    if (browserLang && LANGUAGES.includes(browserLang)) return browserLang;
+
+    const browserLang = detectFromBrowserLanguages();
+    if (browserLang) return browserLang;
+
+    const timezoneLang = detectFromTimezone();
+    if (timezoneLang) return timezoneLang;
   } catch {}
   return "en";
 }
