@@ -1857,13 +1857,13 @@ p {
   margin-block-end: 18px;
 }
 
-.links-avatar {
+.brand-mark-shell.links-avatar {
   width: 88px;
   height: 88px;
   background: none;
 }
 
-.links-avatar::before {
+.brand-mark-shell.links-avatar::before {
   inset: -40px;
   background: radial-gradient(
     circle,
@@ -1876,8 +1876,15 @@ p {
   filter: blur(32px);
 }
 
-.links-avatar img {
+.brand-mark-shell.links-avatar img {
   padding: 12px;
+}
+
+@media (max-width: 480px) {
+  .brand-mark-shell.links-avatar {
+    width: 72px;
+    height: 72px;
+  }
 }
 
 .about-focus-grid {
