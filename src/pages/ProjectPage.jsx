@@ -278,6 +278,38 @@ const projectDetails = {
       de: "Das praktische Ergebnis ist lesbarer Rechts-nach-links-Chat in Desktop-KI-Apps für persische, arabische, hebräische und urdu Nutzer, mit sauberem Rückgängigmachen, sobald das Tool deaktiviert oder die App normal neu gestartet wird.",
     },
   },
+  veyna: {
+    architecture: {
+      en: "VEYNA combines a Flutter desktop interface with shared Go profile contracts, a Windows Core built around Xray-core, and Wintun support for TUN mode. Profiles, routing choices, DNS policy, and connection state meet in one desktop workflow.",
+      fa: "VEYNA یک رابط دسکتاپ Flutter را با قراردادهای مشترک پروفایل به زبان Go، یک Core ویندوزی ساخته‌شده بر پایه Xray-core و پشتیبانی Wintun برای حالت TUN ترکیب می‌کند. پروفایل‌ها، انتخاب مسیر، سیاست DNS و وضعیت اتصال در یک جریان کاری دسکتاپ به هم می‌رسند.",
+      ar: "يجمع VEYNA بين واجهة سطح مكتب مبنية بـ Flutter وعقود ملفات تعريف مشتركة بلغة Go، ونواة Windows مبنية حول Xray-core، ودعم Wintun لوضع TUN. تلتقي الملفات وخيارات التوجيه وسياسة DNS وحالة الاتصال في مسار عمل واحد على سطح المكتب.",
+      de: "VEYNA verbindet eine Flutter-Desktop-Oberfläche mit gemeinsamen Go-Profilverträgen, einem Windows-Core rund um Xray-core und Wintun-Unterstützung für den TUN-Modus. Profile, Routing-Entscheidungen, DNS-Richtlinie und Verbindungsstatus treffen in einem einzigen Desktop-Workflow zusammen.",
+    },
+    decisions: {
+      en: "The client accepts standard links, subscriptions, and Xray JSON while keeping locked VEYNA imports opaque. Smart, System Proxy, and TUN modes are explicit choices, and English, Persian, dark, and light interfaces are built into the product.",
+      fa: "این کلاینت لینک‌های استاندارد، اشتراک‌ها و Xray JSON را می‌پذیرد و در عین حال ورودی‌های قفل‌شده VEYNA را پنهان نگه می‌دارد. حالت‌های Smart، System Proxy و TUN انتخاب‌های صریح هستند و رابط انگلیسی، فارسی، تیره و روشن در محصول تعبیه شده‌اند.",
+      ar: "يقبل العميل الروابط القياسية والاشتراكات وXray JSON مع إبقاء واردات VEYNA المقفلة مبهمة. أوضاع Smart وSystem Proxy وTUN خيارات صريحة، والواجهات الإنجليزية والفارسية والداكنة والفاتحة مدمجة في المنتج.",
+      de: "Der Client akzeptiert Standard-Links, Abonnements und Xray JSON, während gesperrte VEYNA-Importe undurchsichtig bleiben. Smart-, System-Proxy- und TUN-Modi sind explizite Optionen, und englische, persische, dunkle und helle Oberflächen sind fest im Produkt verankert.",
+    },
+    limits: {
+      en: "The current public release targets Windows 10 and 11 on x64. Android, iOS, macOS, and Linux are planned, and locked links created by the bundled local Gateway currently stay scoped to the same Windows installation.",
+      fa: "نسخه عمومی فعلی، ویندوز ۱۰ و ۱۱ روی x64 را هدف قرار می‌دهد. Android، iOS، macOS و Linux برنامه‌ریزی شده‌اند و لینک‌های قفل‌شده‌ای که توسط Gateway محلی همراه ساخته می‌شوند، فعلاً به همان نصب ویندوز محدود می‌مانند.",
+      ar: "يستهدف الإصدار العام الحالي Windows 10 وWindows 11 على x64. Android وiOS وmacOS وLinux مخطط لها، وتبقى الروابط المقفلة التي تنشئها بوابة Gateway المحلية المدمجة محصورة حالياً بنفس تثبيت Windows.",
+      de: "Die aktuelle öffentliche Version zielt auf Windows 10 und 11 auf x64 ab. Android, iOS, macOS und Linux sind geplant, und gesperrte Links, die vom mitgelieferten lokalen Gateway erstellt werden, bleiben derzeit auf dieselbe Windows-Installation beschränkt.",
+    },
+    security: {
+      en: "Locked profiles do not reveal or share their source configuration. The project documents sanitized diagnostics, checksum verification, clean proxy and route restoration, and a clear split between the public interface code and private security-sensitive components.",
+      fa: "پروفایل‌های قفل‌شده هرگز پیکربندی منبع خود را نمایش یا اشتراک‌گذاری نمی‌کنند. این پروژه تشخیص‌های پاک‌سازی‌شده، تأیید checksum، بازگردانی تمیز پراکسی و مسیر و یک جداسازی روشن بین کد رابط عمومی و اجزای حساس امنیتی خصوصی را مستند می‌کند.",
+      ar: "لا تكشف الملفات المقفلة إعداد المصدر أو تشاركه أبداً. يوثّق المشروع تشخيصات منظّفة، والتحقق من checksum، واستعادة نظيفة للوكيل والمسار، وفصلاً واضحاً بين كود الواجهة العامة والمكونات الحساسة أمنياً الخاصة.",
+      de: "Gesperrte Profile zeigen oder teilen ihre Quellkonfiguration nie. Das Projekt dokumentiert bereinigte Diagnosen, Checksummenprüfung, saubere Proxy- und Routenwiederherstellung sowie eine klare Trennung zwischen öffentlichem Oberflächencode und privaten, sicherheitsrelevanten Komponenten.",
+    },
+    result: {
+      en: "The result is a focused connectivity client that brings standard Xray workflows and protected profile distribution into one polished Windows application.",
+      fa: "نتیجه یک کلاینت اتصال متمرکز است که جریان‌های کاری استاندارد Xray و توزیع پروفایل محافظت‌شده را در یک برنامه ویندوزی پرداخت‌شده گرد هم می‌آورد.",
+      ar: "النتيجة عميل اتصال مركّز يجمع سير عمل Xray القياسي وتوزيع الملفات المحمية في تطبيق Windows واحد مصقول.",
+      de: "Das Ergebnis ist ein fokussierter Connectivity-Client, der Standard-Xray-Workflows und die Verteilung geschützter Profile in einer ausgereiften Windows-Anwendung zusammenführt.",
+    },
+  },
 };
 
 function ProjectMetaPanel({ project, data, language }) {
