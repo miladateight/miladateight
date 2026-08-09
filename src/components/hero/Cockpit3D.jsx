@@ -463,8 +463,7 @@ function Person() {
   }), []);
 
   useFrame((state) => {
-    if (reduce) return;
-    const t = state.clock.elapsedTime;
+    const t = reduce ? 0 : state.clock.elapsedTime;
     if (root.current) root.current.position.y = Math.sin(t * 1.35) * 0.009;
     if (torso.current) {
       torso.current.rotation.x = -0.11 + Math.sin(t * 1.35) * 0.008;
