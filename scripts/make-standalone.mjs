@@ -22,6 +22,11 @@ const routes = [
     description: "Contact Milad Ateight through email, GitHub, or Telegram for infrastructure work, project review, automation, and technical collaboration.",
   },
   {
+    path: "/links/",
+    title: "Links | Milad Ateight (AT8)",
+    description: "Official links for Milad Ateight and AT8, including the website, Telegram, GitHub, LinkedIn, Instagram, Facebook, and email.",
+  },
+  {
     path: "/KeyFix/",
     title: "KeyFix | Milad Ateight AT8 Project",
     description: "KeyFix detects wrong keyboard-layout typing, switches input language, and corrects the previous word locally without telemetry.",
@@ -57,7 +62,7 @@ const sitemapPaths = ["/", ...routes.map((route) => route.path)];
 const profileSourcePath = fileURLToPath(new URL("../src/data/profile.js", import.meta.url));
 const profileSource = await readFile(profileSourcePath, "utf8");
 const projectRoutePaths = [...profileSource.matchAll(/\w+Page:\s*"([^"]+)"/g)].map((match) => match[1]);
-const appRoutePaths = ["/about/", "/contact/", ...projectRoutePaths];
+const appRoutePaths = ["/about/", "/contact/", "/links/", ...projectRoutePaths];
 
 function escapeHtml(value) {
   return value
