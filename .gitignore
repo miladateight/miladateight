@@ -9,11 +9,6 @@ Milad-Portfolio.html
 .env
 .DS_Store
 Thumbs.db
-.claude/
-.codex/
-.agents/
-AGENTS.md
-CLAUDE.md
 .chrome-*/
 skills/
 src/ui-ux-pro-max/
