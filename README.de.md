@@ -14,17 +14,6 @@
 
 ---
 
-```console
-$ whoami
-milad ateight · IT Lead @ EPC company · Iran
-
-$ focus
-infrastructure · networks · linux · windows server · web & mail · design
-
-$ next
-docker · ci/cd · iac · kubernetes · cloud · observability
-```
-
 Ich plane, betreibe und analysiere Unternehmensinfrastruktur — Netzwerke, Server, sicheren Zugriff, Web- und Mail-Dienste, Backups und Monitoring — und dokumentiere, was ich baue. Daneben: Webdesign, technische Präsentationen und Diagramme, die komplexe Systeme lesbar machen.
 
 Die ausführliche Version mit Fallstudien: **[ateight.xyz](https://ateight.xyz)**
@@ -39,9 +28,9 @@ Die ausführliche Version mit Fallstudien: **[ateight.xyz](https://ateight.xyz)*
 
 ### Projekte
 
-- **[NetDoctor](https://github.com/miladateight/NetDoctor)** — Windows-Netzwerkdiagnose mit umkehrbaren Reparaturen · [Seite](https://ateight.xyz/NetDoctor/)
+- **[NetDoctor](https://ateight.xyz/NetDoctor/)** — Windows-Netzwerkdiagnose mit umkehrbaren Reparaturen
 - **[KeyFix](https://github.com/miladateight/KeyFix)** — Korrigiert falsches Tastaturlayout beim Tippen, offline · [Seite](https://ateight.xyz/KeyFix/)
-- **[PDF Sanitizer](https://github.com/miladateight/PDF.Sanitizer)** — Massen-Suchen, -Ersetzen und -Entfernen in großen PDFs · [Seite](https://ateight.xyz/PDF-Sanitizer/)
+- **[PDF Sanitizer](https://ateight.xyz/PDF-Sanitizer/)** — Massen-Suchen, -Ersetzen und -Entfernen in großen PDFs
 - **[AI Chat RTL Fixer](https://github.com/miladateight/AI.Chat.RTL.Fixer)** — Behebt Rechts-nach-links-Darstellung in Chat-Apps · [Seite](https://ateight.xyz/AI-Chat-RTL-Fixer/)
 - **[Hybrid Web &amp; Mail Infrastructure](https://github.com/miladateight/hybrid-web-mail-infrastructure)** — Produktions-Fallstudie: Hosting, Mail, HAProxy, WireGuard · [Seite](https://ateight.xyz/hybrid-web-mail-infrastructure/)
 - **[Media Downloader Bot](https://github.com/miladateight/instagram-youtube-soundcloud-downloader)** — Telegram-Bot mit Admin-Aktivierung und Cookie-Verwaltung · [Seite](https://ateight.xyz/instagram-youtube-soundcloud-downloader/)

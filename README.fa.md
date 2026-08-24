@@ -14,17 +14,6 @@
 
 ---
 
-```console
-$ whoami
-milad ateight · IT Lead @ EPC company · Iran
-
-$ focus
-infrastructure · networks · linux · windows server · web & mail · design
-
-$ next
-docker · ci/cd · iac · kubernetes · cloud · observability
-```
-
 زیرساخت سازمانی را طراحی، اجرا و عیب‌یابی می‌کنم — شبکه، سرور، دسترسی امن، سرویس‌های وب و ایمیل، پشتیبان‌گیری و مانیتورینگ — و هر چیزی که می‌سازم را مستند می‌کنم. در کنارش طراحی وب، پرزنتیشن فنی و دیاگرام‌هایی که سیستم‌های پیچیده را خوانا می‌کنند.
 
 نسخه‌ی کامل همراه با مطالعات موردی: **[ateight.xyz](https://ateight.xyz)**
@@ -39,9 +28,9 @@ docker · ci/cd · iac · kubernetes · cloud · observability
 
 ### پروژه‌ها
 
-- **[NetDoctor](https://github.com/miladateight/NetDoctor)** — عیب‌یابی شبکه در ویندوز با اصلاح قابل بازگشت · [صفحه](https://ateight.xyz/NetDoctor/)
+- **[NetDoctor](https://ateight.xyz/NetDoctor/)** — عیب‌یابی شبکه در ویندوز با اصلاح قابل بازگشت
 - **[KeyFix](https://github.com/miladateight/KeyFix)** — اصلاح تایپ با زبان اشتباه صفحه‌کلید، کاملاً آفلاین · [صفحه](https://ateight.xyz/KeyFix/)
-- **[PDF Sanitizer](https://github.com/miladateight/PDF.Sanitizer)** — جست‌وجو، جایگزینی و حذف انبوه در PDFهای بزرگ · [صفحه](https://ateight.xyz/PDF-Sanitizer/)
+- **[PDF Sanitizer](https://ateight.xyz/PDF-Sanitizer/)** — جست‌وجو، جایگزینی و حذف انبوه در PDFهای بزرگ
 - **[AI Chat RTL Fixer](https://github.com/miladateight/AI.Chat.RTL.Fixer)** — اصلاح نمایش راست‌به‌چپ در اپ‌های چت دسکتاپ · [صفحه](https://ateight.xyz/AI-Chat-RTL-Fixer/)
 - **[Hybrid Web &amp; Mail Infrastructure](https://github.com/miladateight/hybrid-web-mail-infrastructure)** — مطالعه موردی واقعی: هاست، ایمیل، HAProxy، WireGuard · [صفحه](https://ateight.xyz/hybrid-web-mail-infrastructure/)
 - **[Media Downloader Bot](https://github.com/miladateight/instagram-youtube-soundcloud-downloader)** — ربات تلگرام با فعال‌سازی ادمین و مدیریت Cookie · [صفحه](https://ateight.xyz/instagram-youtube-soundcloud-downloader/)
