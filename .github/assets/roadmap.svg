@@ -1,100 +1,54 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="230" viewBox="0 0 1200 230" role="img" aria-label="Learning path: Docker, CI/CD with GitHub Actions, Infrastructure as Code, Kubernetes, Cloud platforms, Observability.">
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="150" viewBox="0 0 900 150" role="img" aria-label="Learning path: Docker, CI/CD, Infrastructure as Code, Kubernetes, Cloud, Observability.">
   <title>Path in progress — DevOps &amp; Cloud</title>
 
   <defs>
     <linearGradient id="track" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#38bdf8"/>
-      <stop offset="0.35" stop-color="#2dd4bf"/>
-      <stop offset="0.7" stop-color="#8b5cf6"/>
-      <stop offset="1" stop-color="#e879f9"/>
+      <stop offset="0.5" stop-color="#2dd4bf"/>
+      <stop offset="1" stop-color="#8b5cf6"/>
     </linearGradient>
-    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#38bdf8" stop-opacity="0"/>
-      <stop offset="0.5" stop-color="#2dd4bf" stop-opacity="0.85"/>
-      <stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/>
-    </linearGradient>
-    <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#2dd4bf" stop-opacity="0.28"/>
-      <stop offset="1" stop-color="#2dd4bf" stop-opacity="0"/>
-    </radialGradient>
-    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
-      <circle cx="1.5" cy="1.5" r="1.2" fill="#94a3b8" fill-opacity="0.10"/>
-    </pattern>
-    <filter id="blur" x="-70%" y="-70%" width="240%" height="240%">
-      <feGaussianBlur stdDeviation="7"/>
-    </filter>
-    <clipPath id="card"><rect x="0" y="0" width="1200" height="230" rx="20"/></clipPath>
+    <clipPath id="frame"><rect width="900" height="150" rx="16"/></clipPath>
 
     <style>
       .mono { font-family: "Cascadia Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-      .flow { stroke-dasharray: 10 14; animation: flow 2.6s linear infinite; }
-      @keyframes flow { to { stroke-dashoffset: -48; } }
-      .pulse { animation: pulse 3.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-      @keyframes pulse { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
-      @media (prefers-reduced-motion: reduce) { .flow, .pulse { animation: none; } }
+      .sans { font-family: "Segoe UI Variable Display", "Segoe UI", Inter, ui-sans-serif, system-ui, sans-serif; }
+      .flow { stroke-dasharray: 8 10; animation: flow 2.4s linear infinite; }
+      @keyframes flow { to { stroke-dashoffset: -36; } }
+      @media (prefers-reduced-motion: reduce) { .flow { animation: none; } }
     </style>
   </defs>
 
-  <g clip-path="url(#card)">
-    <rect width="1200" height="230" fill="#06080d"/>
-    <rect width="1200" height="230" fill="url(#dots)"/>
-    <ellipse cx="600" cy="230" rx="620" ry="200" fill="url(#halo)"/>
+  <g clip-path="url(#frame)">
+    <rect width="900" height="150" fill="#06080d"/>
 
-    <text x="60" y="52" class="mono" font-size="13" letter-spacing="3.2" fill="#65738d">PATH IN PROGRESS &#8212; DEVOPS &amp; CLOUD</text>
-    <rect x="60" y="66" width="1080" height="1.5" fill="url(#edge)"/>
+    <text x="40" y="38" class="mono" font-size="12.5" letter-spacing="3.4" fill="#8b99b3">PATH IN PROGRESS</text>
 
-    <line x1="112" y1="140" x2="1088" y2="140" stroke="#94a3b8" stroke-opacity="0.16" stroke-width="2"/>
-    <line x1="112" y1="140" x2="1088" y2="140" stroke="url(#track)" stroke-width="2" class="flow"/>
+    <line x1="72" y1="106" x2="828" y2="106" stroke="#94a3b8" stroke-opacity="0.18" stroke-width="2"/>
+    <line x1="72" y1="106" x2="828" y2="106" stroke="url(#track)" stroke-width="2" class="flow"/>
 
-    <circle r="5" fill="#2dd4bf" filter="url(#blur)">
-      <animate attributeName="cx" values="112;1088" dur="7s" repeatCount="indefinite"/>
-      <animate attributeName="cy" values="140;140" dur="7s" repeatCount="indefinite"/>
-    </circle>
-    <circle r="3.5" fill="#eef4ff">
-      <animate attributeName="cx" values="112;1088" dur="7s" repeatCount="indefinite"/>
-      <animate attributeName="cy" values="140;140" dur="7s" repeatCount="indefinite"/>
+    <circle r="4.5" fill="#eef4ff">
+      <animate attributeName="cx" values="72;828" dur="6s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="106;106" dur="6s" repeatCount="indefinite"/>
     </circle>
 
-    <g class="mono" text-anchor="middle">
-      <g>
-        <circle cx="112" cy="140" r="16" fill="#131c2b" stroke="#38bdf8" stroke-opacity="0.9"/>
-        <circle cx="112" cy="140" r="5" fill="#38bdf8" class="pulse"/>
-        <text x="112" y="106" font-size="13" fill="#eef4ff">Docker</text>
-        <text x="112" y="176" font-size="11" fill="#65738d">containers</text>
-      </g>
-      <g>
-        <circle cx="307" cy="140" r="16" fill="#131c2b" stroke="#2dd4bf" stroke-opacity="0.9"/>
-        <circle cx="307" cy="140" r="5" fill="#2dd4bf" class="pulse" style="animation-delay:-.6s"/>
-        <text x="307" y="106" font-size="13" fill="#eef4ff">CI / CD</text>
-        <text x="307" y="176" font-size="11" fill="#65738d">GitHub Actions</text>
-      </g>
-      <g>
-        <circle cx="502" cy="140" r="16" fill="#131c2b" stroke="#2dd4bf" stroke-opacity="0.9"/>
-        <circle cx="502" cy="140" r="5" fill="#2dd4bf" class="pulse" style="animation-delay:-1.2s"/>
-        <text x="502" y="106" font-size="13" fill="#eef4ff">IaC</text>
-        <text x="502" y="176" font-size="11" fill="#65738d">Ansible &#183; Terraform</text>
-      </g>
-      <g>
-        <circle cx="698" cy="140" r="16" fill="#131c2b" stroke="#8b5cf6" stroke-opacity="0.9"/>
-        <circle cx="698" cy="140" r="5" fill="#8b5cf6" class="pulse" style="animation-delay:-1.8s"/>
-        <text x="698" y="106" font-size="13" fill="#eef4ff">Kubernetes</text>
-        <text x="698" y="176" font-size="11" fill="#65738d">k8s &#183; Helm</text>
-      </g>
-      <g>
-        <circle cx="893" cy="140" r="16" fill="#131c2b" stroke="#8b5cf6" stroke-opacity="0.9"/>
-        <circle cx="893" cy="140" r="5" fill="#8b5cf6" class="pulse" style="animation-delay:-2.4s"/>
-        <text x="893" y="106" font-size="13" fill="#eef4ff">Cloud</text>
-        <text x="893" y="176" font-size="11" fill="#65738d">platforms &#183; IAM</text>
-      </g>
-      <g>
-        <circle cx="1088" cy="140" r="16" fill="#131c2b" stroke="#e879f9" stroke-opacity="0.9"/>
-        <circle cx="1088" cy="140" r="5" fill="#e879f9" class="pulse" style="animation-delay:-3s"/>
-        <text x="1088" y="106" font-size="13" fill="#eef4ff">Observability</text>
-        <text x="1088" y="176" font-size="11" fill="#65738d">Prometheus &#183; Grafana</text>
-      </g>
+    <g class="sans" font-size="15" text-anchor="middle" fill="#eef4ff">
+      <text x="72" y="80">Docker</text>
+      <text x="223" y="80">CI / CD</text>
+      <text x="374" y="80">IaC</text>
+      <text x="525" y="80">Kubernetes</text>
+      <text x="676" y="80">Cloud</text>
+      <text x="828" y="80">Observability</text>
     </g>
 
-    <text x="60" y="212" class="mono" font-size="11.5" fill="#65738d">learning in public &#8212; every step lands as a documented repo, not a certificate screenshot</text>
-    <rect x="1" y="1" width="1198" height="228" rx="20" fill="none" stroke="#94a3b8" stroke-opacity="0.14" stroke-width="2"/>
+    <g fill="#0f1622" stroke-width="2.5">
+      <circle cx="72" cy="106" r="8" stroke="#38bdf8"/>
+      <circle cx="223" cy="106" r="8" stroke="#38bdf8"/>
+      <circle cx="374" cy="106" r="8" stroke="#2dd4bf"/>
+      <circle cx="525" cy="106" r="8" stroke="#2dd4bf"/>
+      <circle cx="676" cy="106" r="8" stroke="#8b5cf6"/>
+      <circle cx="828" cy="106" r="8" stroke="#8b5cf6"/>
+    </g>
+
+    <rect x="1" y="1" width="898" height="148" rx="16" fill="none" stroke="#94a3b8" stroke-opacity="0.16" stroke-width="2"/>
   </g>
 </svg>
