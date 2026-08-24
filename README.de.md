@@ -31,7 +31,7 @@ Die ausführliche Version mit Fallstudien: **[ateight.xyz](https://ateight.xyz)*
 - **[NetDoctor](https://ateight.xyz/NetDoctor/)** — Windows-Netzwerkdiagnose mit umkehrbaren Reparaturen
 - **[KeyFix](https://github.com/miladateight/KeyFix)** — Korrigiert falsches Tastaturlayout beim Tippen, offline · [Seite](https://ateight.xyz/KeyFix/)
 - **[PDF Sanitizer](https://ateight.xyz/PDF-Sanitizer/)** — Massen-Suchen, -Ersetzen und -Entfernen in großen PDFs
-- **[AI Chat RTL Fixer](https://github.com/miladateight/AI.Chat.RTL.Fixer)** — Behebt Rechts-nach-links-Darstellung in Chat-Apps · [Seite](https://ateight.xyz/AI-Chat-RTL-Fixer/)
+- **[AI RTL Fixer](https://github.com/miladateight/AI.RTL.Fixer)** — Behebt Rechts-nach-links-Darstellung in Chat-Apps · [Seite](https://ateight.xyz/AI-Chat-RTL-Fixer/)
 - **[Hybrid Web &amp; Mail Infrastructure](https://github.com/miladateight/hybrid-web-mail-infrastructure)** — Produktions-Fallstudie: Hosting, Mail, HAProxy, WireGuard · [Seite](https://ateight.xyz/hybrid-web-mail-infrastructure/)
 - **[Media Downloader Bot](https://github.com/miladateight/instagram-youtube-soundcloud-downloader)** — Telegram-Bot mit Admin-Aktivierung und Cookie-Verwaltung · [Seite](https://ateight.xyz/instagram-youtube-soundcloud-downloader/)
 

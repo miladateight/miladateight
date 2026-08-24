@@ -31,7 +31,7 @@
 - **[NetDoctor](https://ateight.xyz/NetDoctor/)** — عیب‌یابی شبکه در ویندوز با اصلاح قابل بازگشت
 - **[KeyFix](https://github.com/miladateight/KeyFix)** — اصلاح تایپ با زبان اشتباه صفحه‌کلید، کاملاً آفلاین · [صفحه](https://ateight.xyz/KeyFix/)
 - **[PDF Sanitizer](https://ateight.xyz/PDF-Sanitizer/)** — جست‌وجو، جایگزینی و حذف انبوه در PDFهای بزرگ
-- **[AI Chat RTL Fixer](https://github.com/miladateight/AI.Chat.RTL.Fixer)** — اصلاح نمایش راست‌به‌چپ در اپ‌های چت دسکتاپ · [صفحه](https://ateight.xyz/AI-Chat-RTL-Fixer/)
+- **[AI RTL Fixer](https://github.com/miladateight/AI.RTL.Fixer)** — اصلاح نمایش راست‌به‌چپ در اپ‌های چت دسکتاپ · [صفحه](https://ateight.xyz/AI-Chat-RTL-Fixer/)
 - **[Hybrid Web &amp; Mail Infrastructure](https://github.com/miladateight/hybrid-web-mail-infrastructure)** — مطالعه موردی واقعی: هاست، ایمیل، HAProxy، WireGuard · [صفحه](https://ateight.xyz/hybrid-web-mail-infrastructure/)
 - **[Media Downloader Bot](https://github.com/miladateight/instagram-youtube-soundcloud-downloader)** — ربات تلگرام با فعال‌سازی ادمین و مدیریت Cookie · [صفحه](https://ateight.xyz/instagram-youtube-soundcloud-downloader/)
 
